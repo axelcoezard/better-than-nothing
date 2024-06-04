@@ -6,8 +6,8 @@
 namespace BetterThanNothing
 {
 	class Device;
-	class Vertex;
-	class Buffer;
+	struct Vertex;
+	struct Buffer;
 
 	typedef std::pair<std::vector<Vertex>, std::vector<u32>>	ModelData;
 

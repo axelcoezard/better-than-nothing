@@ -21,7 +21,7 @@ namespace BetterThanNothing
 
 	class Window;
 	class CommandPool;
-	class Buffer;
+	struct Buffer;
 
 	/**
 	 * @brief A wrapper class for VkDevice

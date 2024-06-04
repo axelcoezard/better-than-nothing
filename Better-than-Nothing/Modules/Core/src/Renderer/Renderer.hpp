@@ -8,13 +8,13 @@ namespace BetterThanNothing
 	class SwapChain;
 	class DescriptorPool;
 	class ResourceManager;
-	class Texture;
+	struct Texture;
 	class Pipeline;
 	class Scene;
 	class DrawStreamBuilder;
-	class Buffer;
+	struct Buffer;
 	class UniformsPool;
-	class RendererDebugInfo;
+	struct RendererDebugInfo;
 
 	/**
 	 * @brief The Renderer class that is used to render a scene

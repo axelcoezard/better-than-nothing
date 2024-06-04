@@ -3,7 +3,7 @@
 namespace BetterThanNothing
 {
 	class Device;
-	class Buffer;
+	struct Buffer;
 
 	template <typename T>
 	class ResourcePool

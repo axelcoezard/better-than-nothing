@@ -3,8 +3,10 @@
 namespace BetterThanNothing
 {
 	DescriptorPool::DescriptorPool(Device* device, UniformsPool* uniformsPool)
-		: m_Device(device), m_UniformsPool(uniformsPool)
+		: m_Device(device)
 	{
+		m_UniformsPool = uniformsPool;
+
 		m_DescriptorPoolSize = 0;
 
 		CreateDescriptorSetLayout();

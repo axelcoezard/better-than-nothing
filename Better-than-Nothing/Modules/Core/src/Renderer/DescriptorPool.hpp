@@ -3,9 +3,9 @@
 namespace BetterThanNothing
 {
 	class Device;
-	class Buffer;
+	struct Buffer;
 	class UniformsPool;
-	class ModelComponent;
+	struct ModelComponent;
 
 	/**
 	 * @brief A wrapper class for VkDescriptorPool

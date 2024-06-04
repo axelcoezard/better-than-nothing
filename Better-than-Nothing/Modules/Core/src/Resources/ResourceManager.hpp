@@ -4,17 +4,15 @@ namespace BetterThanNothing
 {
 	class Device;
 	class ShaderPool;
-	class Shader;
+	struct Shader;
 	class ModelPool;
-	class Model;
+	struct Model;
 	class TexturePool;
-	class Texture;
+	struct Texture;
 
 	class ResourceManager
 	{
 	private:
-		Device* m_Device;
-
 		ShaderPool* m_ShaderPool;
 		ModelPool* m_ModelPool;
 		TexturePool* m_TexturePool;
