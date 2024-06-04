@@ -5,7 +5,7 @@ namespace BetterThanNothing
 	class Device;
 	class SwapChain;
 	class DescriptorPool;
-	class Shader;
+	struct Shader;
 
 	/**
 	 * @brief A pipeline uses shaders and a render pass to describe the graphics pipeline

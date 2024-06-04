@@ -1656,7 +1656,7 @@ namespace VULKAN_HPP_NAMESPACE
   class Semaphore;
   class Event;
   class QueryPool;
-  class Buffer;
+  struct Buffer;
   class BufferView;
   class Image;
   class ImageView;

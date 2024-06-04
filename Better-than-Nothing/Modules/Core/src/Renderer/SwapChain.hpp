@@ -7,8 +7,8 @@ namespace BetterThanNothing
 	class DescriptorPool;
 	class CommandBuffer;
 	class Pipeline;
-	class Texture;
-	class Vertex;
+	struct Texture;
+	struct Vertex;
 	class Scene;
 	struct DrawPacket;
 
