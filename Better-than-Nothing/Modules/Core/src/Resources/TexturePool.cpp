@@ -4,7 +4,7 @@
 
 namespace BetterThanNothing
 {
-	TexturePool::TexturePool(const std::string& basePath, Device* device): ResourcePool(basePath)
+	TexturePool::TexturePool(const std::string& basePath, std::shared_ptr<Device>& device): ResourcePool(basePath)
 	{
 		m_Device = device;
 	}

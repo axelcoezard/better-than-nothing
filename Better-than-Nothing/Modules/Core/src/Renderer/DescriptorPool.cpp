@@ -2,7 +2,7 @@
 
 namespace BetterThanNothing
 {
-	DescriptorPool::DescriptorPool(Device* device, UniformsPool* uniformsPool)
+	DescriptorPool::DescriptorPool(std::shared_ptr<Device>& device, std::shared_ptr<UniformsPool>& uniformsPool)
 		: m_Device(device)
 	{
 		m_UniformsPool = uniformsPool;

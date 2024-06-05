@@ -18,7 +18,7 @@ namespace BetterThanNothing
 		TexturePool* m_TexturePool;
 
 	public:
-		ResourceManager(Device* device, const std::string& assetsPath);
+		ResourceManager(std::shared_ptr<Device>& device, const std::string& assetsPath);
 		~ResourceManager();
 
 		Shader* GetShader(const std::string& path);

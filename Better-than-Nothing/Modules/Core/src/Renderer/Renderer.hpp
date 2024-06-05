@@ -25,37 +25,37 @@ namespace BetterThanNothing
 		/**
 		 * @brief The pointer to the window
 		 */
-		Window* m_Window;
+		std::shared_ptr<Window> m_Window;
 
 		/**
 		 * @brief The pointer to the device
 		 */
-		Device* m_Device;
+		std::shared_ptr<Device> m_Device;
 
 		/**
 		 * @brief The pointer to the resource manager
 		 */
-		ResourceManager* m_ResourceManager;
+		std::shared_ptr<ResourceManager> m_ResourceManager;
 
 		/**
 		 * @brief The pointer to the swap chain
 		 */
-		SwapChain* m_SwapChain;
+		std::shared_ptr<SwapChain> m_SwapChain;
 
 		/**
 		 * @brief The pointer to the descriptor pool
 		 */
-		DescriptorPool* m_DescriptorPool;
+		std::shared_ptr<DescriptorPool> m_DescriptorPool;
 
 		/**
 		 * @brief The pointer to the uniform pool
 		 */
-		UniformsPool* m_UniformsPool;
+		std::shared_ptr<UniformsPool> m_UniformsPool;
 
 		/**
 		 * @brief All the pipelines
 		 */
-		std::map<std::string, Pipeline*> m_PipeLines;
+		std::map<std::string, std::shared_ptr<Pipeline>> m_PipeLines;
 
 	public:
 		/**
@@ -65,17 +65,12 @@ namespace BetterThanNothing
 		 * @param device The pointer to the device
 		 * @param shaderPool The pointer to the shader pool
 		 */
-		Renderer(Window* window, Device* device, ResourceManager* resourceManager);
+		Renderer(std::shared_ptr<Window>& window, std::shared_ptr<Device>& device, std::shared_ptr<ResourceManager>& resourceManager);
 
 		/**
 		 * @brief Destroy the Renderer object
 		 */
 		~Renderer();
-
-		Renderer(const Renderer&) = delete;
-		Renderer& operator=(const Renderer&) = delete;
-		Renderer(Renderer&&) = delete;
-		Renderer& operator=(Renderer&&) = delete;
 
 	public:
 		/**
@@ -96,7 +91,7 @@ namespace BetterThanNothing
 		 * @param scene The scene to render
 		 * @param debugInfo The debug info to display
 		 */
-		void Render(Scene* scene, RendererDebugInfo* debugInfo);
+		void Render(std::shared_ptr<Scene>&, RendererDebugInfo* debugInfo);
 
 	private:
 		/**

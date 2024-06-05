@@ -111,11 +111,6 @@ namespace BetterThanNothing
 		 */
  		~SwapChain();
 
-		SwapChain(const SwapChain&) = delete;
-		SwapChain& operator=(const SwapChain&) = delete;
-		SwapChain(SwapChain&&) = delete;
-		SwapChain& operator=(SwapChain&&) = delete;
-
 	private:
 		/**
 		 * @brief Create the swap chain

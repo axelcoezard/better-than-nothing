@@ -119,7 +119,7 @@ namespace BetterThanNothing
 		 * @brief Called every frame.
 		 * @param deltatime The time between the current frame and the last frame.
 		 */
-		void Update(Window* window, f32 deltatime);
+		void Update(std::shared_ptr<Window>& window, f32 deltatime);
 
 		/**
 		 * @brief Called when an Event is received.

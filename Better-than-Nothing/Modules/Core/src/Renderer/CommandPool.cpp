@@ -2,7 +2,7 @@
 
 namespace BetterThanNothing
 {
-	CommandPool::CommandPool(Device* device): m_Device(device) {
+	CommandPool::CommandPool(std::shared_ptr<Device>& device): m_Device(device) {
 		VkPhysicalDevice physicalDevice = m_Device->GetVkPhysicalDevice();
 		QueueFamilyIndices queueFamilyIndices = m_Device->FindQueueFamilies(physicalDevice);
 

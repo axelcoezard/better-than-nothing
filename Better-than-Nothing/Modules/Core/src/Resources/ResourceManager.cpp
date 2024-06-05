@@ -2,7 +2,7 @@
 
 namespace BetterThanNothing
 {
-	ResourceManager::ResourceManager(Device* device, const std::string& assetsPath)
+	ResourceManager::ResourceManager(std::shared_ptr<Device>& device, const std::string& assetsPath)
 	{
 		m_ShaderPool = new ShaderPool(assetsPath + "/Shaders/", device);
 		m_ModelPool = new ModelPool(assetsPath + "/Models/", device);

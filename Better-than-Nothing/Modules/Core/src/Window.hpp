@@ -54,9 +54,6 @@ namespace BetterThanNothing
 		 */
 		~Window();
 
-		Window(const Window&) = delete;
-		Window& operator=(const Window&) = delete;
-
 		/**
 		 * @brief A wrapper around glfwPollEvents that polls for events
 		 */

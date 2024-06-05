@@ -21,17 +21,17 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the device
 		 */
-		Device*				m_Device;
+		std::shared_ptr<Device> m_Device;
 
 		/**
 		 * @brief A pointer to the swap chain
 		 */
-		SwapChain*			m_SwapChain;
+		std::shared_ptr<SwapChain> m_SwapChain;
 
 		/**
 		 * @brief A pointer to the descriptor pool
 		 */
-		DescriptorPool*		m_DescriptorPool;
+		std::shared_ptr<DescriptorPool> m_DescriptorPool;
 
 		/**
 		 * @brief The Pipeline Layout
@@ -52,7 +52,7 @@ namespace BetterThanNothing
 		 * @param swapChain A pointer to the swap chain
 		 * @param descriptorPool A pointer to the descriptor pool
 		 */
-		Pipeline(const std::string& id, Device* device, SwapChain* swapChain, DescriptorPool* descriptorPool);
+		Pipeline(const std::string& id, std::shared_ptr<Device>& device, std::shared_ptr<SwapChain>& swapChain, std::shared_ptr<DescriptorPool>& descriptorPool);
 
 		/**
 		 * @brief Destroy the Pipeline object

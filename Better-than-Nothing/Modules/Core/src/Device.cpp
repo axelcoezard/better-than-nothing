@@ -12,7 +12,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityF
 
 namespace BetterThanNothing
 {
-	Device::Device(Window* pWindow): m_Window(pWindow)
+	Device::Device(std::shared_ptr<Window>& pWindow): m_Window(pWindow)
 	{
 		CreateInstance();
 		SetupDebugMessenger();

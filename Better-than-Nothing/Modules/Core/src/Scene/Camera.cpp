@@ -27,7 +27,7 @@ namespace BetterThanNothing
 		m_ZFar = zFar;
 	}
 
-	void Camera::Update(Window* window, f32 deltatime)
+	void Camera::Update(std::shared_ptr<Window>& window, f32 deltatime)
 	{
 		static bool firstMouse = true;
 		static f32 lastMouseX = 0;

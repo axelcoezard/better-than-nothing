@@ -21,32 +21,32 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the ConfigManager
 		*/
-		ConfigManager* m_ConfigManager;
+		std::shared_ptr<ConfigManager> m_ConfigManager;
 
 		/**
 		 * @brief A pointer to the Window
 		*/
-		Window* m_Window;
+		std::shared_ptr<Window> m_Window;
 
 		/**
 		 * @brief A pointer to the Device
 		*/
-		Device* m_Device;
+		std::shared_ptr<Device> m_Device;
 
 		/**
 		 * @brief A pointer to the ResourceManager
 		*/
-		ResourceManager* m_ResourceManager;
+		std::shared_ptr<ResourceManager> m_ResourceManager;
 
 		/**
 		 * @brief A pointer to the Renderer
 		*/
-		Renderer* m_Renderer;
+		std::shared_ptr<Renderer> m_Renderer;
 
 		/**
 		 * @brief The Scenes of the Application
 		*/
-		std::vector<Scene*> m_Scenes;
+		std::vector<std::shared_ptr<Scene>> m_Scenes;
 
 		/**
 		 * @brief The current Scene of the Application
@@ -94,24 +94,24 @@ namespace BetterThanNothing
 		 * @param name The name of the Scene
 		 * @return A pointer to the created Scene object
 		 */
-		Scene* CreateScene(const std::string& name);
+		std::shared_ptr<Scene> CreateScene(const std::string& name);
 
 		/**
 		 * @brief Get the Window object
 		 * @return A pointer to the Window object
 		 */
-		Window* GetWindow() { return m_Window; }
+		std::shared_ptr<Window>& GetWindow() { return m_Window; }
 
 		/**
 		 * @brief Get the Device object
 		 * @return A pointer to the Device object
 		 */
-		Device* GetDevice() { return m_Device; }
+		std::shared_ptr<Device>& GetDevice() { return m_Device; }
 
 		/**
 		 * @brief Get the Renderer object
 		 * @return A pointer to the Renderer object
 		 */
-		Renderer* GetRenderer() { return m_Renderer; }
+		std::shared_ptr<Renderer>& GetRenderer() { return m_Renderer; }
 	};
 };

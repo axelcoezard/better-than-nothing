@@ -12,10 +12,10 @@ namespace BetterThanNothing
 	class TexturePool: public ResourcePool<Texture>
 	{
 	private:
-		Device*			m_Device;
+		std::shared_ptr<Device> m_Device;
 
 	public:
-						TexturePool(const std::string& basePath, Device* device);
+						TexturePool(const std::string& basePath, std::shared_ptr<Device>& device);
 						~TexturePool();
 
 		Texture*		GetResource(const std::string& filePath) override;

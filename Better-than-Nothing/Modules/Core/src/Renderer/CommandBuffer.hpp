@@ -14,7 +14,7 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the Device object.
 		 */
-		Device* m_Device;
+		std::shared_ptr<Device> m_Device;
 
 		/**
 		 * @brief A pointer to the CommandPool object.
@@ -32,7 +32,7 @@ namespace BetterThanNothing
 		 * @param device A pointer to the Device object.
 		 * @param commandPool A pointer to the CommandPool object.
 		 */
-		CommandBuffer(Device* device);
+		CommandBuffer(std::shared_ptr<Device>& device);
 
 		/**
 		 * @brief Destroy the CommandBuffer object.

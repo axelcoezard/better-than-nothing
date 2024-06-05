@@ -2,7 +2,7 @@
 
 namespace BetterThanNothing
 {
-	CommandBuffer::CommandBuffer(Device* device)
+	CommandBuffer::CommandBuffer(std::shared_ptr<Device>& device)
 	{
 		m_Device = device;
 		m_CommandPool = device->GetCommandPool();

@@ -28,12 +28,12 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the device.
 		 */
-		Window* m_Window;
+		std::shared_ptr<Window> m_Window;
 
 		/**
 		 * @brief A pointer to the resource manager.
 		 */
-		ResourceManager* m_ResourceManager;
+		std::shared_ptr<ResourceManager> m_ResourceManager;
 
 		/**
 		 * @brief A pointer to the camera.
@@ -59,7 +59,7 @@ namespace BetterThanNothing
 		 * @param modelPool A pointer to the model pool.
 		 * @param texturePool A pointer to the texture pool.
 		 */
- 		Scene(u32 id, std::string_view name, Window* window, ResourceManager* resourceManager);
+ 		Scene::Scene(u32 id, std::string_view name, std::shared_ptr<Window>& window, std::shared_ptr<ResourceManager>& resourceManager);
 
 		/**
 		 * @brief Destroy the Scene object

@@ -4,36 +4,26 @@ namespace BetterThanNothing
 {
 	Application::Application()
 	{
-		m_ConfigManager = new ConfigManager("./Better-than-Nothing/Config/");
+		m_ConfigManager = std::make_shared<ConfigManager>("./Better-than-Nothing/Config/");
 
 		ConfigReader config = m_ConfigManager->Read("Config.ini");
 		std::string windowTitle = config->Get("window", "title", "Application");
 		u32 windowWidth = config->GetInteger("window", "width", 800);
 		u32 windowHeight = config->GetInteger("window", "height", 600);
 
-		m_Window = new Window(windowTitle, windowWidth, windowHeight);
+		m_Window = std::make_shared<Window>(windowTitle, windowWidth, windowHeight);
 		m_Window->SetEventCallback(BIND_EVENT_LISTENER(OnEvent));
 
-		m_Device = new Device(m_Window);
+		m_Device = std::make_shared<Device>(m_Window);
 
-		m_ResourceManager = new ResourceManager(m_Device, "./Assets/");
+		m_ResourceManager = std::make_shared<ResourceManager>(m_Device, "./Assets/");
 
-		m_Renderer = new Renderer(m_Window, m_Device, m_ResourceManager);
+		m_Renderer = std::make_shared<Renderer>(m_Window, m_Device, m_ResourceManager);
 	}
 
 	Application::~Application()
 	{
-		for (auto & scene : m_Scenes) {
-			delete scene;
-		}
 
-		delete m_Renderer;
-
-		delete m_ResourceManager;
-
-		delete m_Device;
-		delete m_Window;
-		delete m_ConfigManager;
 	}
 
 	void Application::Run()
@@ -63,7 +53,7 @@ namespace BetterThanNothing
 			debugInfo.sceneEntitiesCount = m_Scenes[m_CurrentSceneId]->GetEntitiesCount();
 
 			m_Scenes[m_CurrentSceneId]->OnUpdate(deltatime);
-			m_Renderer->Render(m_Scenes[m_CurrentSceneId], &debugInfo);
+			m_Renderer->Render(m_Scenes.at(m_CurrentSceneId), &debugInfo);
 			m_Device->WaitIdle();
 
 			useconds_t frameTimeMicroseconds = static_cast<useconds_t>(frameTime * 1000000);
@@ -81,9 +71,9 @@ namespace BetterThanNothing
 		m_Scenes[m_CurrentSceneId]->OnEvent(event);
 	}
 
-	Scene* Application::CreateScene(const std::string& name)
+	std::shared_ptr<Scene> Application::CreateScene(const std::string& name)
 	{
-		auto scene = new Scene(m_Scenes.size(), name, m_Window, m_ResourceManager);
+		auto scene = std::make_shared<Scene>(m_Scenes.size(), name, m_Window, m_ResourceManager);
 		m_Scenes.push_back(scene);
 		m_CurrentSceneId = scene->GetId();
 		return scene;

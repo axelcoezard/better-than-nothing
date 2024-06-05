@@ -2,7 +2,7 @@
 
 namespace BetterThanNothing
 {
-	Scene::Scene(u32 id, std::string_view name, Window* window, ResourceManager* resourceManager)
+	Scene::Scene(u32 id, std::string_view name, std::shared_ptr<Window>& window, std::shared_ptr<ResourceManager>& resourceManager)
 	{
 		m_Id = id;
 		m_Name = name;
