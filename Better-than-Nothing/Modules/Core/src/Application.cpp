@@ -4,7 +4,7 @@ namespace BetterThanNothing
 {
 	Application::Application()
 	{
-		m_ConfigManager = new ConfigManager("/home/acoezard/lab/better-than-nothing/Better-than-Nothing/Config/");
+		m_ConfigManager = new ConfigManager("./Better-than-Nothing/Config/");
 
 		ConfigReader config = m_ConfigManager->Read("Config.ini");
 		std::string windowTitle = config->Get("window", "title", "Application");
@@ -16,7 +16,7 @@ namespace BetterThanNothing
 
 		m_Device = new Device(m_Window);
 
-		m_ResourceManager = new ResourceManager(m_Device, "/home/acoezard/lab/better-than-nothing/Assets/");
+		m_ResourceManager = new ResourceManager(m_Device, "./Assets/");
 
 		m_Renderer = new Renderer(m_Window, m_Device, m_ResourceManager);
 	}
