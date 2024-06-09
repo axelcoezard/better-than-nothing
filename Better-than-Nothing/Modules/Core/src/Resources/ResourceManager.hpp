@@ -13,13 +13,12 @@ namespace BetterThanNothing
 	class ResourceManager
 	{
 	private:
-		ShaderPool* m_ShaderPool;
-		ModelPool* m_ModelPool;
-		TexturePool* m_TexturePool;
+		std::unique_ptr<ShaderPool> m_ShaderPool;
+		std::unique_ptr<ModelPool> m_ModelPool;
+		std::unique_ptr<TexturePool> m_TexturePool;
 
 	public:
-		ResourceManager(Device* device, const std::string& assetsPath);
-		~ResourceManager();
+		ResourceManager(std::unique_ptr<Device>& device, const std::string& assetsPath);
 
 		Shader* GetShader(const std::string& path);
 		Model* GetModel(const std::string& path);

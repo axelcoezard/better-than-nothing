@@ -2,7 +2,8 @@
 
 namespace BetterThanNothing
 {
-	CommandPool::CommandPool(Device* device): m_Device(device) {
+	CommandPool::CommandPool(Device* device): m_Device(device)
+	{
 		VkPhysicalDevice physicalDevice = m_Device->GetVkPhysicalDevice();
 		QueueFamilyIndices queueFamilyIndices = m_Device->FindQueueFamilies(physicalDevice);
 
@@ -16,7 +17,8 @@ namespace BetterThanNothing
 		}
 	}
 
-	CommandPool::~CommandPool() {
+	CommandPool::~CommandPool()
+	{
 		vkDestroyCommandPool(m_Device->GetVkDevice(), m_CommandPool, nullptr);
 	}
 };

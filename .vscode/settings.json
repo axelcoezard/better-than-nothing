@@ -88,6 +88,7 @@
 		"variant": "cpp",
 		"expected": "cpp",
 		"spanstream": "cpp",
-		"stacktrace": "cpp"
+		"stacktrace": "cpp",
+		"strstream": "cpp"
 	}
 }

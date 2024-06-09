@@ -2,7 +2,7 @@
 
 namespace BetterThanNothing
 {
-	UniformsPool::UniformsPool(Device* device): m_Device(device)
+	UniformsPool::UniformsPool(std::unique_ptr<Device>& device): m_Device(device)
 	{
 		CreateUniformsPool(1000);
 		AllocateAllGlobalUniforms();

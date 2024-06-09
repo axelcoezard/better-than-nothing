@@ -18,12 +18,12 @@ namespace BetterThanNothing
 		/**
 		 * @brief The device that owns this descriptor pool
 		 */
-		Device* m_Device;
+		std::unique_ptr<Device>& m_Device;
 
 		/**
 		 * @brief The uniforms pool
 		 */
-		UniformsPool* m_UniformsPool;
+		std::unique_ptr<UniformsPool>& m_UniformsPool;
 
 		/**
 		 * @brief The VkDescriptorSetLayout
@@ -56,17 +56,12 @@ namespace BetterThanNothing
 		 * @param device The device that owns this descriptor pool
 		 * @param uniformsPool The uniforms pool
 		 */
-		DescriptorPool(Device* device, UniformsPool* uniformsPool);
+		DescriptorPool(std::unique_ptr<Device>& device, std::unique_ptr<UniformsPool>& uniformsPool);
 
 		/**
 		 * @brief Destroy the Descriptor Pool object
 		 */
 		~DescriptorPool();
-
-		DescriptorPool(const DescriptorPool&) = delete;
-		DescriptorPool& operator=(const DescriptorPool&) = delete;
-		DescriptorPool(DescriptorPool&&) = delete;
-		DescriptorPool& operator=(DescriptorPool&&) = delete;
 
 	private:
 		/**

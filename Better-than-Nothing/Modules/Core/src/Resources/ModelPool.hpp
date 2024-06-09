@@ -14,10 +14,10 @@ namespace BetterThanNothing
 	class ModelPool: public ResourcePool<Model>
 	{
 	private:
-		Device*			m_Device;
+		std::unique_ptr<Device>& m_Device;
 
 	public:
-						ModelPool(const std::string& basePath, Device* device);
+						ModelPool(const std::string& basePath, std::unique_ptr<Device>& device);
 						~ModelPool();
 
 		Model*			GetResource(const std::string& filePath) override;

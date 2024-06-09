@@ -21,27 +21,27 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the ConfigManager
 		*/
-		ConfigManager* m_ConfigManager;
+		std::unique_ptr<ConfigManager> m_ConfigManager;
 
 		/**
 		 * @brief A pointer to the Window
 		*/
-		Window* m_Window;
+		std::unique_ptr<Window> m_Window;
 
 		/**
 		 * @brief A pointer to the Device
 		*/
-		Device* m_Device;
+		std::unique_ptr<Device> m_Device;
 
 		/**
 		 * @brief A pointer to the ResourceManager
 		*/
-		ResourceManager* m_ResourceManager;
+		std::unique_ptr<ResourceManager> m_ResourceManager;
 
 		/**
 		 * @brief A pointer to the Renderer
 		*/
-		Renderer* m_Renderer;
+		std::unique_ptr<Renderer> m_Renderer;
 
 		/**
 		 * @brief The Scenes of the Application
@@ -100,18 +100,18 @@ namespace BetterThanNothing
 		 * @brief Get the Window object
 		 * @return A pointer to the Window object
 		 */
-		Window* GetWindow() { return m_Window; }
+		std::unique_ptr<Window>& GetWindow() { return m_Window; }
 
 		/**
 		 * @brief Get the Device object
 		 * @return A pointer to the Device object
 		 */
-		Device* GetDevice() { return m_Device; }
+		std::unique_ptr<Device>& GetDevice() { return m_Device; }
 
 		/**
 		 * @brief Get the Renderer object
 		 * @return A pointer to the Renderer object
 		 */
-		Renderer* GetRenderer() { return m_Renderer; }
+		std::unique_ptr<Renderer>& GetRenderer() { return m_Renderer; }
 	};
 };

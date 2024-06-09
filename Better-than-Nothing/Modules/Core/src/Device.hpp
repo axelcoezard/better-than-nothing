@@ -1,4 +1,3 @@
-#pragma once
 
 namespace BetterThanNothing
 {
@@ -32,7 +31,7 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the Window
 		 */
-		Window* m_Window;
+		std::unique_ptr<Window>& m_Window;
 
 		/**
 		 * @brief A pointer to the CommandPool
@@ -114,17 +113,14 @@ namespace BetterThanNothing
 		 * @brief Construct a new Device object
 		 * @param window The window
 		 */
-		Device(Window* window);
+		Device(std::unique_ptr<Window>& pWindow);
+
+		Device(Device* device);
 
 		/**
 		 * @brief Destroy the Device object
 		 */
 		~Device();
-
-		Device(const Device&) = delete;
-		Device& operator=(const Device&) = delete;
-		Device(Device&&) = delete;
-		Device& operator=(Device&&) = delete;
 
 	private:
 		/**

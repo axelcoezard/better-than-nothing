@@ -58,16 +58,6 @@ namespace BetterThanNothing
 		~Input(void);
 
 		/**
-		 * @brief Delete the copy constructor
-		 */
-		Input(Input&) = delete;
-
-		/**
-		 * @brief Delete the assignment operator
-		 */
-		void operator=(const Input&) = delete;
-
-		/**
 		 * @brief Update the input key
 		 */
 		static void UpdateKey(int key, int action);

@@ -7,10 +7,8 @@
 
 namespace BetterThanNothing
 {
-	ModelPool::ModelPool(const std::string& basePath, Device* device): ResourcePool(basePath)
-	{
-		m_Device = device;
-	}
+	ModelPool::ModelPool(const std::string& basePath, std::unique_ptr<Device>& device)
+		: ResourcePool(basePath), m_Device(device) { }
 
 	ModelPool::~ModelPool()
 	{
