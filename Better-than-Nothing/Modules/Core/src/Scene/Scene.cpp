@@ -12,7 +12,7 @@ namespace BetterThanNothing
 
 	Camera* Scene::InitCamera(f64 x, f64 y, f64 z, f64 yaw, f64 pitch)
 	{
-		m_Camera = std::make_unique<Camera>(CameraType::FirstPerson, x, y, z, yaw, pitch);
+		m_Camera = std::make_unique<Camera>(CameraType::Free, x, y, z, yaw, pitch);
 		return m_Camera.get();
 	}
 
