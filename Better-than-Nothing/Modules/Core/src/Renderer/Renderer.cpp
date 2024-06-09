@@ -9,7 +9,7 @@ namespace BetterThanNothing
 	) : m_Window(window), m_Device(device), m_ResourceManager(resourceManager)
 	{
 		m_UniformsPool = std::make_unique<UniformsPool>(m_Device);
-		m_DescriptorPool = std::make_unique<DescriptorPool>(m_Device, m_UniformsPool);
+		m_DescriptorPool = std::make_unique<DescriptorPool>(m_Device);
 		m_SwapChain = std::make_unique<SwapChain>(m_Window, m_Device, m_DescriptorPool);
 	}
 
