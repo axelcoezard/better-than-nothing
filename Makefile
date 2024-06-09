@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 all:
 	mkdir -p build
 	time { cd build; cmake ..; make -j$(shell nproc); }

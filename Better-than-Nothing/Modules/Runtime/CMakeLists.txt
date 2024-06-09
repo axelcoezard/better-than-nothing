@@ -21,9 +21,7 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE	Core glfw vulkan stb imgui inih
-												glslang SPIRV glslang-default-resource-limits
-												spirv_cross)
+target_link_libraries(${PROJECT_NAME} PRIVATE Core glfw glm vulkan stb imgui inih glslang SPIRV glslang-default-resource-limits spirv_cross GPUOpen::VulkanMemoryAllocator)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../ThirdParty/glfw/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../ThirdParty/vulkan)

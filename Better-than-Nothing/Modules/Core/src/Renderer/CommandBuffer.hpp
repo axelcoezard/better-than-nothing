@@ -39,11 +39,6 @@ namespace BetterThanNothing
 		 */
 		~CommandBuffer();
 
-							CommandBuffer(const CommandBuffer&) = delete;
-		CommandBuffer&		operator=(const CommandBuffer&) = delete;
-							CommandBuffer(CommandBuffer&&) = delete;
-		CommandBuffer&		operator=(CommandBuffer&&) = delete;
-
 		/**
 		 * @brief Begin recording commands.
 		 */
@@ -153,7 +148,7 @@ namespace BetterThanNothing
 		 * @param callback The callback.
 		 * @param device A pointer to the Device object.
 		 */
-		static void SingleTimeCommands(const std::function<void(CommandBuffer*)>& callback, Device* device);
+		static void SingleTimeCommands(const std::function<void(std::unique_ptr<CommandBuffer>&)>& callback, Device* device);
 
 		/**
 		 * @brief Get the Vk Command Buffer object

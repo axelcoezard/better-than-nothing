@@ -2,10 +2,8 @@
 
 namespace BetterThanNothing
 {
-	ShaderPool::ShaderPool(const std::string& basePath, Device* device): ResourcePool(basePath)
-	{
-		m_Device = device;
-	}
+	ShaderPool::ShaderPool(const std::string& basePath, std::unique_ptr<Device>& device)
+		: ResourcePool(basePath), m_Device(device) { }
 
 	ShaderPool::~ShaderPool()
 	{

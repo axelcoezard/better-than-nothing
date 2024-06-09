@@ -4,10 +4,8 @@
 
 namespace BetterThanNothing
 {
-	TexturePool::TexturePool(const std::string& basePath, Device* device): ResourcePool(basePath)
-	{
-		m_Device = device;
-	}
+	TexturePool::TexturePool(const std::string& basePath, std::unique_ptr<Device>& device)
+		: ResourcePool(basePath), m_Device(device) { }
 
 	TexturePool::~TexturePool()
 	{
@@ -144,7 +142,7 @@ namespace BetterThanNothing
 			throw std::runtime_error("texture image format does not support linear blitting!");
 		}
 
-		CommandBuffer::SingleTimeCommands([&](CommandBuffer* commandBuffer) {
+		CommandBuffer::SingleTimeCommands([&](std::unique_ptr<CommandBuffer>& commandBuffer) {
 			VkImageMemoryBarrier barrier{};
 			barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
 			barrier.image = image;
@@ -201,6 +199,6 @@ namespace BetterThanNothing
 			barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
 
 			commandBuffer->CmdPipelineBarrier(VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, barrier);
-		}, m_Device);
+		}, m_Device.get());
 	}
 };

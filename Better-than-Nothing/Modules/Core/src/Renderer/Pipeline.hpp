@@ -5,7 +5,7 @@ namespace BetterThanNothing
 	class Device;
 	class SwapChain;
 	class DescriptorPool;
-	class Shader;
+	struct Shader;
 
 	/**
 	 * @brief A pipeline uses shaders and a render pass to describe the graphics pipeline
@@ -21,17 +21,17 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the device
 		 */
-		Device*				m_Device;
+		std::unique_ptr<Device>& m_Device;
 
 		/**
 		 * @brief A pointer to the swap chain
 		 */
-		SwapChain*			m_SwapChain;
+		std::unique_ptr<SwapChain>& m_SwapChain;
 
 		/**
 		 * @brief A pointer to the descriptor pool
 		 */
-		DescriptorPool*		m_DescriptorPool;
+		std::unique_ptr<DescriptorPool>& m_DescriptorPool;
 
 		/**
 		 * @brief The Pipeline Layout
@@ -52,17 +52,12 @@ namespace BetterThanNothing
 		 * @param swapChain A pointer to the swap chain
 		 * @param descriptorPool A pointer to the descriptor pool
 		 */
-		Pipeline(const std::string& id, Device* device, SwapChain* swapChain, DescriptorPool* descriptorPool);
+		Pipeline(const std::string& id, std::unique_ptr<Device>& device, std::unique_ptr<SwapChain>& swapChain, std::unique_ptr<DescriptorPool>& descriptorPool);
 
 		/**
 		 * @brief Destroy the Pipeline object
 		 */
 		~Pipeline();
-
-		Pipeline(const Pipeline&) = delete;
-		Pipeline& operator=(const Pipeline&) = delete;
-		Pipeline(Pipeline&&) = delete;
-		Pipeline& operator=(Pipeline&&) = delete;
 
 	private:
 		/**

@@ -4,24 +4,21 @@ namespace BetterThanNothing
 {
 	class Device;
 	class ShaderPool;
-	class Shader;
+	struct Shader;
 	class ModelPool;
-	class Model;
+	struct Model;
 	class TexturePool;
-	class Texture;
+	struct Texture;
 
 	class ResourceManager
 	{
 	private:
-		Device* m_Device;
-
-		ShaderPool* m_ShaderPool;
-		ModelPool* m_ModelPool;
-		TexturePool* m_TexturePool;
+		std::unique_ptr<ShaderPool> m_ShaderPool;
+		std::unique_ptr<ModelPool> m_ModelPool;
+		std::unique_ptr<TexturePool> m_TexturePool;
 
 	public:
-		ResourceManager(Device* device, const std::string& assetsPath);
-		~ResourceManager();
+		ResourceManager(std::unique_ptr<Device>& device, const std::string& assetsPath);
 
 		Shader* GetShader(const std::string& path);
 		Model* GetModel(const std::string& path);

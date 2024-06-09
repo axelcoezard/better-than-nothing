@@ -3,8 +3,8 @@
 namespace BetterThanNothing
 {
 	CommandBuffer::CommandBuffer(Device* device)
+		: m_Device(device)
 	{
-		m_Device = device;
 		m_CommandPool = device->GetCommandPool();
 
 		VkCommandBufferAllocateInfo allocInfo{};
@@ -44,7 +44,7 @@ namespace BetterThanNothing
 	void CommandBuffer::BeginRenderPass(VkRenderPassBeginInfo& renderPassBeginInfo)
 	{
 		std::vector<VkClearValue> clearValues(2);
-		clearValues[0].color = {0.0f, 0.0f, 0.0f, 1.0f};
+		clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};
 		clearValues[1].depthStencil = {1.0f, 0};
 
 		renderPassBeginInfo.clearValueCount = static_cast<u32>(clearValues.size());
@@ -115,9 +115,9 @@ namespace BetterThanNothing
 		vkCmdCopyBuffer(m_CommandBuffer, srcBuffer, dstBuffer, regionCount, &regions);
 	}
 
-	void CommandBuffer::SingleTimeCommands(const std::function<void(CommandBuffer*)>& callback, Device* device)
+	void CommandBuffer::SingleTimeCommands(const std::function<void(std::unique_ptr<CommandBuffer>&)>& callback, Device* device)
 	{
-		CommandBuffer* commandBuffer = new CommandBuffer(device);
+		std::unique_ptr<CommandBuffer> commandBuffer = std::make_unique<CommandBuffer>(device);
 		commandBuffer->Begin();
 
 		callback(commandBuffer);
@@ -132,7 +132,5 @@ namespace BetterThanNothing
 		VkQueue graphicsQueue = device->GetVkGraphicsQueue();
 		vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
 		vkQueueWaitIdle(graphicsQueue);
-
-		delete commandBuffer;
 	}
 };

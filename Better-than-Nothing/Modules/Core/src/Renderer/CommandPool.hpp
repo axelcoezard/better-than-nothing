@@ -30,11 +30,6 @@ namespace BetterThanNothing
 		 */
 		~CommandPool();
 
-		CommandPool(const CommandPool&) = delete;
-		CommandPool& operator=(const CommandPool&) = delete;
-		CommandPool(CommandPool&&) = delete;
-		CommandPool& operator=(CommandPool&&) = delete;
-
 		/**
 		 * @brief Get the VkCommandPool object
 		 * @return VkCommandPool& The VkCommandPool object

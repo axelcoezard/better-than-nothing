@@ -2,8 +2,8 @@
 
 namespace BetterThanNothing
 {
-	DescriptorPool::DescriptorPool(Device* device, UniformsPool* uniformsPool)
-		: m_Device(device), m_UniformsPool(uniformsPool)
+	DescriptorPool::DescriptorPool(std::unique_ptr<Device>& device)
+		: m_Device(device)
 	{
 		m_DescriptorPoolSize = 0;
 

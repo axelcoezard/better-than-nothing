@@ -19,7 +19,7 @@ namespace BetterThanNothing
 
 		Scene* pScene = CreateScene("world");
 
-		auto pCamera = pScene->InitCamera(0.0, 0.0, 200.0, 0.0f, 0.0f);
+		Camera* pCamera = pScene->InitCamera(0.0, 0.0, 200.0, 0.0f, 0.0f);
 		pCamera->SetPerspectiveProjection(glm::radians(87.0f), 1.0f, 1000.0f);
 
 		pScene->CreateEntity("robot/robot.obj", "robot/robot.png");
