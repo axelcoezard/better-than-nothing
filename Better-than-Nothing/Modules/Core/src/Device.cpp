@@ -12,7 +12,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityF
 
 namespace BetterThanNothing
 {
-	Device::Device(Window* pWindow): m_Window(pWindow)
+	Device::Device(std::unique_ptr<Window>& pWindow): m_Window(pWindow)
 	{
 		CreateInstance();
 		SetupDebugMessenger();
@@ -22,6 +22,7 @@ namespace BetterThanNothing
 
 		m_CommandPool = new CommandPool(this);
 	}
+
 
 	Device::~Device()
 	{
@@ -388,7 +389,7 @@ namespace BetterThanNothing
 
 	void Device::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size)
 	{
-		CommandBuffer::SingleTimeCommands([&](CommandBuffer* commandBuffer) {
+		CommandBuffer::SingleTimeCommands([&](std::unique_ptr<CommandBuffer>& commandBuffer) {
 			VkBufferCopy copyRegion{};
 			copyRegion.size = size;
 			commandBuffer->CmdCopyBuffer(srcBuffer, dstBuffer, 1, copyRegion);
@@ -483,7 +484,7 @@ namespace BetterThanNothing
 
 	void Device::TransitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, u32 mipLevels)
 	{
-		CommandBuffer::SingleTimeCommands([&](CommandBuffer* commandBuffer) {
+		CommandBuffer::SingleTimeCommands([&](std::unique_ptr<CommandBuffer>& commandBuffer) {
 			VkPipelineStageFlags sourceStage;
 			VkPipelineStageFlags destinationStage;
 
@@ -539,7 +540,7 @@ namespace BetterThanNothing
 
 	void Device::CopyBufferToImage(VkBuffer buffer, VkImage image, u32 width, u32 height)
 	{
-		CommandBuffer::SingleTimeCommands([&](CommandBuffer* commandBuffer) {
+		CommandBuffer::SingleTimeCommands([&](std::unique_ptr<CommandBuffer>& commandBuffer) {
 			VkBufferImageCopy region{};
 			region.bufferOffset = 0;
 			region.bufferRowLength = 0;

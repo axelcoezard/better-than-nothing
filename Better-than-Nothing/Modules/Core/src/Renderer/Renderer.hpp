@@ -7,13 +7,14 @@ namespace BetterThanNothing
 	class Device;
 	class SwapChain;
 	class DescriptorPool;
-	class Texture;
+	class ResourceManager;
+	struct Texture;
 	class Pipeline;
 	class Scene;
 	class DrawStreamBuilder;
-	class Buffer;
+	struct Buffer;
 	class UniformsPool;
-	class RendererDebugInfo;
+	struct RendererDebugInfo;
 
 	/**
 	 * @brief The Renderer class that is used to render a scene
@@ -24,32 +25,37 @@ namespace BetterThanNothing
 		/**
 		 * @brief The pointer to the window
 		 */
-		Window* m_Window;
+		std::unique_ptr<Window>& m_Window;
 
 		/**
 		 * @brief The pointer to the device
 		 */
-		Device* m_Device;
+		std::unique_ptr<Device>& m_Device;
+
+		/**
+		 * @brief The pointer to the resource manager
+		 */
+		std::unique_ptr<ResourceManager>& m_ResourceManager;
 
 		/**
 		 * @brief The pointer to the swap chain
 		 */
-		SwapChain* m_SwapChain;
+		std::unique_ptr<SwapChain> m_SwapChain;
 
 		/**
 		 * @brief The pointer to the descriptor pool
 		 */
-		DescriptorPool* m_DescriptorPool;
+		std::unique_ptr<DescriptorPool> m_DescriptorPool;
 
 		/**
 		 * @brief The pointer to the uniform pool
 		 */
-		UniformsPool* m_UniformsPool;
+		std::unique_ptr<UniformsPool> m_UniformsPool;
 
 		/**
 		 * @brief All the pipelines
 		 */
-		std::map<std::string, Pipeline*> m_PipeLines;
+		std::map<std::string, std::unique_ptr<Pipeline>> m_PipeLines;
 
 	public:
 		/**
@@ -57,18 +63,14 @@ namespace BetterThanNothing
 		 *
 		 * @param window The pointer to the window
 		 * @param device The pointer to the device
+		 * @param shaderPool The pointer to the shader pool
 		 */
-		Renderer(Window* window, Device* device);
+		Renderer(std::unique_ptr<Window>& window, std::unique_ptr<Device>& device, std::unique_ptr<ResourceManager>& resourceManager);
 
 		/**
 		 * @brief Destroy the Renderer object
 		 */
 		~Renderer();
-
-		Renderer(const Renderer&) = delete;
-		Renderer& operator=(const Renderer&) = delete;
-		Renderer(Renderer&&) = delete;
-		Renderer& operator=(Renderer&&) = delete;
 
 	public:
 		/**
@@ -89,7 +91,7 @@ namespace BetterThanNothing
 		 * @param scene The scene to render
 		 * @param debugInfo The debug info to display
 		 */
-		void Render(Scene* scene, RendererDebugInfo* debugInfo);
+		void Render(Scene*, RendererDebugInfo* debugInfo);
 
 	private:
 		/**
@@ -97,36 +99,5 @@ namespace BetterThanNothing
 		 * @param debugInfo The debug info to display
 		 */
 		void RenderDebugInfo(RendererDebugInfo* debugInfo);
-
-	public:
-		/**
-		 * @brief Get the pointer to the window
-		 * @return Window* The pointer to the window
-		 */
-		Window* GetWindow() { return m_Window; }
-
-		/**
-		 * @brief Get the pointer to the device
-		 * @return Device* The pointer to the device
-		 */
-		Device* GetDevice() { return m_Device; }
-
-		/**
-		 * @brief Get the pointer to the swap chain
-		 * @return SwapChain* The pointer to the swap chain
-		 */
-		SwapChain* GetSwapChain() { return m_SwapChain; }
-
-		/**
-		 * @brief Get the pointer to the descriptor pool
-		 * @return DescriptorPool* The pointer to the descriptor pool
-		 */
-		DescriptorPool* GetDescriptorPool() { return m_DescriptorPool; }
-
-		/**
-		 * @brief Get all the pipelines
-		 * @return std::map<std::string, Pipeline*> All the pipelines
-		 */
-		std::map<std::string, Pipeline*> GetPipeLines() { return m_PipeLines; }
 	};
 };

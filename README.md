@@ -1,15 +1,18 @@
 # Better than Nothing
 Everything is in the title, it is a better-than-nothing Game Engine
 
+![image](https://github.com/axelcoezard/Better-than-Nothing/assets/9162303/4cf1ef9d-c0c8-46c4-99a1-2b9b6f2a27da)
+
 ## Features
 
  - Support for Linux.
  - Support for Vulkan.
- - Rendering basic .obj 3D models with textures.
+ - Rendering of multiple .obj 3D models with textures.
 	- Mipmapping.
 	- Msaa multisampling.
- - First-person 3D camera.
- - In-house event system.
+ - First-person 3D camera (1rst iteration)
+ - In-house event system (1rst iteration)
+ - In-house JIT shader compilation
 
 ## Road map
 
@@ -33,3 +36,6 @@ Contributions are welcome. Both new features and bug fixes. Just open a pull req
 - [stb](https://github.com/nothings/stb) : Single-file public domain (or MIT licensed) libraries for C/C++.
 - [tinyobjloader](https://github.com/tinyobjloader/tinyobjloader) : Tiny but powerful single file wavefront obj loader.
 - [glm](https://github.com/g-truc/glm) : OpenGL Mathematics: An header only C++ mathematics library for graphics software based on the OpenGL Shading Language (GLSL) specifications.
+- [glslang](https://github.com/KhronosGroup/glslang) : A library used for JIT shader compilation from OpenGL Shading Language (GLSL) to SPIR-V format.
+- [SPIRV-Cross](https://github.com/KhronosGroup/SPIRV-Cross) : A practical tool and library for performing reflection on SPIR-V and disassembling SPIR-V back to high level languages.
+- [AMD Vulkan Memory Allocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) : Easy to integrate Vulkan memory allocation library that help to manage memory allocations and resource creation.

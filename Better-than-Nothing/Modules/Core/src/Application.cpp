@@ -4,38 +4,26 @@ namespace BetterThanNothing
 {
 	Application::Application()
 	{
-		m_ConfigManager = new ConfigManager("/home/acoezard/lab/better-than-nothing/Better-than-Nothing/Config/");
+		m_ConfigManager = std::make_unique<ConfigManager>("./Better-than-Nothing/Config/");
 
 		ConfigReader config = m_ConfigManager->Read("Config.ini");
 		std::string windowTitle = config->Get("window", "title", "Application");
 		u32 windowWidth = config->GetInteger("window", "width", 800);
 		u32 windowHeight = config->GetInteger("window", "height", 600);
 
-		m_Window = new Window(windowTitle, windowWidth, windowHeight);
+		m_Window = std::make_unique<Window>(windowTitle, windowWidth, windowHeight);
 		m_Window->SetEventCallback(BIND_EVENT_LISTENER(OnEvent));
 
-		m_Device = new Device(m_Window);
+		m_Device = std::make_unique<Device>(m_Window);
 
-		m_ModelPool = new ModelPool("/home/acoezard/lab/better-than-nothing/Assets/Models/", m_Device);
-		m_TexturePool = new TexturePool("/home/acoezard/lab/better-than-nothing/Assets/Models/", m_Device);
+		m_ResourceManager = std::make_unique<ResourceManager>(m_Device, "./Assets/");
 
-		m_Renderer = new Renderer(m_Window, m_Device);
-		m_Renderer->LoadPipeline("main", "main/main.vert.spv", "main/main.frag.spv");
+		m_Renderer = std::make_unique<Renderer>(m_Window, m_Device, m_ResourceManager);
 	}
 
 	Application::~Application()
 	{
-		for (auto & scene : m_Scenes) {
-			delete scene;
-		}
 
-		delete m_TexturePool;
-		delete m_ModelPool;
-
-		delete m_Renderer;
-		delete m_Device;
-		delete m_Window;
-		delete m_ConfigManager;
 	}
 
 	void Application::Run()
@@ -65,7 +53,7 @@ namespace BetterThanNothing
 			debugInfo.sceneEntitiesCount = m_Scenes[m_CurrentSceneId]->GetEntitiesCount();
 
 			m_Scenes[m_CurrentSceneId]->OnUpdate(deltatime);
-			m_Renderer->Render(m_Scenes[m_CurrentSceneId], &debugInfo);
+			m_Renderer->Render(m_Scenes.at(m_CurrentSceneId), &debugInfo);
 			m_Device->WaitIdle();
 
 			useconds_t frameTimeMicroseconds = static_cast<useconds_t>(frameTime * 1000000);
@@ -85,7 +73,7 @@ namespace BetterThanNothing
 
 	Scene* Application::CreateScene(const std::string& name)
 	{
-		auto scene = new Scene(m_Scenes.size(), name, m_Window, m_ModelPool, m_TexturePool);
+		auto scene = new Scene(m_Scenes.size(), name, m_Window, m_ResourceManager);
 		m_Scenes.push_back(scene);
 		m_CurrentSceneId = scene->GetId();
 		return scene;

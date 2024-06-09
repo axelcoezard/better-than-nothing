@@ -28,11 +28,15 @@ namespace BetterThanNothing
 		m_ZFar = zFar;
 	}
 
-	void Camera::Update(Window* window, f32 deltatime)
+	void Camera::Update(std::unique_ptr<Window>& window, f32 deltatime)
 	{
 		static bool firstMouse = true;
 		static f32 lastMouseX = 0;
 		static f32 lastMouseY = 0;
+
+		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
+			return;
+		}
 
 		f32 velocity = 100.0f * deltatime;
 		f32 sensitivity = 10.0f * deltatime;
@@ -121,7 +125,7 @@ namespace BetterThanNothing
 			m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 	}
 
-	void Camera::CalculateProjectionMatrix(Window* window)
+	void Camera::CalculateProjectionMatrix(std::unique_ptr<Window>& window)
 	{
 		f32 aspectRatio = (f32) window->GetWidth() / (f32) window->GetHeight();
 

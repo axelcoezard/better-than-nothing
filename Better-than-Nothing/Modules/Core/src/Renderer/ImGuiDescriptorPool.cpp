@@ -2,7 +2,7 @@
 
 namespace BetterThanNothing
 {
-	ImGuiDescriptorPool::ImGuiDescriptorPool(Device* device): m_Device(device)
+	ImGuiDescriptorPool::ImGuiDescriptorPool(std::unique_ptr<Device>& device): m_Device(device)
 	{
 		VkDescriptorPoolSize pool_sizes[] =
 		{

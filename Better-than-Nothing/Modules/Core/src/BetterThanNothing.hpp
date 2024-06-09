@@ -33,10 +33,15 @@
 #include "Renderer/Material.hpp"
 #include "Renderer/Buffer.hpp"
 
-// Ressources
-#include "Ressources/RessourcePool.hpp"
-#include "Ressources/Model.hpp"
-#include "Ressources/Texture.hpp"
+// Resources
+#include "Resources/ResourcePool.hpp"
+#include "Resources/ModelPool.hpp"
+#include "Resources/Model.hpp"
+#include "Resources/TexturePool.hpp"
+#include "Resources/Texture.hpp"
+#include "Resources/ShaderPool.hpp"
+#include "Resources/Shader.hpp"
+#include "Resources/ResourceManager.hpp"
 
 // Scene
 #include "Scene/Scene.hpp"
