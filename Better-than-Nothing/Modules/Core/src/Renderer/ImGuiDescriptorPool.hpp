@@ -7,12 +7,12 @@ namespace BetterThanNothing
 	class ImGuiDescriptorPool
 	{
 	private:
-		std::shared_ptr<Device> m_Device;
+		std::unique_ptr<Device>& m_Device;
 
 		VkDescriptorPool m_DescriptorPool;
 
 	public:
-		ImGuiDescriptorPool(std::shared_ptr<Device>& device);
+		ImGuiDescriptorPool(std::unique_ptr<Device>& device);
 		~ImGuiDescriptorPool();
 
 		VkDescriptorPool& GetVkDescriptorPool();

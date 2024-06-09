@@ -24,17 +24,17 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the window
 		 */
-		Window* m_Window;
+		std::unique_ptr<Window>& m_Window;
 
 		/**
 		 * @brief A pointer to the device
 		 */
-		Device* m_Device;
+		std::unique_ptr<Device>& m_Device;
 
 		/**
 		 * @brief A pointer to the descriptor pool
 		 */
-		DescriptorPool* m_DescriptorPool;
+		std::unique_ptr<DescriptorPool>& m_DescriptorPool;
 
 		/**
 		 * @brief The swap chain
@@ -44,7 +44,7 @@ namespace BetterThanNothing
 		/**
 		 * @brief The swap chain render pass
 		 */
-		RenderPass* m_RenderPass;
+		std::unique_ptr<RenderPass> m_RenderPass;
 
 		/**
 		 * @brief The ImGui descriptor pool
@@ -69,7 +69,7 @@ namespace BetterThanNothing
 		/**
 		 * @brief The command buffers
 		 */
-		std::vector<CommandBuffer*> m_CommandBuffers;
+		std::vector<std::unique_ptr<CommandBuffer>> m_CommandBuffers;
 
 		/**
 		 * @brief The swap chain semaphores that is available for rendering
@@ -104,7 +104,7 @@ namespace BetterThanNothing
 		 * @param device
 		 * @param descriptorPool
 		 */
- 		SwapChain(Window* window, Device* device, DescriptorPool* descriptorPool);
+ 		SwapChain(std::unique_ptr<Window>& window, std::unique_ptr<Device>& device, std::unique_ptr<DescriptorPool>& descriptorPool);
 
 		/**
 		 * @brief Destroy the Swap Chain object
@@ -268,8 +268,8 @@ namespace BetterThanNothing
 		 * @brief Get the pointer to the current Command Buffer using the current frame index
 		 * @return CommandBuffer* A pointer to the current command buffer
 		 */
-		CommandBuffer* GetCurrentCommandBuffer() { return m_CommandBuffers[m_CurrentFrame]; }
+		CommandBuffer* GetCurrentCommandBuffer() { return m_CommandBuffers[m_CurrentFrame].get(); }
 
-		RenderPass* GetDefaultRenderPass() { return m_RenderPass; }
+		RenderPass* GetDefaultRenderPass() { return m_RenderPass.get(); }
 	};
 };

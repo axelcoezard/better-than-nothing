@@ -4,9 +4,9 @@ namespace BetterThanNothing
 {
 	Pipeline::Pipeline(
 		const std::string& id,
-		std::shared_ptr<Device>& device,
-		std::shared_ptr<SwapChain>& swapChain,
-		std::shared_ptr<DescriptorPool>& descriptorPool
+		std::unique_ptr<Device>& device,
+		std::unique_ptr<SwapChain>& swapChain,
+		std::unique_ptr<DescriptorPool>& descriptorPool
 	) : m_Id(id), m_Device(device), m_SwapChain(swapChain), m_DescriptorPool(descriptorPool)
 	{
 

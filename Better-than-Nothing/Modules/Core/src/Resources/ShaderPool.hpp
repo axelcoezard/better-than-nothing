@@ -10,10 +10,10 @@ namespace BetterThanNothing
 	class ShaderPool: public ResourcePool<Shader>
 	{
 	private:
-		std::shared_ptr<Device> m_Device;
+		std::unique_ptr<Device>& m_Device;
 
 	public:
-						ShaderPool(const std::string& basePath, std::shared_ptr<Device>& device);
+						ShaderPool(const std::string& basePath, std::unique_ptr<Device>& device);
 						~ShaderPool();
 
 		/**

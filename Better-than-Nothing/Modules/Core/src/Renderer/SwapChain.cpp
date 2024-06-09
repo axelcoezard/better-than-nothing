@@ -4,19 +4,19 @@
 
 namespace BetterThanNothing
 {
-	SwapChain::SwapChain(Window* window, Device* device, DescriptorPool* descriptorPool)
+	SwapChain::SwapChain(std::unique_ptr<Window>& window, std::unique_ptr<Device>& device, std::unique_ptr<DescriptorPool>& descriptorPool)
 		: m_Window(window), m_Device(device), m_DescriptorPool(descriptorPool)
 	{
 		CreateSwapChain();
 
 		RenderPassProperties renderPassProperties;
-		renderPassProperties.device = m_Device;
+		renderPassProperties.device = m_Device.get();
 		renderPassProperties.swapChain = this;
 		renderPassProperties.swapChainFormat = &m_Format;
 		renderPassProperties.swapChainExtent = &m_Extent;
 		renderPassProperties.msaaSamples = m_Device->GetMsaaSamples();
 
-		m_RenderPass = new RenderPass(renderPassProperties);
+		m_RenderPass = std::make_unique<RenderPass>(renderPassProperties);
 		m_RenderPass->Create();
 
 #if ENABLE_IMGUI
@@ -45,12 +45,6 @@ namespace BetterThanNothing
 		ImGui_ImplVulkan_Shutdown();
 		delete m_ImGuiDescriptorPool;
 #endif
-
-		delete m_RenderPass;
-
-		for (auto commandBuffer : m_CommandBuffers) {
-			delete commandBuffer;
-		}
 	}
 
 	void SwapChain::CreateSwapChain()
@@ -113,7 +107,7 @@ namespace BetterThanNothing
 		m_CommandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
 
 		for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-			m_CommandBuffers[i] = new CommandBuffer(m_Device);
+			m_CommandBuffers[i] = std::make_unique<CommandBuffer>(m_Device.get());
 		}
 	}
 
@@ -211,7 +205,7 @@ namespace BetterThanNothing
 
 	bool SwapChain::BeginRecordCommandBuffer()
 	{
-		CommandBuffer* commandBuffer = m_CommandBuffers[m_CurrentFrame];
+		auto& commandBuffer = m_CommandBuffers[m_CurrentFrame];
 
 		WaitForFences();
 		VkResult result = AcquireNextImage();
@@ -257,7 +251,7 @@ namespace BetterThanNothing
 
 	void SwapChain::Draw(DrawPacket* drawPacket, u32 index)
 	{
-		CommandBuffer* commandBuffer = m_CommandBuffers[m_CurrentFrame];
+		auto& commandBuffer = m_CommandBuffers[m_CurrentFrame];
 		Pipeline* pipeline = static_cast<Pipeline*>(drawPacket->pipeline);
 
 		commandBuffer->BindVertexBuffer(drawPacket->vertexBuffer.m_Buffer);
@@ -272,7 +266,7 @@ namespace BetterThanNothing
 
 	void SwapChain::EndRecordCommandBuffer()
 	{
-		CommandBuffer* commandBuffer = m_CommandBuffers[m_CurrentFrame];
+		auto& commandBuffer = m_CommandBuffers[m_CurrentFrame];
 
 #if ENABLE_IMGUI
 		ImDrawData* draw_data = ImGui::GetDrawData();

@@ -2,9 +2,9 @@
 
 namespace BetterThanNothing
 {
-	CommandBuffer::CommandBuffer(std::shared_ptr<Device>& device)
+	CommandBuffer::CommandBuffer(Device* device)
+		: m_Device(device)
 	{
-		m_Device = device;
 		m_CommandPool = device->GetCommandPool();
 
 		VkCommandBufferAllocateInfo allocInfo{};
@@ -115,9 +115,9 @@ namespace BetterThanNothing
 		vkCmdCopyBuffer(m_CommandBuffer, srcBuffer, dstBuffer, regionCount, &regions);
 	}
 
-	void CommandBuffer::SingleTimeCommands(const std::function<void(CommandBuffer*)>& callback, Device* device)
+	void CommandBuffer::SingleTimeCommands(const std::function<void(std::unique_ptr<CommandBuffer>&)>& callback, Device* device)
 	{
-		CommandBuffer* commandBuffer = new CommandBuffer(device);
+		std::unique_ptr<CommandBuffer> commandBuffer = std::make_unique<CommandBuffer>(device);
 		commandBuffer->Begin();
 
 		callback(commandBuffer);
@@ -132,7 +132,5 @@ namespace BetterThanNothing
 		VkQueue graphicsQueue = device->GetVkGraphicsQueue();
 		vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
 		vkQueueWaitIdle(graphicsQueue);
-
-		delete commandBuffer;
 	}
 };

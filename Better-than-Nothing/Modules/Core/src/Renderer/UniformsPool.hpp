@@ -19,7 +19,7 @@ namespace BetterThanNothing
 		/**
 		 * @brief The pointer to the device
 		 */
-		Device* m_Device;
+		std::unique_ptr<Device>& m_Device;
 
 		/**
 		 * @brief The current size of the pool
@@ -49,7 +49,7 @@ namespace BetterThanNothing
 		 *
 		 * @param device The pointer to the device
 		 */
-		UniformsPool(Device* device);
+		UniformsPool(std::unique_ptr<Device>& device);
 
 		/**
 		 * @brief Destroy the UniformsPool object

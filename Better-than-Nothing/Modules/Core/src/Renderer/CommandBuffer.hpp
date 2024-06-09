@@ -14,7 +14,7 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the Device object.
 		 */
-		std::shared_ptr<Device> m_Device;
+		Device* m_Device;
 
 		/**
 		 * @brief A pointer to the CommandPool object.
@@ -32,17 +32,12 @@ namespace BetterThanNothing
 		 * @param device A pointer to the Device object.
 		 * @param commandPool A pointer to the CommandPool object.
 		 */
-		CommandBuffer(std::shared_ptr<Device>& device);
+		CommandBuffer(Device* device);
 
 		/**
 		 * @brief Destroy the CommandBuffer object.
 		 */
 		~CommandBuffer();
-
-							CommandBuffer(const CommandBuffer&) = delete;
-		CommandBuffer&		operator=(const CommandBuffer&) = delete;
-							CommandBuffer(CommandBuffer&&) = delete;
-		CommandBuffer&		operator=(CommandBuffer&&) = delete;
 
 		/**
 		 * @brief Begin recording commands.
@@ -153,7 +148,7 @@ namespace BetterThanNothing
 		 * @param callback The callback.
 		 * @param device A pointer to the Device object.
 		 */
-		static void SingleTimeCommands(const std::function<void(CommandBuffer*)>& callback, Device* device);
+		static void SingleTimeCommands(const std::function<void(std::unique_ptr<CommandBuffer>&)>& callback, Device* device);
 
 		/**
 		 * @brief Get the Vk Command Buffer object

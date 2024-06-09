@@ -4,21 +4,21 @@ namespace BetterThanNothing
 {
 	Application::Application()
 	{
-		m_ConfigManager = std::make_shared<ConfigManager>("./Better-than-Nothing/Config/");
+		m_ConfigManager = std::make_unique<ConfigManager>("./Better-than-Nothing/Config/");
 
 		ConfigReader config = m_ConfigManager->Read("Config.ini");
 		std::string windowTitle = config->Get("window", "title", "Application");
 		u32 windowWidth = config->GetInteger("window", "width", 800);
 		u32 windowHeight = config->GetInteger("window", "height", 600);
 
-		m_Window = std::make_shared<Window>(windowTitle, windowWidth, windowHeight);
+		m_Window = std::make_unique<Window>(windowTitle, windowWidth, windowHeight);
 		m_Window->SetEventCallback(BIND_EVENT_LISTENER(OnEvent));
 
-		m_Device = std::make_shared<Device>(m_Window);
+		m_Device = std::make_unique<Device>(m_Window);
 
-		m_ResourceManager = std::make_shared<ResourceManager>(m_Device, "./Assets/");
+		m_ResourceManager = std::make_unique<ResourceManager>(m_Device, "./Assets/");
 
-		m_Renderer = std::make_shared<Renderer>(m_Window, m_Device, m_ResourceManager);
+		m_Renderer = std::make_unique<Renderer>(m_Window, m_Device, m_ResourceManager);
 	}
 
 	Application::~Application()
@@ -71,9 +71,9 @@ namespace BetterThanNothing
 		m_Scenes[m_CurrentSceneId]->OnEvent(event);
 	}
 
-	std::shared_ptr<Scene> Application::CreateScene(const std::string& name)
+	Scene* Application::CreateScene(const std::string& name)
 	{
-		auto scene = std::make_shared<Scene>(m_Scenes.size(), name, m_Window, m_ResourceManager);
+		auto scene = new Scene(m_Scenes.size(), name, m_Window, m_ResourceManager);
 		m_Scenes.push_back(scene);
 		m_CurrentSceneId = scene->GetId();
 		return scene;

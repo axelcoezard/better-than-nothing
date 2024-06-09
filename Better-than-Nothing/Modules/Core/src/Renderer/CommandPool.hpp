@@ -11,7 +11,7 @@ namespace BetterThanNothing
 		/**
 		 * @brief The device that owns this command pool
 		 */
-		std::shared_ptr<Device> m_Device;
+		Device* m_Device;
 
 		/**
 		 * @brief The VkCommandPool
@@ -23,17 +23,12 @@ namespace BetterThanNothing
 		 * @brief Construct a new Command Pool object
 		 * @param device The device that owns this command pool
 		 */
-		CommandPool(std::shared_ptr<Device>& device);
+		CommandPool(Device* device);
 
 		/**
 		 * @brief Destroy the Command Pool object
 		 */
 		~CommandPool();
-
-		CommandPool(const CommandPool&) = delete;
-		CommandPool& operator=(const CommandPool&) = delete;
-		CommandPool(CommandPool&&) = delete;
-		CommandPool& operator=(CommandPool&&) = delete;
 
 		/**
 		 * @brief Get the VkCommandPool object

@@ -28,17 +28,17 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the device.
 		 */
-		std::shared_ptr<Window> m_Window;
+		std::unique_ptr<Window>& m_Window;
 
 		/**
 		 * @brief A pointer to the resource manager.
 		 */
-		std::shared_ptr<ResourceManager> m_ResourceManager;
+		std::unique_ptr<ResourceManager>& m_ResourceManager;
 
 		/**
 		 * @brief A pointer to the camera.
 		 */
-		Camera* m_Camera;
+		std::unique_ptr<Camera> m_Camera;
 
 		/**
 		 * @brief The registry of entities.
@@ -59,7 +59,7 @@ namespace BetterThanNothing
 		 * @param modelPool A pointer to the model pool.
 		 * @param texturePool A pointer to the texture pool.
 		 */
- 		Scene::Scene(u32 id, std::string_view name, std::shared_ptr<Window>& window, std::shared_ptr<ResourceManager>& resourceManager);
+ 		Scene(u32 id, std::string_view name, std::unique_ptr<Window>& window, std::unique_ptr<ResourceManager>& resourceManager);
 
 		/**
 		 * @brief Destroy the Scene object
@@ -106,7 +106,7 @@ namespace BetterThanNothing
 		 * @brief Gets the camera.
 		 * @return The camera.
 		 */
-		Camera* GetCamera();
+		std::unique_ptr<Camera>& GetCamera();
 
 		/**
 		 * @brief Creates a new entity.

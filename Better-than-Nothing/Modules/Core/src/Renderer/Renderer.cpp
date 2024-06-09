@@ -2,35 +2,36 @@
 
 namespace BetterThanNothing
 {
-	Renderer::Renderer(std::shared_ptr<Window>& window, std::shared_ptr<Device>& device, std::shared_ptr<ResourceManager>& resourceManager)
-		: m_Window(window), m_Device(device), m_ResourceManager(resourceManager)
+	Renderer::Renderer(
+		std::unique_ptr<Window>& window,
+		std::unique_ptr<Device>& device,
+		std::unique_ptr<ResourceManager>& resourceManager
+	) : m_Window(window), m_Device(device), m_ResourceManager(resourceManager)
 	{
-		m_UniformsPool = std::make_shared<UniformsPool>(m_Device);
-		m_DescriptorPool = std::make_shared<DescriptorPool>(m_Device, m_UniformsPool);
-		m_SwapChain = std::make_shared<SwapChain>(m_Window, m_Device, m_DescriptorPool);
+		m_UniformsPool = std::make_unique<UniformsPool>(m_Device);
+		m_DescriptorPool = std::make_unique<DescriptorPool>(m_Device, m_UniformsPool);
+		m_SwapChain = std::make_unique<SwapChain>(m_Window, m_Device, m_DescriptorPool);
 	}
 
 	Renderer::~Renderer()
 	{
-		for (auto & entry : m_PipeLines) {
-			delete entry.second;
-		}
+		m_PipeLines.clear();
 	}
 
 	void Renderer::LoadPipeline(const std::string& id, const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath)
 	{
-		auto pipeline = std::make_shared<Pipeline>(id, m_Device, m_SwapChain, m_DescriptorPool);
+		std::unique_ptr<Pipeline> pipeline = std::make_unique<Pipeline>(id, m_Device, m_SwapChain, m_DescriptorPool);
 		Shader* vertexShader = m_ResourceManager->GetShader(vertexShaderFilePath);
 		Shader* fragmentShader = m_ResourceManager->GetShader(fragmentShaderFilePath);
 
 		pipeline->CreateGraphicsPipeline(vertexShader, fragmentShader);
 
-		m_PipeLines.insert(std::pair<std::string, std::shared_ptr<Pipeline>>(id, pipeline));
+		m_PipeLines.insert(std::make_pair(id, std::move(pipeline)));
 	}
 
-	void Renderer::Render(std::shared_ptr<Scene>& scene, RendererDebugInfo* debugInfo)
+	void Renderer::Render(Scene* scene, RendererDebugInfo* debugInfo)
 	{
-		auto pPipeline = m_PipeLines.at("main");
+		std::unique_ptr<Pipeline>& pPipeline = m_PipeLines.at("main");
 		u32 currentFrame = m_SwapChain->GetCurrentFrame();
 
 		// Create a new uniform buffer and a new descriptor set for each new entity
@@ -71,7 +72,7 @@ namespace BetterThanNothing
 			TransformComponent& transformComp = view.get<TransformComponent>(entity);
 
 			drawStreamBuilder.Draw({
-				.pipeline = pPipeline,
+				.pipeline = pPipeline.get(),
 				.texture = modelComp.texture,
 				.vertexBuffer = modelComp.model->vertexBuffer,
 				.indexBuffer = modelComp.model->indexBuffer,

@@ -2,23 +2,18 @@
 
 namespace BetterThanNothing
 {
-	Scene::Scene(u32 id, std::string_view name, std::shared_ptr<Window>& window, std::shared_ptr<ResourceManager>& resourceManager)
-	{
-		m_Id = id;
-		m_Name = name;
-		m_Window = window;
-		m_ResourceManager = resourceManager;
-	}
+	Scene::Scene(u32 id, std::string_view name, std::unique_ptr<Window>& window, std::unique_ptr<ResourceManager>& resourceManager)
+		: m_Id(id), m_Name(name), m_Window(window), m_ResourceManager(resourceManager) { }
 
 	Scene::~Scene()
 	{
-		delete m_Camera;
+
 	}
 
 	Camera* Scene::InitCamera(f64 x, f64 y, f64 z, f64 yaw, f64 pitch)
 	{
-		m_Camera = new Camera(x, y, z, yaw, pitch);
-		return m_Camera;
+		m_Camera = std::make_unique<Camera>(x, y, z, yaw, pitch);
+		return m_Camera.get();
 	}
 
 	void Scene::OnUpdate(f32 deltatime)
@@ -49,7 +44,7 @@ namespace BetterThanNothing
 		return m_Name;
 	}
 
-	Camera* Scene::GetCamera()
+	std::unique_ptr<Camera>& Scene::GetCamera()
 	{
 		return m_Camera;
 	}
