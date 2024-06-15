@@ -1,0 +1,651 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "Runtime"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"install",
+			"target_link_libraries",
+			"target_compile_options",
+			"include_directories",
+			"target_include_directories",
+			"target_precompile_headers"
+		],
+		"files" : 
+		[
+			"Modules/Runtime/CMakeLists.txt",
+			"ThirdParty/glfw/src/CMakeLists.txt",
+			"ThirdParty/glslang/glslang/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 18,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 41,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 24,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 231,
+				"parent" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 243,
+				"parent" : 4
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 177,
+				"parent" : 7
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 146,
+				"parent" : 7
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 22,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 16,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 26,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 27,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 29,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 30,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 31,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 32,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 33,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 34,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 36,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 37,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 39,
+				"parent" : 0
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 20,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -std=gnu++20 -fcolor-diagnostics"
+				},
+				{
+					"backtrace" : 10,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 10,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 10,
+					"fragment" : "-Werror"
+				},
+				{
+					"fragment" : "-Winvalid-pch -fpch-instantiate-templates -Xclang -emit-pch -Xclang -include -Xclang /home/acoezard/lab/better-than-nothing/.build/debug/Modules/Runtime/CMakeFiles/Runtime.dir/cmake_pch.hxx -x c++-header"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 11,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/src"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/glfw/include"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/vulkan"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/glm/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/stb/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/tinyobjloader"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/entt/single_include"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/imgui/include"
+				},
+				{
+					"backtrace" : 19,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/inih/include"
+				},
+				{
+					"backtrace" : 20,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/glslang/glslang/Include"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/glslang/glslang/Public"
+				},
+				{
+					"backtrace" : 22,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/spirv_cross/spirv_cross"
+				},
+				{
+					"backtrace" : 23,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/vma/include"
+				},
+				{
+					"backtrace" : 24,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../Core/src"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/ThirdParty/glfw/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/ThirdParty/glm"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/ThirdParty/glslang/glslang/.."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/.build/debug/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/ThirdParty/glslang/SPIRV/.."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/ThirdParty/vma/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"precompileHeaders" : 
+			[
+				{
+					"backtrace" : 25,
+					"header" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../pch.hpp"
+				}
+			],
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -std=gnu++20 -fcolor-diagnostics"
+				},
+				{
+					"backtrace" : 10,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 10,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 10,
+					"fragment" : "-Werror"
+				},
+				{
+					"fragment" : "-Winvalid-pch -Xclang -include-pch -Xclang /home/acoezard/lab/better-than-nothing/.build/debug/Modules/Runtime/CMakeFiles/Runtime.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/acoezard/lab/better-than-nothing/.build/debug/Modules/Runtime/CMakeFiles/Runtime.dir/cmake_pch.hxx"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 11,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/src"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/glfw/include"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/vulkan"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/glm/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/stb/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/tinyobjloader"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/entt/single_include"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/imgui/include"
+				},
+				{
+					"backtrace" : 19,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/inih/include"
+				},
+				{
+					"backtrace" : 20,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/glslang/glslang/Include"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/glslang/glslang/Public"
+				},
+				{
+					"backtrace" : 22,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/spirv_cross/spirv_cross"
+				},
+				{
+					"backtrace" : 23,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../../ThirdParty/vma/include"
+				},
+				{
+					"backtrace" : 24,
+					"path" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../Core/src"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/ThirdParty/glfw/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/ThirdParty/glm"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/ThirdParty/glslang/glslang/.."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/.build/debug/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/ThirdParty/glslang/SPIRV/.."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/acoezard/lab/better-than-nothing/ThirdParty/vma/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"precompileHeaders" : 
+			[
+				{
+					"backtrace" : 25,
+					"header" : "/home/acoezard/lab/better-than-nothing/Modules/Runtime/../pch.hpp"
+				}
+			],
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "glfw::@b8609d2a923f90592f00"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "imgui::@a75631e8cb6663b746ed"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "stb::@66d178873b7bf1edd22a"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "inih::@f5eea7ea4c751bb572d3"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "GenericCodeGen::@0758fd16d99d4795ffcb"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "MachineIndependent::@0758fd16d99d4795ffcb"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "glslang::@0758fd16d99d4795ffcb"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "glslang-default-resource-limits::@0758fd16d99d4795ffcb"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "OSDependent::@ee68de384f3cd0bca601"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "SPIRV::@aac308ebe77e0f5f5c8b"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "spirv_cross::@580a3a959d9fc7071440"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "Core::@1e2befa5092fedd05d38"
+		}
+	],
+	"id" : "Runtime::@ea93c5020a81b2d2cb11",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 2,
+				"path" : "bin"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "libCore.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "libglfw3.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "-lvulkan",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "libstb.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "libimgui.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "libinih.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "libglslang.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "libSPIRV.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "libglslang-default-resource-limits.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "libspirv_cross.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/librt.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lm",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "-ldl",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "libMachineIndependent.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "libOSDependent.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "libGenericCodeGen.a",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Runtime",
+	"nameOnDisk" : "Runtime",
+	"paths" : 
+	{
+		"build" : "Modules/Runtime",
+		"source" : "Modules/Runtime"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				2
+			]
+		},
+		{
+			"name" : "Precompile Header File",
+			"sourceIndexes" : 
+			[
+				3
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : ".build/debug/Modules/Runtime/CMakeFiles/Runtime.dir/cmake_pch.hxx.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "Modules/Runtime/src/Runtime.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Modules/Runtime/src/Runtime.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"path" : ".build/debug/Modules/Runtime/CMakeFiles/Runtime.dir/cmake_pch.hxx",
+			"sourceGroupIndex" : 2
+		}
+	],
+	"type" : "EXECUTABLE"
+}
