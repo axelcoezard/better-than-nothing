@@ -4,7 +4,7 @@ namespace BetterThanNothing
 {
 	Application::Application()
 	{
-		m_ConfigManager = std::make_unique<ConfigManager>("../Config/");
+		m_ConfigManager = std::make_unique<ConfigManager>("../../Config/");
 
 		ConfigReader config = m_ConfigManager->Read("Config.ini");
 		std::string windowTitle = config->Get("window", "title", "Application");
@@ -16,7 +16,7 @@ namespace BetterThanNothing
 
 		m_Device = std::make_unique<Device>(m_Window);
 
-		m_ResourceManager = std::make_unique<ResourceManager>(m_Device, "../Assets/");
+		m_ResourceManager = std::make_unique<ResourceManager>(m_Device, "../../Assets/");
 
 		m_Renderer = std::make_unique<Renderer>(m_Window, m_Device, m_ResourceManager);
 	}
