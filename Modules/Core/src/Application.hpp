@@ -12,6 +12,15 @@ namespace BetterThanNothing
 	class Scene;
 	class Event;
 
+	struct ThreadContext {
+		std::thread thread;
+
+		double deltatime = 0.0f;
+		double lastFrame = 0.0f;
+		double frameTime = 1.0f / 240.0f;
+		uint32_t frameCount = 0;
+	};
+
 	/**
 	 * @brief The Application class is the main class of the engine's applications.
 	 */
@@ -53,6 +62,10 @@ namespace BetterThanNothing
 		*/
 		u32 m_CurrentSceneId;
 
+		std::atomic<bool> m_running = true;
+
+		ThreadContext m_gameplayThread;
+		ThreadContext m_renderThread;
 	public:
 		/**
 		 * @brief Construct a new Application object
@@ -96,22 +109,8 @@ namespace BetterThanNothing
 		 */
 		Scene* CreateScene(const std::string& name);
 
-		/**
-		 * @brief Get the Window object
-		 * @return A pointer to the Window object
-		 */
-		std::unique_ptr<Window>& GetWindow() { return m_Window; }
-
-		/**
-		 * @brief Get the Device object
-		 * @return A pointer to the Device object
-		 */
-		std::unique_ptr<Device>& GetDevice() { return m_Device; }
-
-		/**
-		 * @brief Get the Renderer object
-		 * @return A pointer to the Renderer object
-		 */
-		std::unique_ptr<Renderer>& GetRenderer() { return m_Renderer; }
+	private:
+		void GameplayThread();
+		void RenderThread();
 	};
 };

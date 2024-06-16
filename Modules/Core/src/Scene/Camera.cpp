@@ -28,7 +28,7 @@ namespace BetterThanNothing
 		m_ZFar = zFar;
 	}
 
-	void Camera::Update(std::unique_ptr<Window>& window, f32 deltatime)
+	void Camera::Update(std::unique_ptr<Window>& window, double deltatime)
 	{
 		static bool firstMouse = true;
 		static f32 lastMouseX = 0;
@@ -38,28 +38,28 @@ namespace BetterThanNothing
 			return;
 		}
 
-		f32 velocity = 100.0f * deltatime;
-		f32 sensitivity = 10.0f * deltatime;
+		auto velocity = static_cast<float>(deltatime);
+		auto sensitivity = static_cast<float>(deltatime);
 
 		// compute keyboard inputs
-		glm::vec3 movement = glm::vec3(0.0f);
+		auto movement = glm::vec3(0.0f);
 		if (Input::IsKeyPressed(GLFW_KEY_W)) {
-			movement += m_Front * velocity;
+			movement += m_Front * velocity * 100.0f;
 		}
 		if (Input::IsKeyPressed(GLFW_KEY_S)) {
-			movement -= m_Front * velocity;
+			movement -= m_Front * velocity * 100.0f;
 		}
 		if (Input::IsKeyPressed(GLFW_KEY_A)) {
-			movement -= m_Right * velocity;
+			movement -= m_Right * velocity * 10.0f;
 		}
 		if (Input::IsKeyPressed(GLFW_KEY_D)) {
-			movement += m_Right * velocity;
+			movement += m_Right * velocity * 10.0f;
 		}
 		if (Input::IsKeyPressed(GLFW_KEY_SPACE)) {
-			movement += m_Up * velocity;
+			movement += m_Up * velocity * 100.0f;
 		}
 		if (Input::IsKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-			movement -= m_Up * velocity;
+			movement -= m_Up * velocity * 100.0f;
 		}
 
 		m_Position += movement;
