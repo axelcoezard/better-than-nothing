@@ -56,7 +56,7 @@ namespace BetterThanNothing
 			double currentFrame = glfwGetTime();
 			m_gameplayThread.deltatime = currentFrame - m_gameplayThread.lastFrame;
 			m_gameplayThread.lastFrame = currentFrame;
-			m_gameplayThread.frameTime = 1.0 / 240.0;
+			m_gameplayThread.frameTime = 1.0 / 60.0;
 			m_gameplayThread.frameCount += 1;
 
 			auto currentScene = m_Scenes.at(m_CurrentSceneId);
@@ -108,7 +108,7 @@ namespace BetterThanNothing
 
 	void Application::OnEvent(Event* event)
 	{
-		m_Scenes[m_CurrentSceneId]->OnEvent(event);
+		m_Scenes.at(m_CurrentSceneId)->OnEvent(event);
 	}
 
 	Scene* Application::CreateScene(const std::string& name)
