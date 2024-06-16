@@ -27,10 +27,10 @@ add_subdirectory("ThirdParty/spirv_cross")
 add_subdirectory("ThirdParty/vma")
 
 # ==================================================================================================
-# Modules
+# Sources
 # ==================================================================================================
-add_subdirectory("Modules/Core")
-add_subdirectory("Modules/Runtime")
+add_subdirectory("Sources/Core")
+add_subdirectory("Sources/Runtime")
 
 
 
