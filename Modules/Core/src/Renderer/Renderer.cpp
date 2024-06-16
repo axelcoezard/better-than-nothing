@@ -127,9 +127,9 @@ namespace BetterThanNothing
 
 		ImGui::Separator();
 
-		ImGui::Text("Frame: %d", debugInfo->frameCount);
-		ImGui::Text("Frame time: %f ms", debugInfo->frameTime * 1000);
-		ImGui::Text("Frame per second (fps): %f fps", 1.0f / debugInfo->frameTime);
+		ImGui::Text("Frame: %f", debugInfo->frameCount);
+		ImGui::Text("Frame time: ~%f ms", debugInfo->deltaTime * 1000);
+		ImGui::Text("Frame per second (fps): ~%f fps", 1.0f / debugInfo->deltaTime);
 
 		ImGui::Separator();
 

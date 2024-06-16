@@ -82,7 +82,7 @@ namespace BetterThanNothing
 		 * @brief Called when the scene is updated.
 		 * @param deltatime The time since the last update.
 		 */
-		void OnUpdate(f32 deltatime);
+		void OnUpdate(double deltatime);
 
 		/**
 		 * @brief Called when an event is received.

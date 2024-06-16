@@ -8,9 +8,8 @@ namespace BetterThanNothing
 		std::string deviceName;
 		std::string apiVersion;
 
-		u32 frameCount;
-		f32 frameTime;
-		f32 deltaTime;
+		double frameCount;
+		double deltaTime;
 
 		std::string sceneName;
 		u32 sceneEntitiesCount;

@@ -16,7 +16,7 @@ namespace BetterThanNothing
 		return m_Camera.get();
 	}
 
-	void Scene::OnUpdate(f32 deltatime)
+	void Scene::OnUpdate(double deltatime)
 	{
 		m_Camera->Update(m_Window, deltatime);
 
