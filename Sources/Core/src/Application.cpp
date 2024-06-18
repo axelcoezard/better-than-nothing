@@ -19,6 +19,8 @@ namespace BetterThanNothing
 		m_ResourceManager = std::make_unique<ResourceManager>(m_Device, "../../Assets/");
 
 		m_Renderer = std::make_unique<Renderer>(m_Window, m_Device, m_ResourceManager);
+
+		m_JobManager = std::make_unique<JobManager>();
 	}
 
 	Application::~Application()
@@ -30,17 +32,10 @@ namespace BetterThanNothing
 	{
 		OnEnable();
 
-		m_gameplayThread.thread = std::thread(&Application::GameplayThread, this);
 		m_renderThread.thread = std::thread(&Application::RenderThread, this);
 
-		while (m_running)
-		{
-			std::this_thread::sleep_for(std::chrono::milliseconds (10));
-		}
+		this->GameplayThread();
 
-		m_running = false;
-
-		m_gameplayThread.thread.join();
 		m_renderThread.thread.join();
 
 		OnDisable();
@@ -51,7 +46,9 @@ namespace BetterThanNothing
 		while (m_running)
 		{
 			m_Window->Poll();
-			m_running = !m_Window->ShouldClose();
+
+			if (m_Window->ShouldClose())
+				m_running.store(false);
 
 			double currentFrame = glfwGetTime();
 			m_gameplayThread.deltatime = currentFrame - m_gameplayThread.lastFrame;
@@ -61,6 +58,9 @@ namespace BetterThanNothing
 
 			auto currentScene = m_Scenes.at(m_CurrentSceneId);
 			currentScene->OnUpdate(m_gameplayThread.deltatime);
+
+			if (Input::IsKeyPressed(GLFW_KEY_W))
+				m_JobManager->QueueJob([]() { std::cout << "W key pressed" << std::endl; });
 
 			auto frameTimeMicroseconds = static_cast<useconds_t>(m_gameplayThread.frameTime * 1000000);
 			double elapsedTime = glfwGetTime() - currentFrame;

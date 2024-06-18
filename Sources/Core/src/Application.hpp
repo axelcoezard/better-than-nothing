@@ -4,6 +4,7 @@ namespace BetterThanNothing
 {
 	class ConfigManager;
 	class ResourceManager;
+	class JobManager;
 
 	class Window;
 	class Device;
@@ -51,6 +52,11 @@ namespace BetterThanNothing
 		 * @brief A pointer to the Renderer
 		*/
 		std::unique_ptr<Renderer> m_Renderer;
+
+		/**
+		 * @brief A pointer to the JobManager
+		*/
+		std::unique_ptr<JobManager> m_JobManager;
 
 		/**
 		 * @brief The Scenes of the Application
