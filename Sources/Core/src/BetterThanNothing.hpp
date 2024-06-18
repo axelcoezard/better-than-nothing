@@ -42,6 +42,8 @@
 #include "Resources/Texture.hpp"
 #include "Resources/ShaderPool.hpp"
 #include "Resources/Shader.hpp"
+#include "Resources/AudioPool.hpp"
+#include "Resources/Audio.hpp"
 #include "Resources/ResourceManager.hpp"
 
 // Scene

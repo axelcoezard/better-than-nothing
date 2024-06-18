@@ -12,6 +12,10 @@ namespace BetterThanNothing
 		double deltaTime;
 
 		std::string sceneName;
-		u32 sceneEntitiesCount;
+		uint32_t sceneEntitiesCount;
+
+		uint32_t finishedJobsCount;
+		uint32_t currentJobsCount;
+		uint32_t waitingJobsCount;
 	};
 };

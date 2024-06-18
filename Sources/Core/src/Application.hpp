@@ -115,6 +115,9 @@ namespace BetterThanNothing
 		 */
 		Scene* CreateScene(const std::string& name);
 
+		bool InitOpenAL();
+		void ShutdownOpenAL();
+
 	private:
 		void GameplayThread();
 		void RenderThread();

@@ -33,9 +33,10 @@ namespace BetterThanNothing
 
 	void JobManager::QueueJob(const std::function<void()>& job)
 	{
-		std::unique_lock<std::mutex> lock(m_mutex);
-		m_jobs.push(job);
-		lock.unlock();
+		{
+			std::unique_lock<std::mutex> lock(m_mutex);
+			m_jobs.push(job);
+		}
 
 		m_condition.notify_one();
 	}
@@ -43,18 +44,38 @@ namespace BetterThanNothing
 	void JobManager::AddWorker()
 	{
 		m_workers.emplace_back([this]() {
-			while (m_running) {
-				std::unique_lock<std::mutex> lock(m_mutex);
-				m_condition.wait(lock, [this]() { return !m_jobs.empty(); });
+			while (m_running)
+			{
+				std::function<void()> job;
+				{
+					std::unique_lock<std::mutex> lock(m_mutex);
+					m_condition.wait(lock, [this]() { return !m_jobs.empty(); });
 
-				std::function<void()> job = m_jobs.front();
-				m_jobs.pop();
+					job = m_jobs.front();
+					m_jobs.pop();
+				}
+				m_currentJobsCount.fetch_add(1);
 				job();
-
-				lock.unlock();
+				m_currentJobsCount.fetch_sub(1);
+				m_finishedJobsCount.fetch_add(1);
 			}
 		});
 
 		LOG_SUCCESS("Worker added")
+	}
+
+	uint32_t JobManager::GetFinishedJobsCount() const
+	{
+		return m_finishedJobsCount.load();
+	}
+
+	uint32_t JobManager::GetCurrentJobsCount() const
+	{
+		return m_currentJobsCount.load();
+	}
+
+	uint32_t JobManager::GetWaitingJobsCount() const
+	{
+		return m_jobs.size();
 	}
 }

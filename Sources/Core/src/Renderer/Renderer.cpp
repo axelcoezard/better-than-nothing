@@ -136,6 +136,11 @@ namespace BetterThanNothing
 		ImGui::Text("Scene: %s", debugInfo->sceneName.c_str());
 		ImGui::Text("Entities: %d", debugInfo->sceneEntitiesCount);
 
+		ImGui::Separator();
+		ImGui::Text("Finished jobs: %d", debugInfo->finishedJobsCount);
+		ImGui::Text("Current jobs: %d", debugInfo->currentJobsCount);
+		ImGui::Text("Queued jobs: %d", debugInfo->waitingJobsCount);
+
 		ImGui::End();
 
 		ImGui::Render();

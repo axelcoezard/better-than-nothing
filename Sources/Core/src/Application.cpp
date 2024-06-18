@@ -4,6 +4,8 @@ namespace BetterThanNothing
 {
 	Application::Application()
 	{
+		this->InitOpenAL();
+
 		m_ConfigManager = std::make_unique<ConfigManager>("../../Config/");
 
 		ConfigReader config = m_ConfigManager->Read("Config.ini");
@@ -26,6 +28,8 @@ namespace BetterThanNothing
 	Application::~Application()
 	{
 		m_Scenes.clear();
+
+		this->ShutdownOpenAL();
 	}
 
 	void Application::Run()
@@ -60,7 +64,24 @@ namespace BetterThanNothing
 			currentScene->OnUpdate(m_gameplayThread.deltatime);
 
 			if (Input::IsKeyPressed(GLFW_KEY_W))
-				m_JobManager->QueueJob([]() { std::cout << "W key pressed" << std::endl; });
+			{
+				m_JobManager->QueueJob([this]() {
+					auto audio = this->m_ResourceManager->GetAudio("tudududu.mp3");
+
+					uint32_t source;
+					alGenSources(1, &source);
+					alSourcei(source, AL_BUFFER, audio->buffer);
+					alSourcePlay(source);
+
+					uint32_t status;
+					do {
+						alGetSourcei(source, AL_SOURCE_STATE, (int*) &status);
+					} while (status == AL_PLAYING);
+
+					alSourcei(source, AL_BUFFER, 0);
+					alDeleteSources(1, &source);
+				});
+			}
 
 			auto frameTimeMicroseconds = static_cast<useconds_t>(m_gameplayThread.frameTime * 1000000);
 			double elapsedTime = glfwGetTime() - currentFrame;
@@ -92,6 +113,9 @@ namespace BetterThanNothing
 			debugInfo.deltaTime = m_renderThread.deltatime;
 			debugInfo.sceneName = currentScene->GetName();
 			debugInfo.sceneEntitiesCount = currentScene->GetEntitiesCount();
+			debugInfo.finishedJobsCount = m_JobManager->GetFinishedJobsCount();
+			debugInfo.currentJobsCount = m_JobManager->GetCurrentJobsCount();
+			debugInfo.waitingJobsCount = m_JobManager->GetWaitingJobsCount();
 
 			m_Renderer->Render(currentScene, &debugInfo);
 			m_Device->WaitIdle();
@@ -117,5 +141,40 @@ namespace BetterThanNothing
 		m_Scenes.push_back(scene);
 		m_CurrentSceneId = scene->GetId();
 		return scene;
+	}
+
+	bool Application::InitOpenAL()
+	{
+		// Ouverture du device
+		ALCdevice* Device = alcOpenDevice(nullptr);
+		if (!Device)
+			return false;
+
+		// Création du contexte
+		ALCcontext* Context = alcCreateContext(Device, nullptr);
+		if (!Context)
+			return false;
+
+		// Activation du contexte
+		if (!alcMakeContextCurrent(Context))
+			return false;
+
+		return true;
+	}
+
+	void Application::ShutdownOpenAL()
+	{
+		// Récupération du contexte et du device
+		ALCcontext* Context = alcGetCurrentContext();
+		ALCdevice*  Device  = alcGetContextsDevice(Context);
+
+		// Désactivation du contexte
+		alcMakeContextCurrent(nullptr);
+
+		// Destruction du contexte
+		alcDestroyContext(Context);
+
+		// Fermeture du device
+		alcCloseDevice(Device);
 	}
 };

@@ -7,6 +7,7 @@ namespace BetterThanNothing
 		m_ShaderPool = std::make_unique<ShaderPool>(assetsPath + "/Shaders/", device);
 		m_ModelPool = std::make_unique<ModelPool>(assetsPath + "/Models/", device);
 		m_TexturePool = std::make_unique<TexturePool>(assetsPath + "/Models/", device);
+		m_AudioPool = std::make_unique<AudioPool>(assetsPath + "/Audio/", device);
 	}
 
 	Shader* ResourceManager::GetShader(const std::string& path)
@@ -22,5 +23,10 @@ namespace BetterThanNothing
 	Texture* ResourceManager::GetTexture(const std::string& path)
 	{
 		return m_TexturePool->GetResource(path);
+	}
+
+	Audio* ResourceManager::GetAudio(const std::string& path)
+	{
+		return m_AudioPool->GetResource(path);
 	}
 };

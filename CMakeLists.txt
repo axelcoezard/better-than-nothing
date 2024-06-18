@@ -25,6 +25,8 @@ add_subdirectory("ThirdParty/inih")
 add_subdirectory("ThirdParty/glslang")
 add_subdirectory("ThirdParty/spirv_cross")
 add_subdirectory("ThirdParty/vma")
+add_subdirectory("ThirdParty/openal")
+add_subdirectory("ThirdParty/libsndfile")
 
 # ==================================================================================================
 # Sources
