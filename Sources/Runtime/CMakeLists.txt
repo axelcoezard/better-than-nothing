@@ -21,7 +21,20 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE ../pch.hpp)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Core glfw glm vulkan stb imgui inih glslang SPIRV glslang-default-resource-limits spirv_cross GPUOpen::VulkanMemoryAllocator openal SndFile::sndfile)
+target_link_libraries(${PROJECT_NAME} PRIVATE Core
+		glfw
+		glm
+		vulkan
+		stb
+		imgui
+		inih
+		glslang
+		SPIRV
+		glslang-default-resource-limits
+		spirv_cross
+		GPUOpen::VulkanMemoryAllocator
+		openal
+		SndFile::sndfile)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glfw/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/vulkan)
