@@ -4,10 +4,6 @@
 
 namespace BetterThanNothing
 {
-	class DrawStreamBuilder;
-
-	class Scene;
-
 	class Event;
 	class KeyPressEvent;
 

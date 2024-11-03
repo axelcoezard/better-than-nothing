@@ -13,17 +13,11 @@ namespace BetterThanNothing
 
 		m_Window = std::make_unique<Window>(windowTitle, windowWidth, windowHeight);
 		m_Window->SetEventCallback(BIND_EVENT_LISTENER(OnEvent));
-
-		m_Device = std::make_unique<Device>(m_Window);
-
-		m_ResourceManager = std::make_unique<ResourceManager>(m_Device, "../../Assets/");
-
-		m_Renderer = std::make_unique<Renderer>(m_Window, m_Device, m_ResourceManager);
 	}
 
 	Application::~Application()
 	{
-		m_Scenes.clear();
+
 	}
 
 	void Application::Run()
@@ -59,8 +53,8 @@ namespace BetterThanNothing
 			m_gameplayThread.frameTime = 1.0 / 60.0;
 			m_gameplayThread.frameCount += 1;
 
-			auto currentScene = m_Scenes.at(m_CurrentSceneId);
-			currentScene->OnUpdate(m_gameplayThread.deltatime);
+			//auto currentScene = m_Scenes.at(m_CurrentSceneId);
+			//currentScene->OnUpdate(m_gameplayThread.deltatime);
 
 			auto frameTimeMicroseconds = static_cast<useconds_t>(m_gameplayThread.frameTime * 1000000);
 			double elapsedTime = glfwGetTime() - currentFrame;
@@ -82,19 +76,8 @@ namespace BetterThanNothing
 			m_renderThread.frameTime = 1.0 / 240.0;
 			m_renderThread.frameCount += 1;
 
-			auto currentScene = m_Scenes.at(m_CurrentSceneId);
-
-			RendererDebugInfo debugInfo{};
-			debugInfo.vendorName = m_Device->GetVendorName();
-			debugInfo.deviceName = m_Device->GetDeviceName();
-			debugInfo.apiVersion = m_Device->GetApiVersion();
-			debugInfo.frameCount = m_renderThread.frameCount;
-			debugInfo.deltaTime = m_renderThread.deltatime;
-			debugInfo.sceneName = currentScene->GetName();
-			debugInfo.sceneEntitiesCount = currentScene->GetEntitiesCount();
-
-			m_Renderer->Render(currentScene, &debugInfo);
-			m_Device->WaitIdle();
+			// TODO: Render the scene
+			std::cout << "Rendering : " << m_renderThread.frameCount << "in " << m_renderThread.deltatime << "s" << std::endl;
 
 			auto frameTimeMicroseconds = static_cast<useconds_t>(m_renderThread.frameTime * 1000000);
 			double elapsedTime = glfwGetTime() - currentFrame;
@@ -108,14 +91,6 @@ namespace BetterThanNothing
 
 	void Application::OnEvent(Event* event)
 	{
-		m_Scenes.at(m_CurrentSceneId)->OnEvent(event);
-	}
-
-	Scene* Application::CreateScene(const std::string& name)
-	{
-		auto scene = new Scene(m_Scenes.size(), name, m_Window, m_ResourceManager);
-		m_Scenes.push_back(scene);
-		m_CurrentSceneId = scene->GetId();
-		return scene;
+		(void) event;
 	}
 };

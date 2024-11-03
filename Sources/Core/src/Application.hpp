@@ -3,13 +3,7 @@
 namespace BetterThanNothing
 {
 	class ConfigManager;
-	class ResourceManager;
-
 	class Window;
-	class Device;
-	class Renderer;
-
-	class Scene;
 	class Event;
 
 	struct ThreadContext {
@@ -36,26 +30,6 @@ namespace BetterThanNothing
 		 * @brief A pointer to the Window
 		*/
 		std::unique_ptr<Window> m_Window;
-
-		/**
-		 * @brief A pointer to the Device
-		*/
-		std::unique_ptr<Device> m_Device;
-
-		/**
-		 * @brief A pointer to the ResourceManager
-		*/
-		std::unique_ptr<ResourceManager> m_ResourceManager;
-
-		/**
-		 * @brief A pointer to the Renderer
-		*/
-		std::unique_ptr<Renderer> m_Renderer;
-
-		/**
-		 * @brief The Scenes of the Application
-		*/
-		std::vector<Scene*> m_Scenes;
 
 		/**
 		 * @brief The current Scene of the Application
@@ -100,14 +74,6 @@ namespace BetterThanNothing
 		 * @param event A pointer to the Event object received
 		*/
 		void OnEvent(Event* event);
-
-		/**
-		 * @brief Create a Scene object and register it to the Application
-		 *
-		 * @param name The name of the Scene
-		 * @return A pointer to the created Scene object
-		 */
-		Scene* CreateScene(const std::string& name);
 
 	private:
 		void GameplayThread();
