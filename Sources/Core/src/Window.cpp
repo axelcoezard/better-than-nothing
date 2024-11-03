@@ -2,9 +2,24 @@
 
 namespace BetterThanNothing
 {
-	Window::Window(std::string_view title, u32 width, u32 height)
-		: m_Window(nullptr), m_Title(title), m_Width(width), m_Height(height)
+	Window::Window() : m_Window(nullptr), m_Width(0), m_Height(0)
 	{
+	}
+
+	Window::~Window()
+	{
+		if (m_Window != nullptr) {
+			glfwDestroyWindow(m_Window);
+			glfwTerminate();
+		}
+	}
+
+	void Window::Init(const std::string& title, u32 width, u32 height)
+	{
+		m_Title = title;
+		m_Width = width;
+		m_Height = height;
+
 		glfwInit();
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -18,14 +33,6 @@ namespace BetterThanNothing
 		glfwSetCursorPosCallback(m_Window, MouseCursorCallback);
 		glfwSetScrollCallback(m_Window, MouseScrollCallback);
 		glfwSetMouseButtonCallback(m_Window, MouseButtonCallback);
-	}
-
-	Window::~Window()
-	{
-		if (m_Window != nullptr) {
-			glfwDestroyWindow(m_Window);
-			glfwTerminate();
-		}
 	}
 
 	void Window::SetEventCallback(std::function<void(Event*)> eventcallback)

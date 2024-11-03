@@ -3,7 +3,7 @@
 namespace BetterThanNothing
 {
 	/**
-	 * @brief Macro to declare the name of an event
+	 * @brief Macro to declare the m_name of an event
 	 */
 	#define DECLARE_EVENT_NAME(name)\
 		static const char* GetStaticName() { return #name; }\
@@ -32,8 +32,8 @@ namespace BetterThanNothing
 		virtual ~Event() = default;
 
 		/**
-		 * @brief Get the name of the event
-		 * @return The name of the event
+		 * @brief Get the m_name of the event
+		 * @return The m_name of the event
 		 */
 		[[nodiscard]] virtual const char* GetName() const = 0;
 

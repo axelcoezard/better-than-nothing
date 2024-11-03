@@ -1,19 +1,11 @@
 #pragma once
 
+#include "Window.hpp"
+#include "Jobs/JobManager.hpp"
+
 namespace BetterThanNothing
 {
-	class ConfigManager;
-	class Window;
 	class Event;
-
-	struct ThreadContext {
-		std::thread thread;
-
-		double deltatime = 0.0f;
-		double lastFrame = 0.0f;
-		double frameTime = 1.0f / 240.0f;
-		uint32_t frameCount = 0;
-	};
 
 	/**
 	 * @brief The Application class is the main class of the engine's applications.
@@ -22,24 +14,12 @@ namespace BetterThanNothing
 	{
 	protected:
 		/**
-		 * @brief A pointer to the ConfigManager
-		*/
-		std::unique_ptr<ConfigManager> m_ConfigManager;
-
-		/**
 		 * @brief A pointer to the Window
 		*/
-		std::unique_ptr<Window> m_Window;
-
-		/**
-		 * @brief The current Scene of the Application
-		*/
-		u32 m_CurrentSceneId;
+		Window m_window;
+		JobManager m_jobManager;
 
 		std::atomic<bool> m_running = true;
-
-		ThreadContext m_gameplayThread;
-		ThreadContext m_renderThread;
 	public:
 		/**
 		 * @brief Construct a new Application object
@@ -74,9 +54,5 @@ namespace BetterThanNothing
 		 * @param event A pointer to the Event object received
 		*/
 		void OnEvent(Event* event);
-
-	private:
-		void GameplayThread();
-		void RenderThread();
 	};
 };

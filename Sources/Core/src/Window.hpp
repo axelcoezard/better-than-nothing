@@ -43,16 +43,21 @@ namespace BetterThanNothing
 	public:
 		/**
 		 * @brief The window constructor
-		 * @param title The title of the window
-		 * @param width The width of the window
-		 * @param height The height of the window
 		 */
-		Window(std::string_view title, u32 width, u32 height);
+		Window();
 
 		/**
 		 * @brief The window destructor
 		 */
 		~Window();
+
+		/**
+		 * @brief The window initializer
+		 * @param title The title of the window
+		 * @param width The width of the window
+		 * @param height The height of the window
+		 */
+		void Init(const std::string& title, u32 width, u32 height);
 
 		/**
 		 * @brief A wrapper around glfwPollEvents that polls for events

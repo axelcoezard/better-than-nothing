@@ -8,6 +8,9 @@
 #include "Utils/ConfigManager.hpp"
 #include "Utils/Input.hpp"
 
+// Jobs
+#include "Jobs/JobManager.hpp"
+
 // Events
 
 #include "Events/Event.hpp"
