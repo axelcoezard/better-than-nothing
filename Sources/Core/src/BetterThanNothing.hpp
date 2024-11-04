@@ -9,7 +9,7 @@
 #include "Utils/Input.hpp"
 
 // Jobs
-#include "Jobs/JobManager.hpp"
+#include "Utils/JobManager.hpp"
 
 // Events
 

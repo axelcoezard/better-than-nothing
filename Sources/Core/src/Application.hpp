@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Window.hpp"
-#include "Jobs/JobManager.hpp"
+#include "Utils/JobManager.hpp"
 
 namespace BetterThanNothing
 {
@@ -17,7 +17,6 @@ namespace BetterThanNothing
 		 * @brief A pointer to the Window
 		*/
 		Window m_window;
-		JobManager m_jobManager;
 
 		std::atomic<bool> m_running = true;
 	public:

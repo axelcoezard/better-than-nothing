@@ -15,40 +15,43 @@ namespace BetterThanNothing
 		m_window.SetEventCallback(BIND_EVENT_LISTENER(OnEvent));
 	}
 
-	Application::~Application()
-	{
-
-	}
+	Application::~Application() = default;
 
 	void Application::Run()
 	{
 		OnEnable();
+
+		JobGraph jobGraph("Main");
+		{
+			auto gameplayJob = jobGraph.AddNode("Gameplay", []() {
+				LOG_INFO("Gameplay");
+			});
+
+			auto renderJob = jobGraph.AddNode("Render", []() {
+				LOG_INFO("Render");
+			});
+
+			renderJob->AddDependency(gameplayJob);
+		}
+
+		JobManager jobManager;
 
 		while (m_running)
 		{
 			m_window.Poll();
 
 			if (m_window.ShouldClose())
-				m_running.store(false);
-
 			{
-				JobGraph jobGraph;
-
-				auto gameplayJob = jobGraph.AddJob("Gameplay", []() {
-					LOG_INFO("Gameplay");
-				});
-
-				auto renderJob = jobGraph.AddJob("Render", []() {
-					LOG_INFO("Render");
-				});
-
-				renderJob->AddDependency(*gameplayJob);
-
-				m_jobManager.Execute(jobGraph);
+				m_running.store(false);
+				continue;
 			}
+
+			jobManager.ExecuteGraph(jobGraph);
 
 			std::this_thread::sleep_for(std::chrono::milliseconds (10));
 		}
+
+		jobManager.Stop();
 
 		m_running = false;
 
