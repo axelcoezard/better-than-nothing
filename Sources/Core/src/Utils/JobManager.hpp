@@ -19,7 +19,7 @@ namespace BetterThanNothing
 		const size_t RESERVED_THREADS = 1;
 		const size_t AVAILABLE_THREADS = MAX_THREADS - RESERVED_THREADS;
 
-		std::atomic<bool> m_running = true;
+		bool m_running = true;
 
 		std::vector<std::thread> m_jobWorkers;
 		std::queue<std::function<void()>> m_jobsQueue;
@@ -37,13 +37,21 @@ namespace BetterThanNothing
 					while (m_running)
 					{
 						std::unique_lock<std::mutex> lock(m_mutex);
-						m_condition.wait(lock, [this]() { return !m_jobsQueue.empty(); });
 
-						std::function<void()> job = m_jobsQueue.front();
-						m_jobsQueue.pop();
-						job();
+						m_condition.wait(lock, [this]() {
+							return !m_jobsQueue.empty() || !m_running;
+						});
 
-						lock.unlock();
+						if (!m_running)
+							return;
+
+						if (!m_jobsQueue.empty())
+						{
+							std::function<void()> job = m_jobsQueue.front();
+							m_jobsQueue.pop();
+							lock.unlock();
+							job();
+						}
 					}
 				});
 			}
@@ -64,10 +72,7 @@ namespace BetterThanNothing
 			static std::unordered_map<std::string, JobIterator> jobIterators;
 
 			if (jobIterators.find(jobGraph.GetName()) == jobIterators.end())
-			{
-				std::cout << "Computing dependencies for " << jobGraph.GetName() << std::endl;
 				jobIterators[jobGraph.GetName()] = jobGraph.ComputeDependencies();
-			}
 
 			auto begin = jobIterators[jobGraph.GetName()].Begin();
 			auto end = jobIterators[jobGraph.GetName()].End();
@@ -81,12 +86,16 @@ namespace BetterThanNothing
 
 		void Stop()
 		{
-			m_running.store(false);
+			m_running = false;
 			m_condition.notify_all();
 			for (std::thread& worker : m_jobWorkers)
 			{
+				std::cout << "Joining worker (count: " << m_jobWorkers.size() << ")" << std::endl;
 				if (worker.joinable())
+				{
 					worker.join();
+					std::cout << "Worker joined" << std::endl;
+				}
 			}
 		}
 	};
