@@ -18,6 +18,8 @@ file(GLOB SOURCES
 	"src/Utils/*.hpp"
 	"src/Events/*.hpp"
 	"src/Events/*.cpp"
+	"src/Containers/*.hpp"
+	"src/Containers/*.cpp"
 )
 
 include_directories(src)

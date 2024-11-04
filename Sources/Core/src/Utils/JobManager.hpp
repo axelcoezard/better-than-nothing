@@ -4,13 +4,7 @@
 
 #pragma once
 
-#include <thread>
-#include <vector>
-#include <functional>
-#include <condition_variable>
-#include <iostream>
-
-#include "Containers/DependencyGraph.hpp"
+#include "../BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {

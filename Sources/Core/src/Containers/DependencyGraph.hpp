@@ -4,13 +4,7 @@
 
 #pragma once
 
-#include <string>
-#include <utility>
-#include <vector>
-#include <queue>
-#include <array>
-#include <stdexcept>
-#include <memory>
+#include "../BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {
