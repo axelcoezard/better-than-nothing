@@ -88,14 +88,11 @@ namespace BetterThanNothing
 		{
 			m_running = false;
 			m_condition.notify_all();
+
 			for (std::thread& worker : m_jobWorkers)
 			{
-				std::cout << "Joining worker (count: " << m_jobWorkers.size() << ")" << std::endl;
 				if (worker.joinable())
-				{
 					worker.join();
-					std::cout << "Worker joined" << std::endl;
-				}
 			}
 		}
 	};

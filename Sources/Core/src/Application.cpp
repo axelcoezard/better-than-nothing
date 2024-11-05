@@ -25,19 +25,15 @@ namespace BetterThanNothing
 
 		auto gameplayJob = jobGraph.AddNode("Gameplay", []() {
 			std::cout << std::this_thread::get_id() << " - Gameplay" << std::endl;
-			std::this_thread::sleep_for(std::chrono::milliseconds (12000));
 		});
 
 		auto renderJob = jobGraph.AddNode("Render", []() {
 			std::cout << std::this_thread::get_id() << " - Render" << std::endl;
-			std::this_thread::sleep_for(std::chrono::milliseconds (12000));
 		});
 
 		renderJob->AddDependency(gameplayJob);
 
 		JobManager jobManager;
-
-		jobManager.ExecuteGraph(jobGraph);
 
 		while (m_running)
 		{
@@ -46,22 +42,19 @@ namespace BetterThanNothing
 			if (m_window.ShouldClose())
 			{
 				m_running.store(false);
-
-				std::cout << "Not running anymore" << std::endl;
 				continue;
 			}
+
+			jobManager.ExecuteGraph(jobGraph);
 
 			std::cout << std::this_thread::get_id() << " - Main" << std::endl;
 
 			std::this_thread::sleep_for(std::chrono::milliseconds (10));
 		}
-		std::cout << "Before window close" << std::endl;
 
 		m_window.Close();
-		std::cout << "After window close" << std::endl;
 
 		jobManager.Stop();
-		std::cout << "After job manager stop" << std::endl;
 
 		OnDisable();
 	}
