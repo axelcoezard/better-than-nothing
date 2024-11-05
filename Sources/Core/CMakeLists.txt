@@ -20,6 +20,10 @@ file(GLOB SOURCES
 	"src/Events/*.cpp"
 	"src/Containers/*.hpp"
 	"src/Containers/*.cpp"
+	"src/RAII/Glfw/*.hpp"
+	"src/RAII/Glfw/*.cpp"
+	"src/RAII/Vulkan/*.hpp"
+	"src/RAII/Vulkan/*.cpp"
 )
 
 include_directories(src)

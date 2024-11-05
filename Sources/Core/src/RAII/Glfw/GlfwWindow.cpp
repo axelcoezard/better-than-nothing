@@ -1,25 +1,11 @@
-#include "BetterThanNothing.hpp"
+#include <BetterThanNothing.hpp>
+#include <utility>
 
 namespace BetterThanNothing
 {
-	Window::Window() : m_Window(nullptr), m_Width(0), m_Height(0)
+	GlfwWindow::GlfwWindow(const std::string& title, const int width, const int height)
+		: m_Title(title), m_Width(width), m_Height(height)
 	{
-	}
-
-	Window::~Window()
-	{
-		if (m_Window != nullptr) {
-			glfwDestroyWindow(m_Window);
-			glfwTerminate();
-		}
-	}
-
-	void Window::Init(const std::string& title, u32 width, u32 height)
-	{
-		m_Title = title;
-		m_Width = width;
-		m_Height = height;
-
 		glfwInit();
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -35,31 +21,36 @@ namespace BetterThanNothing
 		glfwSetMouseButtonCallback(m_Window, MouseButtonCallback);
 	}
 
-	void Window::SetEventCallback(std::function<void(Event*)> eventcallback)
+	GlfwWindow::~GlfwWindow()
 	{
-		m_EventCallback = eventcallback;
+		if (m_Window != nullptr) {
+			glfwDestroyWindow(m_Window);
+			glfwTerminate();
+		}
 	}
 
-	void Window::ResizeCallback(GLFWwindow* window, int width, int height)
+	void GlfwWindow::SetEventCallback(std::function<void(Event*)> eventcallback)
 	{
-		auto windowPtr = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+		m_EventCallback = std::move(eventcallback);
+	}
+
+	void GlfwWindow::ResizeCallback(GLFWwindow* window, int width, int height)
+	{
+		const auto windowPtr = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
 		windowPtr->SetWidth(width);
 		windowPtr->SetHeight(height);
 		windowPtr->SetResized(true);
 	}
 
-	void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	void GlfwWindow::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		(void) scancode;
-		(void) mods;
-
 		if (action == GLFW_PRESS && key == GLFW_KEY_ESCAPE) {
 			glfwSetWindowShouldClose(window, GLFW_TRUE);
 		}
 
 		Input::UpdateKey(key, action);
 
-		auto windowPtr = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+		const auto windowPtr = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
 
 		KeyEvent* event = nullptr;
 		if (action == GLFW_PRESS || action == GLFW_REPEAT) {
@@ -68,25 +59,23 @@ namespace BetterThanNothing
 			event = new KeyReleaseEvent(key, scancode, mods);
 		}
 
-		if (event != nullptr) {
-			windowPtr->m_EventCallback(event);
-		}
+		windowPtr->m_EventCallback(event);
 	}
 
-	void Window::MouseCursorCallback(GLFWwindow* window, f64 xpos, f64 ypos)
+	void GlfwWindow::MouseCursorCallback(GLFWwindow* window, f64 xpos, f64 ypos)
 	{
 		(void) window;
 		Input::UpdateMousePosition(xpos, ypos);
 	}
 
-	void Window::MouseScrollCallback(GLFWwindow* window, f64 xoffset, f64 yoffset)
+	void GlfwWindow::MouseScrollCallback(GLFWwindow* window, f64 xoffset, f64 yoffset)
 	{
 		(void) window;
 		(void) xoffset;
 		Input::UpdateMouseScroll(yoffset);
 	}
 
-	void Window::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+	void GlfwWindow::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	{
 		(void) window;
 		(void) mods;

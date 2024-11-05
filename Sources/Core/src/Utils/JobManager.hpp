@@ -14,7 +14,6 @@ namespace BetterThanNothing
 
 	class JobManager
 	{
-	private:
 		const size_t MAX_THREADS = std::thread::hardware_concurrency();
 		const size_t RESERVED_THREADS = 1;
 		const size_t AVAILABLE_THREADS = MAX_THREADS - RESERVED_THREADS;

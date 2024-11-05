@@ -7,9 +7,8 @@ namespace BetterThanNothing
 	/**
 	 * @brief The window class that is a wrapper around GLFWwindow and handles some events
 	 */
-	class Window
+	class GlfwWindow
 	{
-	private:
 		/**
 		 * @brief The GLFWwindow pointer
 		 */
@@ -41,23 +40,20 @@ namespace BetterThanNothing
 		std::function<void(Event*)>	m_EventCallback;
 
 	public:
-		/**
-		 * @brief The window constructor
-		 */
-		Window();
+		GlfwWindow() = default;
 
 		/**
-		 * @brief The window destructor
-		 */
-		~Window();
-
-		/**
-		 * @brief The window initializer
+		* @brief The window constructor
 		 * @param title The title of the window
 		 * @param width The width of the window
 		 * @param height The height of the window
 		 */
-		void Init(const std::string& title, u32 width, u32 height);
+		explicit GlfwWindow(const std::string& title, int width, int height);
+
+		/**
+		 * @brief The window destructor
+		 */
+		~GlfwWindow();
 
 		/**
 		 * @brief A wrapper around glfwPollEvents that polls for events
@@ -68,7 +64,7 @@ namespace BetterThanNothing
 		 * @brief A wrapper around glfwWindowShouldClose
 		 * @return If the window should close
 		 */
-		bool ShouldClose() { return glfwWindowShouldClose(m_Window) ==  GLFW_TRUE; }
+		bool ShouldClose() const { return glfwWindowShouldClose(m_Window) ==  GLFW_TRUE; }
 
 		/**
 		 * @brief A wrapper around glfwSetWindowShouldClose that sets the window to close
@@ -127,7 +123,7 @@ namespace BetterThanNothing
 		 * @brief Gets the GLFWwindow pointer
 		 * @return The GLFWwindow pointer
 		 */
-		GLFWwindow* GetPointer() { return m_Window; }
+		GLFWwindow* Handle() const { return m_Window; }
 
 		/**
 		 * @brief Gets the title of the window
@@ -139,27 +135,27 @@ namespace BetterThanNothing
 		 * @brief Gets the width of the window
 		 * @return The width of the window
 		 */
-		u32 GetWidth() { return m_Width; }
+		u32 GetWidth() const { return m_Width; }
 
-		void SetWidth(u32 width) { m_Width = width; }
+		void SetWidth(const u32 width) { m_Width = width; }
 
 		/**
 		 * @brief Gets the height of the window
 		 * @return The height of the window
 		 */
-		u32 GetHeight() { return m_Height; }
+		u32 GetHeight() const { return m_Height; }
 
-		void SetHeight(u32 height) { m_Height = height; }
+		void SetHeight(const u32 height) { m_Height = height; }
 
 		/**
 		 * @brief Gets if the window is resized
 		 * @return Whether the window is resized or not
 		 */
-		bool IsResized() { return m_Resized; }
+		bool IsResized() const { return m_Resized; }
 
 		/**
 		 * @brief Sets if the window is resized
 		 */
-		void SetResized(bool resized) { m_Resized = resized; }
+		void SetResized(const bool resized) { m_Resized = resized; }
 	};
 };

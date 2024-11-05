@@ -10,6 +10,8 @@
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
 
+#include <VkBootstrap.h>
+
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_vulkan.h>

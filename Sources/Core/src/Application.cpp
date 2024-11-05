@@ -1,4 +1,5 @@
 #include "BetterThanNothing.hpp"
+#include "RAII/Vulkan/VulkanInstance.hpp"
 
 namespace BetterThanNothing
 {
@@ -7,11 +8,11 @@ namespace BetterThanNothing
 		ConfigManager configManager("../../Config/");
 
 		ConfigReader config = configManager.Read("Config.ini");
-		std::string windowTitle = config->Get("window", "title", "Application");
-		u32 windowWidth = config->GetInteger("window", "width", 800);
-		u32 windowHeight = config->GetInteger("window", "height", 600);
+		const std::string windowTitle = config->Get("window", "title", "Application");
+		const long windowWidth = config->GetInteger("window", "width", 800);
+		const long windowHeight = config->GetInteger("window", "height", 600);
 
-		m_window.Init(windowTitle, windowWidth, windowHeight);
+		m_window = GlfwWindow(windowTitle, windowWidth, windowHeight);
 		m_window.SetEventCallback(BIND_EVENT_LISTENER(OnEvent));
 	}
 
@@ -24,14 +25,18 @@ namespace BetterThanNothing
 		JobGraph jobGraph("Main");
 
 		const auto gameplayJob = jobGraph.AddNode("Gameplay", []() {
-			std::cout << std::this_thread::get_id() << " - Gameplay" << std::endl;
+			//std::cout << std::this_thread::get_id() << " - Gameplay" << std::endl;
 		});
 
 		const auto renderJob = jobGraph.AddNode("Render", []() {
-			std::cout << std::this_thread::get_id() << " - Render" << std::endl;
+			//std::cout << std::this_thread::get_id() << " - Render" << std::endl;
 		});
 
 		renderJob->AddDependency(gameplayJob);
+
+		VulkanInstance vulkanInstance(false);
+
+		std::cout << vulkanInstance.Handle() << std::endl;
 
 		JobManager jobManager;
 
