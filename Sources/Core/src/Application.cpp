@@ -41,18 +41,15 @@ namespace BetterThanNothing
 
 			if (m_window.ShouldClose())
 			{
+				m_window.Close();
 				m_running.store(false);
 				continue;
 			}
 
 			jobManager.ExecuteGraph(jobGraph);
 
-			std::cout << std::this_thread::get_id() << " - Main" << std::endl;
-
 			std::this_thread::sleep_for(std::chrono::milliseconds (10));
 		}
-
-		m_window.Close();
 
 		jobManager.Stop();
 
