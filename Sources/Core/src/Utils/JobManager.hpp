@@ -42,9 +42,6 @@ namespace BetterThanNothing
 							return !m_jobsQueue.empty() || !m_running;
 						});
 
-						if (!m_running)
-							return;
-
 						if (!m_jobsQueue.empty())
 						{
 							std::function<void()> job = m_jobsQueue.front();
@@ -71,16 +68,16 @@ namespace BetterThanNothing
 		{
 			static std::unordered_map<std::string, JobIterator> jobIterators;
 
-			if (jobIterators.find(jobGraph.GetName()) == jobIterators.end())
+			if (jobIterators.contains(jobGraph.GetName()))
 				jobIterators[jobGraph.GetName()] = jobGraph.ComputeDependencies();
 
 			auto begin = jobIterators[jobGraph.GetName()].Begin();
-			auto end = jobIterators[jobGraph.GetName()].End();
+			const auto end = jobIterators[jobGraph.GetName()].End();
 
 			while (begin != end)
 			{
 				QueueJob((*begin)->data);
-				begin++;
+				++begin;
 			}
 		}
 

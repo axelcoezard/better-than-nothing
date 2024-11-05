@@ -13,85 +13,85 @@ namespace BetterThanNothing
 	f64 Input::m_MouseScroll = 0;
 	int Input::m_Buttons[MOUSE_BUTTON_COUNT] = {};
 
-	Input::Input(void)
+	Input::Input()
 	{
-		for (int i = 0; i < KEYBOARD_KEY_COUNT; i++) {
-			m_Keys[i] = GLFW_RELEASE;
+		for (int & m_Key : m_Keys) {
+			m_Key = GLFW_RELEASE;
 		}
 	}
 
-	Input::~Input(void) {}
+	Input::~Input() = default;
 
-	void Input::UpdateKey(int key, int action)
+	void Input::UpdateKey(const int key, const int action)
 	{
-		Input::m_Keys[key] = action;
+		m_Keys[key] = action;
 	}
 
-	void Input::PressKey(int key)
+	void Input::PressKey(const int key)
 	{
-		Input::m_Keys[key] = GLFW_PRESS;
+		m_Keys[key] = GLFW_PRESS;
 	}
 
-	void Input::ReleaseKey(int key)
+	void Input::ReleaseKey(const int key)
 	{
-		Input::m_Keys[key] = GLFW_RELEASE;
+		m_Keys[key] = GLFW_RELEASE;
 	}
 
-	void Input::UpdateMouseButton(int button, int action)
+	void Input::UpdateMouseButton(const int button, const int action)
 	{
-		Input::m_Buttons[button] = action;
+		m_Buttons[button] = action;
 	}
 
-	void Input::PressMouseButton(int button)
+	void Input::PressMouseButton(const int button)
 	{
-		Input::m_Buttons[button] = GLFW_PRESS;
+		m_Buttons[button] = GLFW_PRESS;
 	}
 
-	void Input::ReleaseMouseButton(int button)
+	void Input::ReleaseMouseButton(const int button)
 	{
-		Input::m_Buttons[button] = GLFW_RELEASE;
+		m_Buttons[button] = GLFW_RELEASE;
 	}
 
-	void Input::UpdateMousePosition(f64 x, f64 y)
+	void Input::UpdateMousePosition(const f64 x, const f64 y)
 	{
-		Input::m_LastMouseX = Input::m_MouseX;
-		Input::m_LastMouseY = Input::m_MouseY;
-		Input::m_MouseX = x;
-		Input::m_MouseY = y;
+		m_LastMouseX = m_MouseX;
+		m_LastMouseY = m_MouseY;
+		m_MouseX = x;
+		m_MouseY = y;
 	}
 
 	glm::vec2 Input::GetMousePosition()
 	{
-		return glm::vec2(Input::m_MouseX, Input::m_MouseY);
+		return {m_MouseX, m_MouseY};
 	}
 
 	glm::vec2 Input::GetLastMousePosition()
 	{
-		return glm::vec2(Input::m_LastMouseX, Input::m_LastMouseY);
+		return {m_LastMouseX, m_LastMouseY};
 	}
 
 	glm::vec2 Input::GetMouseDelta()
 	{
-		return glm::vec2(Input::m_MouseX - Input::m_LastMouseX, Input::m_LastMouseY - Input::m_MouseY);
+		return {m_MouseX - m_LastMouseX, m_LastMouseY - m_MouseY};
 	}
 
 	void Input::UpdateMouseScroll(f64 y)
 	{
-		Input::m_MouseScroll = y;
+		m_MouseScroll = y;
 	}
 
-	f64 Input::GetMouseScroll(void)
+	f64 Input::GetMouseScroll()
 	{
-		return Input::m_MouseScroll;
+		return m_MouseScroll;
 	}
 
-	bool Input::IsKeyPressed(int key)
+	bool Input::IsKeyPressed(const int key)
 	{
-		return Input::m_Keys[key] == GLFW_PRESS || Input::m_Keys[key] == GLFW_REPEAT;
+		return m_Keys[key] == GLFW_PRESS || m_Keys[key] == GLFW_REPEAT;
 	}
 
-	bool Input::IsMouseButtonPressed(int button)
+	bool Input::IsMouseButtonPressed(const int button)
 	{
-		return Input::m_Buttons[button] == GLFW_PRESS || Input::m_Buttons[button] == GLFW_REPEAT;
+		return m_Buttons[button] == GLFW_PRESS || m_Buttons[button] == GLFW_REPEAT;
 	}
 };

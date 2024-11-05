@@ -23,11 +23,11 @@ namespace BetterThanNothing
 
 		JobGraph jobGraph("Main");
 
-		auto gameplayJob = jobGraph.AddNode("Gameplay", []() {
+		const auto gameplayJob = jobGraph.AddNode("Gameplay", []() {
 			std::cout << std::this_thread::get_id() << " - Gameplay" << std::endl;
 		});
 
-		auto renderJob = jobGraph.AddNode("Render", []() {
+		const auto renderJob = jobGraph.AddNode("Render", []() {
 			std::cout << std::this_thread::get_id() << " - Render" << std::endl;
 		});
 
@@ -58,7 +58,6 @@ namespace BetterThanNothing
 
 		OnDisable();
 	}
-
 
 	void Application::OnEvent(Event* event)
 	{
