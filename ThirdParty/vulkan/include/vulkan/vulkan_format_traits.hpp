@@ -1,4 +1,4 @@
-// Copyright 2015-2023 The Khronos Group Inc.
+// Copyright 2015-2024 The Khronos Group Inc.
 //
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 //
@@ -12,6 +12,7 @@
 
 namespace VULKAN_HPP_NAMESPACE
 {
+
   //=====================
   //=== Format Traits ===
   //=====================
@@ -361,7 +362,9 @@ namespace VULKAN_HPP_NAMESPACE
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc14BppSrgbBlockIMG: return 8;
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc22BppSrgbBlockIMG: return 8;
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc24BppSrgbBlockIMG: return 8;
-      case VULKAN_HPP_NAMESPACE::Format::eR16G16S105NV: return 4;
+      case VULKAN_HPP_NAMESPACE::Format::eR16G16Sfixed5NV: return 4;
+      case VULKAN_HPP_NAMESPACE::Format::eA1B5G5R5UnormPack16KHR: return 2;
+      case VULKAN_HPP_NAMESPACE::Format::eA8UnormKHR: return 1;
 
       default: VULKAN_HPP_ASSERT( false ); return 0;
     }
@@ -618,7 +621,9 @@ namespace VULKAN_HPP_NAMESPACE
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc14BppSrgbBlockIMG: return "PVRTC1_4BPP";
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc22BppSrgbBlockIMG: return "PVRTC2_2BPP";
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc24BppSrgbBlockIMG: return "PVRTC2_4BPP";
-      case VULKAN_HPP_NAMESPACE::Format::eR16G16S105NV: return "32-bit";
+      case VULKAN_HPP_NAMESPACE::Format::eR16G16Sfixed5NV: return "32-bit";
+      case VULKAN_HPP_NAMESPACE::Format::eA1B5G5R5UnormPack16KHR: return "16-bit";
+      case VULKAN_HPP_NAMESPACE::Format::eA8UnormKHR: return "8-bit alpha";
 
       default: VULKAN_HPP_ASSERT( false ); return "";
     }
@@ -2000,11 +2005,26 @@ namespace VULKAN_HPP_NAMESPACE
           case 3: return 4;
           default: VULKAN_HPP_ASSERT( false ); return 0;
         }
-      case VULKAN_HPP_NAMESPACE::Format::eR16G16S105NV:
+      case VULKAN_HPP_NAMESPACE::Format::eR16G16Sfixed5NV:
         switch ( component )
         {
           case 0: return 16;
           case 1: return 16;
+          default: VULKAN_HPP_ASSERT( false ); return 0;
+        }
+      case VULKAN_HPP_NAMESPACE::Format::eA1B5G5R5UnormPack16KHR:
+        switch ( component )
+        {
+          case 0: return 1;
+          case 1: return 5;
+          case 2: return 5;
+          case 3: return 5;
+          default: VULKAN_HPP_ASSERT( false ); return 0;
+        }
+      case VULKAN_HPP_NAMESPACE::Format::eA8UnormKHR:
+        switch ( component )
+        {
+          case 0: return 8;
           default: VULKAN_HPP_ASSERT( false ); return 0;
         }
 
@@ -2263,7 +2283,9 @@ namespace VULKAN_HPP_NAMESPACE
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc14BppSrgbBlockIMG: return 4;
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc22BppSrgbBlockIMG: return 4;
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc24BppSrgbBlockIMG: return 4;
-      case VULKAN_HPP_NAMESPACE::Format::eR16G16S105NV: return 2;
+      case VULKAN_HPP_NAMESPACE::Format::eR16G16Sfixed5NV: return 2;
+      case VULKAN_HPP_NAMESPACE::Format::eA1B5G5R5UnormPack16KHR: return 4;
+      case VULKAN_HPP_NAMESPACE::Format::eA8UnormKHR: return 1;
 
       default: return 0;
     }
@@ -4277,11 +4299,26 @@ namespace VULKAN_HPP_NAMESPACE
           case 3: return "A";
           default: VULKAN_HPP_ASSERT( false ); return "";
         }
-      case VULKAN_HPP_NAMESPACE::Format::eR16G16S105NV:
+      case VULKAN_HPP_NAMESPACE::Format::eR16G16Sfixed5NV:
         switch ( component )
         {
           case 0: return "R";
           case 1: return "G";
+          default: VULKAN_HPP_ASSERT( false ); return "";
+        }
+      case VULKAN_HPP_NAMESPACE::Format::eA1B5G5R5UnormPack16KHR:
+        switch ( component )
+        {
+          case 0: return "A";
+          case 1: return "B";
+          case 2: return "G";
+          case 3: return "R";
+          default: VULKAN_HPP_ASSERT( false ); return "";
+        }
+      case VULKAN_HPP_NAMESPACE::Format::eA8UnormKHR:
+        switch ( component )
+        {
+          case 0: return "A";
           default: VULKAN_HPP_ASSERT( false ); return "";
         }
 
@@ -6297,11 +6334,26 @@ namespace VULKAN_HPP_NAMESPACE
           case 3: return "SRGB";
           default: VULKAN_HPP_ASSERT( false ); return "";
         }
-      case VULKAN_HPP_NAMESPACE::Format::eR16G16S105NV:
+      case VULKAN_HPP_NAMESPACE::Format::eR16G16Sfixed5NV:
         switch ( component )
         {
-          case 0: return "SINT";
-          case 1: return "SINT";
+          case 0: return "SFIXED5";
+          case 1: return "SFIXED5";
+          default: VULKAN_HPP_ASSERT( false ); return "";
+        }
+      case VULKAN_HPP_NAMESPACE::Format::eA1B5G5R5UnormPack16KHR:
+        switch ( component )
+        {
+          case 0: return "UNORM";
+          case 1: return "UNORM";
+          case 2: return "UNORM";
+          case 3: return "UNORM";
+          default: VULKAN_HPP_ASSERT( false ); return "";
+        }
+      case VULKAN_HPP_NAMESPACE::Format::eA8UnormKHR:
+        switch ( component )
+        {
+          case 0: return "UNORM";
           default: VULKAN_HPP_ASSERT( false ); return "";
         }
 
@@ -6744,6 +6796,7 @@ namespace VULKAN_HPP_NAMESPACE
       case VULKAN_HPP_NAMESPACE::Format::eG12X4B12X4R12X42Plane444Unorm3Pack16: return 16;
       case VULKAN_HPP_NAMESPACE::Format::eA4R4G4B4UnormPack16: return 16;
       case VULKAN_HPP_NAMESPACE::Format::eA4B4G4R4UnormPack16: return 16;
+      case VULKAN_HPP_NAMESPACE::Format::eA1B5G5R5UnormPack16KHR: return 16;
 
       default: return 0;
     }
@@ -7604,7 +7657,9 @@ namespace VULKAN_HPP_NAMESPACE
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc14BppSrgbBlockIMG: return 1;
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc22BppSrgbBlockIMG: return 1;
       case VULKAN_HPP_NAMESPACE::Format::ePvrtc24BppSrgbBlockIMG: return 1;
-      case VULKAN_HPP_NAMESPACE::Format::eR16G16S105NV: return 1;
+      case VULKAN_HPP_NAMESPACE::Format::eR16G16Sfixed5NV: return 1;
+      case VULKAN_HPP_NAMESPACE::Format::eA1B5G5R5UnormPack16KHR: return 1;
+      case VULKAN_HPP_NAMESPACE::Format::eA8UnormKHR: return 1;
 
       default: VULKAN_HPP_ASSERT( false ); return 0;
     }
