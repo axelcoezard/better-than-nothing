@@ -33,14 +33,14 @@ target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
 		glfw
-		glm
+		glm::glm
 		vulkan
 		stb
 		imgui
 		inih
 		glslang
-		SPIRV
 		glslang-default-resource-limits
+		SPIRV
 		spirv_cross
 		GPUOpen::VulkanMemoryAllocator
 		vk-bootstrap::vk-bootstrap
