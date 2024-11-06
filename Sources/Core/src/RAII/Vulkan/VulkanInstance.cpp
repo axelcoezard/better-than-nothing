@@ -10,10 +10,22 @@ namespace BetterThanNothing
 	{
 		vkb::InstanceBuilder instance_builder;
 
-		if (enableValidationLayers)
+		auto system_info_ret = vkb::SystemInfo::get_system_info();
+		if (!system_info_ret) {
+			throw std::runtime_error("Could not get system info");
+		}
+
+		auto system_info = system_info_ret.value();
+
+		if (enableValidationLayers && system_info.validation_layers_available)
 			instance_builder.request_validation_layers();
 
 		instance_builder.use_default_debug_messenger();
+		instance_builder.set_engine_name("BetterThanNothing");
+		instance_builder.set_engine_version(1, 0, 0);
+		instance_builder.require_api_version(1, 0);
+
+		instance_builder.enable_extensions(_getRequiredExtensions());
 
 		auto instance_builder_return = instance_builder.build();
 
@@ -54,6 +66,14 @@ namespace BetterThanNothing
 
 		m_vkbInstance.instance = other.m_vkbInstance.instance;
 		other.m_vkbInstance.instance = VK_NULL_HANDLE;
+	}
+
+
+	std::vector<const char*> VulkanInstance::_getRequiredExtensions()
+	{
+		std::uint32_t glfwExtensionCount = 0;
+		const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+		return {glfwExtensions, glfwExtensions + glfwExtensionCount};
 	}
 
 	VkInstance VulkanInstance::Handle() const

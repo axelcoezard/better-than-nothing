@@ -3,7 +3,7 @@
 // Containers
 #include "Containers/DependencyGraph.hpp"
 
-#include "RAII/Glfw/GlfwWindow.hpp"
+#include "RAII/Window.hpp"
 #include "RAII/Vulkan/VulkanInstance.hpp"
 #include "RAII/Vulkan/VulkanSurface.hpp"
 

@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include "RAII/Glfw/GlfwWindow.hpp"
+#include "RAII/Window.hpp"
 #include "RAII/Vulkan/VulkanInstance.hpp"
 
 namespace BetterThanNothing
 {
 	struct ApplicationContext
 	{
-		GlfwWindow window;
+		Window window;
 		VulkanInstance vulkanInstance;
 	};
 } // BetterThanNothing

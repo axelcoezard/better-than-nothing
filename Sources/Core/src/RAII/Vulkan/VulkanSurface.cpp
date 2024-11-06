@@ -9,15 +9,49 @@
 
 namespace BetterThanNothing
 {
-	VulkanSurface::VulkanSurface(const VulkanInstance& instance, const GlfwWindow& window): m_instance(instance.Handle())
+	VulkanSurface::VulkanSurface(const ApplicationContext* context)
+		: m_instance(context->vulkanInstance.Handle())
 	{
-		if (glfwCreateWindowSurface(instance.Handle(), window.Handle(), nullptr, &m_surface) != VK_SUCCESS)
+		if (glfwCreateWindowSurface(m_instance, context->window.Handle(), nullptr, &m_surface) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create window surface");
 	}
 
 	VulkanSurface::~VulkanSurface()
 	{
 		vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
+	}
+
+	VulkanSurface::VulkanSurface(VulkanSurface&& other) noexcept
+	{
+		_swap(std::move(other));
+	}
+
+	VulkanSurface& VulkanSurface::operator=(VulkanSurface&& other) noexcept
+	{
+		if (this != &other)
+			_swap(std::move(other));
+		return *this;
+	}
+
+	void VulkanSurface::_swap(VulkanSurface&& other)
+	{
+		if (m_surface != VK_NULL_HANDLE)
+			vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
+
+		m_surface = other.m_surface;
+		other.m_surface = VK_NULL_HANDLE;
+	}
+
+	VkSurfaceKHR VulkanSurface::Handle() const
+	{
+		if (m_surface == VK_NULL_HANDLE)
+			throw std::runtime_error("Vulkan surface is not initialized");
+		return m_surface;
+	}
+
+	VulkanSurface::operator VkSurfaceKHR() const
+	{
+		return m_surface;
 	}
 };
 

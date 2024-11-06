@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RAII/Glfw/GlfwWindow.hpp"
+#include "RAII/Window.hpp"
 
 namespace BetterThanNothing
 {
@@ -15,7 +15,7 @@ namespace BetterThanNothing
 		/**
 		 * @brief A pointer to the Window
 		*/
-		GlfwWindow m_window;
+		Window m_window;
 
 		std::atomic<bool> m_running = true;
 	public:

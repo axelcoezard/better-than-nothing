@@ -12,7 +12,7 @@ namespace BetterThanNothing
 		const long windowWidth = config->GetInteger("window", "width", 800);
 		const long windowHeight = config->GetInteger("window", "height", 600);
 
-		m_window = GlfwWindow(windowTitle, windowWidth, windowHeight);
+		m_window = Window(windowTitle, windowWidth, windowHeight);
 		m_window.SetEventCallback(BIND_EVENT_LISTENER(OnEvent));
 	}
 
@@ -34,9 +34,12 @@ namespace BetterThanNothing
 
 		renderJob->AddDependency(gameplayJob);
 
-		VulkanInstance vulkanInstance(false);
+		ApplicationContext context = {
+			.window = m_window,
+			.vulkanInstance = VulkanInstance(false)
+		};
 
-		std::cout << vulkanInstance.Handle() << std::endl;
+		VulkanSurface vulkanSurface(&context);
 
 		JobManager jobManager;
 

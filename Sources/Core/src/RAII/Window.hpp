@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Events/Event.hpp"
+#include "../Events/Event.hpp"
 
 namespace BetterThanNothing
 {
 	/**
 	 * @brief The window class that is a wrapper around GLFWwindow and handles some events
 	 */
-	class GlfwWindow
+	class Window
 	{
 		/**
 		 * @brief The GLFWwindow pointer
@@ -40,7 +40,7 @@ namespace BetterThanNothing
 		std::function<void(Event*)>	m_EventCallback;
 
 	public:
-		GlfwWindow() = default;
+		Window() = default;
 
 		/**
 		* @brief The window constructor
@@ -48,12 +48,12 @@ namespace BetterThanNothing
 		 * @param width The width of the window
 		 * @param height The height of the window
 		 */
-		explicit GlfwWindow(const std::string& title, int width, int height);
+		explicit Window(const std::string& title, int width, int height);
 
 		/**
 		 * @brief The window destructor
 		 */
-		~GlfwWindow();
+		~Window();
 
 		/**
 		 * @brief A wrapper around glfwPollEvents that polls for events

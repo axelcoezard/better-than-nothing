@@ -4,18 +4,17 @@
 
 #pragma once
 
-#include "RAII/Vulkan/VulkanInstance.hpp"
-#include "RAII/Glfw/GlfwWindow.hpp"
-
 namespace BetterThanNothing
 {
+	struct ApplicationContext;
+
 	class VulkanSurface
 	{
-		VkInstance m_instance;
+		VkInstance m_instance = VK_NULL_HANDLE;
 		VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 
 	public:
-		explicit VulkanSurface(const VulkanInstance& instance, const GlfwWindow& window);
+		explicit VulkanSurface(const ApplicationContext* context);
 		~VulkanSurface();
 
 		// Prevent copy to ensure unique ownership of nodes
@@ -29,5 +28,8 @@ namespace BetterThanNothing
 		VkSurfaceKHR Handle() const;
 
 		explicit operator VkSurfaceKHR() const;
+
+	private:
+		void _swap(VulkanSurface&& other);
 	};
 };

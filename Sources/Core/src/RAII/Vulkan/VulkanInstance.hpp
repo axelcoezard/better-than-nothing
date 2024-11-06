@@ -29,6 +29,7 @@ namespace BetterThanNothing
 
 	private:
 		void _swap(VulkanInstance&& other);
+		std::vector<const char*> _getRequiredExtensions();
 	};
 };
 
