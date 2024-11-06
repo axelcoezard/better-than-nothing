@@ -11,7 +11,7 @@ namespace BetterThanNothing
 			.vulkanInstance = VulkanInstance(false)
 		};
 
-		OnEnable();
+		this->OnEnable();
 
 		while (!context.window.ShouldClose())
 		{
@@ -22,6 +22,6 @@ namespace BetterThanNothing
 
 		context.running = false;
 
-		OnDisable();
+		this->OnDisable();
 	}
 };

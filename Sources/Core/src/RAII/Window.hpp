@@ -1,10 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <functional>
 #include <string>
-
-#include "../Events/Event.hpp"
 
 namespace BetterThanNothing
 {
