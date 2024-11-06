@@ -41,11 +41,18 @@ namespace BetterThanNothing
 		void _createDebugMessenger();
 		void _destroyDebugMessenger();
 
-		VkResult _createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
-			const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) noexcept;
+		VkResult _createDebugUtilsMessengerEXT(
+			VkInstance instance,
+			const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+			const VkAllocationCallbacks* pAllocator,
+			VkDebugUtilsMessengerEXT* pDebugMessenger
+		) noexcept;
 
-		void _destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
-			const VkAllocationCallbacks* pAllocator) noexcept;
+		void _destroyDebugUtilsMessengerEXT(
+			VkInstance instance,
+			VkDebugUtilsMessengerEXT debugMessenger,
+			const VkAllocationCallbacks* pAllocator
+		) noexcept;
 	};
 };
 
