@@ -12,7 +12,6 @@ namespace BetterThanNothing
 	struct ApplicationContext
 	{
 		bool running = true;
-		bool debug = false;
 
 		Window window;
 		VulkanInstance vulkanInstance;

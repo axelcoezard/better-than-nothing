@@ -8,7 +8,7 @@ namespace BetterThanNothing
 		ApplicationContext context = {
 			.running = true,
 			.window = Window("Better Than Nothing", 800, 600),
-			.vulkanInstance = VulkanInstance(false)
+			.vulkanInstance = VulkanInstance(true)
 		};
 
 		this->OnEnable();
