@@ -1,5 +1,9 @@
 #pragma once
 
+#include <cstdint>
+#include <functional>
+#include <string>
+
 #include "../Events/Event.hpp"
 
 namespace BetterThanNothing
@@ -22,22 +26,21 @@ namespace BetterThanNothing
 		/**
 		 * @brief The width of the window
 		 */
-		u32 m_Width;
+		int32_t m_Width;
 
 		/**
 		 * @brief The height of the window
 		 */
-		u32 m_Height;
+		int32_t m_Height;
+
+		bool m_fullscreen = false;
+
+		bool m_resizable = true;
 
 		/**
 		 * @brief If the window is resized
 		 */
 		bool m_Resized = false;
-
-		/**
-		 * @brief The event callback
-		 */
-		std::function<void(Event*)>	m_EventCallback;
 
 	public:
 		Window() = default;
@@ -48,7 +51,7 @@ namespace BetterThanNothing
 		 * @param width The width of the window
 		 * @param height The height of the window
 		 */
-		explicit Window(const std::string& title, int width, int height);
+		Window(const std::string& title, int32_t width, int32_t height,  bool fullscreen = false, bool resizable = false);
 
 		/**
 		 * @brief The window destructor
@@ -58,23 +61,30 @@ namespace BetterThanNothing
 		/**
 		 * @brief A wrapper around glfwPollEvents that polls for events
 		 */
-		void Poll() { glfwPollEvents(); }
+		static void PollEvents()
+		{
+			glfwPollEvents();
+		}
 
 		/**
 		 * @brief A wrapper around glfwWindowShouldClose
 		 * @return If the window should close
 		 */
-		bool ShouldClose() const { return glfwWindowShouldClose(m_Window) ==  GLFW_TRUE; }
+		bool ShouldClose() const
+		{
+			if (m_Window == nullptr)
+				return true;
+			return glfwWindowShouldClose(m_Window) == GLFW_TRUE;
+		}
 
 		/**
 		 * @brief A wrapper around glfwSetWindowShouldClose that sets the window to close
 		 */
-		void Close() { glfwSetWindowShouldClose(m_Window, GLFW_TRUE); }
-
-		/**
-		 * @brief Sets the event callback
-		 */
-		void SetEventCallback(std::function<void(Event*)> eventcallback);
+		void Close() const
+		{
+			if (m_Window != nullptr)
+				glfwSetWindowShouldClose(m_Window, GLFW_TRUE);
+		}
 
 		/**
 		 * @brief Called when the window is resized
@@ -123,39 +133,63 @@ namespace BetterThanNothing
 		 * @brief Gets the GLFWwindow pointer
 		 * @return The GLFWwindow pointer
 		 */
-		GLFWwindow* Handle() const { return m_Window; }
+		GLFWwindow* Handle() const
+		{
+			return m_Window;
+		}
 
 		/**
 		 * @brief Gets the title of the window
 		 * @return The title of the window
 		 */
-		std::string& GetTitle() { return m_Title; }
+		std::string& GetTitle()
+		{
+			return m_Title;
+		}
 
 		/**
 		 * @brief Gets the width of the window
 		 * @return The width of the window
 		 */
-		u32 GetWidth() const { return m_Width; }
+		u32 GetWidth() const
+		{
+			return m_Width;
+		}
 
-		void SetWidth(const u32 width) { m_Width = width; }
+		void SetWidth(const int32_t width)
+		{
+			m_Width = width;
+		}
 
 		/**
 		 * @brief Gets the height of the window
 		 * @return The height of the window
 		 */
-		u32 GetHeight() const { return m_Height; }
+		u32 GetHeight() const
+		{
+			return m_Height;
+		}
 
-		void SetHeight(const u32 height) { m_Height = height; }
+		void SetHeight(const int32_t height)
+		{
+			m_Height = height;
+		}
 
 		/**
 		 * @brief Gets if the window is resized
 		 * @return Whether the window is resized or not
 		 */
-		bool IsResized() const { return m_Resized; }
+		bool IsResized() const
+		{
+			return m_Resized;
+		}
 
 		/**
 		 * @brief Sets if the window is resized
 		 */
-		void SetResized(const bool resized) { m_Resized = resized; }
+		void SetResized(const bool resized)
+		{
+			m_Resized = resized;
+		}
 	};
 };

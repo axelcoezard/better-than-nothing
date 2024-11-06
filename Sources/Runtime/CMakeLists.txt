@@ -34,7 +34,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 		SPIRV
 		spirv_cross
 		GPUOpen::VulkanMemoryAllocator
-		vk-bootstrap::vk-bootstrap
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glfw/include)
@@ -49,7 +48,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glslang/glsl
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glslang/glslang/Public)
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/spirv_cross/spirv_cross)
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/vma/include)
-target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/vk-bootstrap/src)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ../Core/src)
 

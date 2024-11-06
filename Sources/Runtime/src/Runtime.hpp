@@ -9,11 +9,9 @@ namespace BetterThanNothing
 
 	class Runtime: public Application {
 	public:
-		Runtime() { };
+		Runtime() = default;
 
 		void OnEnable() override;
 		void OnDisable() override;
-
-		static bool OnKeyPress(KeyPressEvent* event);
 	};
 };

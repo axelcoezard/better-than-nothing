@@ -16,21 +16,10 @@ namespace BetterThanNothing
 		 * @brief A pointer to the Window
 		*/
 		Window m_window;
-
-		std::atomic<bool> m_running = true;
 	public:
-		/**
-		 * @brief Construct a new Application object
-		 * @param title The title of the window
-		 * @param width The width of the window
-		 * @param height The height of the window
-		*/
-		Application();
 
-		/**
-		 * @brief Destroy the Application object
-		*/
-		virtual ~Application();
+		Application() = default;
+		virtual ~Application() = default;
 
 		/**
 		 * @brief Run the Application
@@ -46,11 +35,5 @@ namespace BetterThanNothing
 		 * @brief Called when the Application is disabled
 		*/
 		virtual void OnDisable() = 0;
-
-		/**
-		 * @brief Called when an Event is received
-		 * @param event A pointer to the Event object received
-		*/
-		void OnEvent(Event* event);
 	};
 };

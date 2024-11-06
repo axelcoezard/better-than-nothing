@@ -1,13 +1,13 @@
 SHELL := /bin/bash
 
 all:
-	mkdir -p build
-	time { cd build; cmake ..; make -j$(shell nproc); }
+	mkdir -p .build
+	time { cd .build; cmake ..; make -j$(shell nproc); }
 
 run: all
-	cd build; ./Runtime
+	cd .build; ./Runtime
 
 fclean:
-	rm -rf build
+	rm -rf .build
 
 re: fclean all

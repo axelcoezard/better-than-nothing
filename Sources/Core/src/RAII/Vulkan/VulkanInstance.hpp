@@ -4,23 +4,22 @@
 
 #pragma once
 
-#include "VkBootstrap.h"
+#include <vector>
+#include <vulkan/vulkan_core.h>
 
 namespace BetterThanNothing
 {
 	class VulkanInstance
 	{
-		vkb::Instance m_vkbInstance;
+		VkInstance m_instance = VK_NULL_HANDLE;
 
 	public:
 		explicit VulkanInstance(bool enableValidationLayers = false);
 		~VulkanInstance();
 
-		// Prevent copy to ensure unique ownership of nodes
 		VulkanInstance(const VulkanInstance&) = delete;
 		VulkanInstance& operator=(const VulkanInstance&) = delete;
 
-		// Allow move semantics
 		VulkanInstance(VulkanInstance&& other) noexcept;
 		VulkanInstance& operator=(VulkanInstance&& other) noexcept;
 
@@ -28,8 +27,7 @@ namespace BetterThanNothing
 		explicit operator VkInstance() const;
 
 	private:
-		void _swap(VulkanInstance&& other);
-		std::vector<const char*> _getRequiredExtensions();
+		void _move(VulkanInstance&& other) noexcept;
 	};
 };
 

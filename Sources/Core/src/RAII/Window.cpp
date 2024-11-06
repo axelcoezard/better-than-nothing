@@ -3,15 +3,26 @@
 
 namespace BetterThanNothing
 {
-	Window::Window(const std::string& title, const int width, const int height)
-		: m_Title(title), m_Width(width), m_Height(height)
+	Window::Window(const std::string& title, int32_t width, int32_t height, bool fullscreen, bool resizable)
+		: m_Title(title), m_Width(width), m_Height(height), m_fullscreen(fullscreen), m_resizable(resizable)
 	{
-		glfwInit();
+		if (glfwInit() == GLFW_FALSE) {
+			throw std::runtime_error("Failed to initialize GLFW");
+		}
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+		glfwWindowHint(GLFW_RESIZABLE, m_resizable ? GLFW_TRUE : GLFW_FALSE);
 
-		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
+		GLFWmonitor* monitor = m_fullscreen
+			? glfwGetPrimaryMonitor()
+			: nullptr;
+
+		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), monitor, nullptr);
+
+		if (m_Window == nullptr) {
+			glfwTerminate();
+			throw std::runtime_error("Failed to create GLFW window");
+		}
 
 		glfwSetWindowUserPointer(m_Window, this);
 		glfwSetFramebufferSizeCallback(m_Window, ResizeCallback);
@@ -29,11 +40,6 @@ namespace BetterThanNothing
 		}
 	}
 
-	void Window::SetEventCallback(std::function<void(Event*)> eventcallback)
-	{
-		m_EventCallback = std::move(eventcallback);
-	}
-
 	void Window::ResizeCallback(GLFWwindow* window, int width, int height)
 	{
 		const auto windowPtr = static_cast<Window*>(glfwGetWindowUserPointer(window));
@@ -44,22 +50,14 @@ namespace BetterThanNothing
 
 	void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
+		(void) scancode;
+		(void) mods;
+
 		if (action == GLFW_PRESS && key == GLFW_KEY_ESCAPE) {
 			glfwSetWindowShouldClose(window, GLFW_TRUE);
 		}
 
 		Input::UpdateKey(key, action);
-
-		const auto windowPtr = static_cast<Window*>(glfwGetWindowUserPointer(window));
-
-		KeyEvent* event = nullptr;
-		if (action == GLFW_PRESS || action == GLFW_REPEAT) {
-			event = new KeyPressEvent(key, scancode, mods);
-		} else {
-			event = new KeyReleaseEvent(key, scancode, mods);
-		}
-
-		windowPtr->m_EventCallback(event);
 	}
 
 	void Window::MouseCursorCallback(GLFWwindow* window, f64 xpos, f64 ypos)
