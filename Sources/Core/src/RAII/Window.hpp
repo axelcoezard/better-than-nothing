@@ -13,7 +13,7 @@ namespace BetterThanNothing
 		/**
 		 * @brief The GLFWwindow pointer
 		 */
-		GLFWwindow* m_Window;
+		GLFWwindow* m_Window{};
 
 		/**
 		 * @brief The title of the window
@@ -23,15 +23,21 @@ namespace BetterThanNothing
 		/**
 		 * @brief The width of the window
 		 */
-		int32_t m_Width;
+		int32_t m_Width{};
 
 		/**
 		 * @brief The height of the window
 		 */
-		int32_t m_Height;
+		int32_t m_Height{};
 
+		/**
+		 * @brief If the window is fullscreen
+		 */
 		bool m_fullscreen = false;
 
+		/**
+		 * @brief If the window is resizable
+		 */
 		bool m_resizable = true;
 
 		/**
@@ -47,8 +53,10 @@ namespace BetterThanNothing
 		 * @param title The title of the window
 		 * @param width The width of the window
 		 * @param height The height of the window
+		 * @param fullscreen If the window is fullscreen
+		 * @param resizable If the window is resizable
 		 */
-		Window(const std::string& title, int32_t width, int32_t height,  bool fullscreen = false, bool resizable = false);
+		Window(std::string  title, int32_t width, int32_t height,  bool fullscreen = false, bool resizable = false);
 
 		/**
 		 * @brief The window destructor

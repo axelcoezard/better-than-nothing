@@ -3,8 +3,8 @@
 
 namespace BetterThanNothing
 {
-	Window::Window(const std::string& title, int32_t width, int32_t height, bool fullscreen, bool resizable)
-		: m_Title(title), m_Width(width), m_Height(height), m_fullscreen(fullscreen), m_resizable(resizable)
+	Window::Window(std::string  title, const int32_t width, const int32_t height, const bool fullscreen, const bool resizable)
+		: m_Title(std::move(title)), m_Width(width), m_Height(height), m_fullscreen(fullscreen), m_resizable(resizable)
 	{
 		if (glfwInit() == GLFW_FALSE) {
 			throw std::runtime_error("Failed to initialize GLFW");
