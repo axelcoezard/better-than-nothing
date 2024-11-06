@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <vulkan/vulkan.h>
+
 namespace BetterThanNothing
 {
 	struct ApplicationContext;
@@ -14,6 +16,7 @@ namespace BetterThanNothing
 		VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 
 	public:
+		VulkanSurface() = default;
 		explicit VulkanSurface(const ApplicationContext* context);
 		~VulkanSurface();
 

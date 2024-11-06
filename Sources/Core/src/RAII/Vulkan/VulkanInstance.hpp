@@ -5,7 +5,6 @@
 #pragma once
 
 #include <vector>
-#include <vulkan/vulkan_core.h>
 
 namespace BetterThanNothing
 {
@@ -14,9 +13,10 @@ namespace BetterThanNothing
 		bool m_enableValidationLayers = false;
 
 		VkInstance m_instance = VK_NULL_HANDLE;
-		VkDebugUtilsMessengerEXT m_debugMessenger;
+		VkDebugUtilsMessengerEXT m_debugMessenger = VK_NULL_HANDLE;
 	public:
-		explicit VulkanInstance(bool enableValidationLayers = false);
+		VulkanInstance() = default;
+		explicit VulkanInstance(bool enableValidationLayers);
 		~VulkanInstance();
 
 		VulkanInstance(const VulkanInstance&) = delete;

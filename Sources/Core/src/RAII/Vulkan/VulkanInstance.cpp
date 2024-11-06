@@ -45,6 +45,8 @@ namespace BetterThanNothing
 			throw std::runtime_error("failed to create instance!");
 		}
 
+		LOG_INFO("Vulkan instance: ok");
+
 		_createDebugMessenger();
 	}
 
@@ -69,10 +71,15 @@ namespace BetterThanNothing
 	void VulkanInstance::_move(VulkanInstance&& other) noexcept
 	{
 		if (m_instance != VK_NULL_HANDLE)
+		{
+			_destroyDebugMessenger();
 			vkDestroyInstance(m_instance, nullptr);
+		}
 
 		m_instance = other.m_instance;
 		other.m_instance = VK_NULL_HANDLE;
+
+		_createDebugMessenger();
 	}
 
 	std::vector<const char*> VulkanInstance::_getRequiredExtensions() noexcept
