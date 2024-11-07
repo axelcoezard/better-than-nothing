@@ -21,7 +21,17 @@ namespace BetterThanNothing
 
 		m_physicalDevice = _findSuitableDevice(devices);
 
-		LOG_INFO("Vulkan physical device: ok ");
+		VkPhysicalDeviceProperties deviceProperties;
+		vkGetPhysicalDeviceProperties(m_physicalDevice, &deviceProperties);
+
+		m_vendorName = _getVendorById(deviceProperties.vendorID);
+		m_deviceName = deviceProperties.deviceName;
+		m_apiVersion = std::to_string(deviceProperties.apiVersion);
+
+		LOG_INFO("Vulkan physical device: ok");
+		LOG("-> Vendor: " << m_vendorName);
+		LOG("-> Device: " << m_deviceName);
+		LOG("-> API Version: " << m_apiVersion);
 	}
 
 	VulkanPhysicalDevice::~VulkanPhysicalDevice()
@@ -65,6 +75,18 @@ namespace BetterThanNothing
 		throw std::runtime_error("Failed to find a suitable GPU");
 	}
 
+	std::string VulkanPhysicalDevice::_getVendorById(const uint32_t vendorId) const
+	{
+		if (vendorId == 0x1002) return "AMD";
+		if (vendorId == 0x1010) return "ImgTec";
+		if (vendorId == 0x10DE) return "NVIDIA";
+		if (vendorId == 0x13B5) return "ARM";
+		if (vendorId == 0x5143) return "Qualcomm";
+		if (vendorId == 0x8086) return "INTEL";
+		return "Unknown";
+	}
+
+
 	VkPhysicalDevice VulkanPhysicalDevice::Handle() const
 	{
 		if (m_physicalDevice == VK_NULL_HANDLE)
@@ -75,5 +97,20 @@ namespace BetterThanNothing
 	VulkanPhysicalDevice::operator VkPhysicalDevice() const
 	{
 		return m_physicalDevice;
+	}
+
+	std::string VulkanPhysicalDevice::GetVendorName() const
+	{
+		return m_vendorName;
+	}
+
+	std::string VulkanPhysicalDevice::GetDeviceName() const
+	{
+		return m_deviceName;
+	}
+
+	std::string VulkanPhysicalDevice::GetApiVersion() const
+	{
+		return m_apiVersion;
 	}
 }

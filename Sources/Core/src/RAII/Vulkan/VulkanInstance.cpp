@@ -21,7 +21,7 @@ namespace BetterThanNothing
 
 		// Prepare extensions
 		const auto extensions = _getRequiredExtensions();
-		createInfo.enabledExtensionCount = extensions.size();
+		createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 		createInfo.ppEnabledExtensionNames = extensions.data();
 
 		// Prepare validation layers
@@ -30,13 +30,16 @@ namespace BetterThanNothing
 			VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
 			_populateDebugMessengerCreateInfo(debugCreateInfo);
 
-			createInfo.enabledLayerCount = 1;
-			createInfo.ppEnabledLayerNames = std::vector{ "VK_LAYER_KHRONOS_validation" }.data();
-			createInfo.pNext = &debugCreateInfo;
+			const std::array<const char*, 1> validationLayers = { "VK_LAYER_KHRONOS_validation" };
+
+			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+			createInfo.ppEnabledLayerNames = validationLayers.data();
+			createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
 		}
 		else
 		{
 			createInfo.enabledLayerCount = 0;
+			createInfo.pNext = nullptr;
 			LOG_WARNING("Validation layers are not available on this system");
 		}
 
@@ -116,7 +119,10 @@ namespace BetterThanNothing
 		(void) messageType;
 		(void) pUserData;
 
-		if (messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
+		if (messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
+			LOG_ERROR("validation layer: " << pCallbackData->pMessage);
+		}
+		else if (messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
 			LOG_WARNING("validation layer: " << pCallbackData->pMessage);
 		}
 		return VK_FALSE;
@@ -140,12 +146,14 @@ namespace BetterThanNothing
 		if (!m_enableValidationLayers)
 			return;
 
-		VkDebugUtilsMessengerCreateInfoEXT createInfo{};
+		VkDebugUtilsMessengerCreateInfoEXT createInfo;
 		_populateDebugMessengerCreateInfo(createInfo);
 
 		if (_createDebugUtilsMessengerEXT(m_instance, &createInfo, nullptr, &m_debugMessenger) != VK_SUCCESS) {
 			throw std::runtime_error("failed to set up debug messenger!");
 		}
+
+		LOG_INFO("Debug Messenger: ok");
 	}
 
 	void VulkanInstance::_destroyDebugMessenger()
@@ -161,25 +169,24 @@ namespace BetterThanNothing
 		}
 	}
 
-	VkResult VulkanInstance::_createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
-			const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) noexcept
+	VkResult VulkanInstance::_createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* createInfo,
+			const VkAllocationCallbacks* allocator, VkDebugUtilsMessengerEXT* debugMessenger) noexcept
 	{
-		auto function = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(
-			vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT")
-		);
+		auto function = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
 
-		return function == nullptr ? VK_ERROR_EXTENSION_NOT_PRESENT : function(instance, pCreateInfo, pAllocator, pDebugMessenger);
+		if (function == nullptr)
+			return VK_ERROR_EXTENSION_NOT_PRESENT;
+
+		return function(instance, createInfo, allocator, debugMessenger);
 	}
 
 	void VulkanInstance::_destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
-			const VkAllocationCallbacks* pAllocator) noexcept
+			const VkAllocationCallbacks* allocator) noexcept
 	{
-		auto function = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(
-			vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT")
-		);
+		auto function = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
 
 		if (function != nullptr) {
-			function(instance, debugMessenger, pAllocator);
+			function(instance, debugMessenger, allocator);
 		}
 	}
 

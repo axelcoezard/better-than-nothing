@@ -17,7 +17,7 @@ namespace BetterThanNothing
 
 		Window window;
 		VulkanInstance vulkanInstance;
-		VulkanSurface vulkanSurface;
-		VulkanPhysicalDevice vulkanPhysicalDevice;
+		VulkanSurface vulkanSurface = {};
+		VulkanPhysicalDevice vulkanPhysicalDevice = {};
 	};
 } // BetterThanNothing
