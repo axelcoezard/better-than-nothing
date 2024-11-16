@@ -8,7 +8,7 @@
 
 namespace BetterThanNothing
 {
-	struct ApplicationContext;
+	class ApplicationContext;
 
 	struct QueueFamilyIndices {
 		std::optional<uint32_t> graphicsFamily;

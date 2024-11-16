@@ -8,7 +8,7 @@
 
 namespace BetterThanNothing
 {
-	struct ApplicationContext;
+	class ApplicationContext;
 
 	class VulkanSurface
 	{
@@ -17,7 +17,7 @@ namespace BetterThanNothing
 
 	public:
 		VulkanSurface() = default;
-		explicit VulkanSurface(const ApplicationContext* context);
+		explicit VulkanSurface(ApplicationContext* context);
 		~VulkanSurface();
 
 		// Prevent copy to ensure unique ownership of nodes

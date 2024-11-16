@@ -12,14 +12,14 @@ namespace BetterThanNothing
 
 		this->OnEnable();
 
-		while (!context.window->ShouldClose())
+		while (!context.GetWindow()->ShouldClose())
 		{
 			Window::PollEvents();
 
 			std::this_thread::sleep_for(std::chrono::milliseconds (10));
 		}
 
-		context.running = false;
+		context.SetRunning(false);
 
 		this->OnDisable();
 	}

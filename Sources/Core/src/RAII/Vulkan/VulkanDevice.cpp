@@ -8,7 +8,7 @@
 namespace BetterThanNothing
 {
 	VulkanDevice::VulkanDevice(ApplicationContext* context)
-		: m_instance(context->vulkanInstance->Handle())
+		: m_instance(context->GetVulkanInstance()->Handle())
 	{
 		_pickPhysicalDevice();
 		_getPhysicalDeviceProperties();
@@ -97,7 +97,7 @@ namespace BetterThanNothing
 
 		createInfo.enabledExtensionCount = 0;
 
-		if (context->vulkanInstance->IsValidationLayersEnabled()) {
+		if (context->GetVulkanInstance()->IsValidationLayersEnabled()) {
 //			auto validationLayers = context->vulkanInstance.GetValidationLayers();
 
 			std::array<const char*, 1> validationLayers = {
@@ -115,7 +115,8 @@ namespace BetterThanNothing
 
 		LOG_INFO("Vulkan logical device: ok");
 
-		vkGetDeviceQueue(m_logicalDevice, indices.graphicsFamily.value(), 0, &context->graphicsQueue);
+		VkQueue graphicsQueue;
+		vkGetDeviceQueue(m_logicalDevice, indices.graphicsFamily.value(), 0, &graphicsQueue);
 
 		LOG_INFO("Vulkan graphics queue: ok");
 	}

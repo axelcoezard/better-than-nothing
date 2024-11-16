@@ -17,37 +17,60 @@ namespace BetterThanNothing
 	// => maybe use a builder pattern to create the context
 	// => could first set parameters (validation layers, etc) and then build the context
 
-	struct ApplicationContext
+	class ApplicationContext
 	{
+	private:
 		bool running = true;
 
-		Window* window = nullptr;
-		VulkanInstance* vulkanInstance = nullptr;
-		VulkanSurface* vulkanSurface = nullptr;
-		VulkanDevice* vulkanDevice = nullptr;
+		std::unique_ptr<Window> window;
+		std::unique_ptr<VulkanInstance> vulkanInstance;
+		std::unique_ptr<VulkanSurface> vulkanSurface;
+		std::unique_ptr<VulkanDevice> vulkanDevice;
 
-		VkQueue graphicsQueue = VK_NULL_HANDLE;
-
+	public:
 		explicit ApplicationContext() = default;
-
-		~ApplicationContext()
-		{
-			delete vulkanSurface;
-			delete vulkanDevice;
-			delete vulkanInstance;
-			delete window;
-		}
+		~ApplicationContext() = default;
 
 		void InitWindow(const std::string& title, int32_t width, int32_t height, bool fullscreen = false, bool resizable = false)
 		{
-			window = new Window(title, width, height, fullscreen, resizable);
+			window = std::make_unique<Window>(title, width, height, fullscreen, resizable);
 		}
 
 		void InitVulkan(bool enableValidationLayers)
 		{
-			vulkanInstance = new VulkanInstance(enableValidationLayers);
-			vulkanDevice = new VulkanDevice(this);
-			vulkanSurface = new VulkanSurface(this);
+			vulkanInstance = std::make_unique<VulkanInstance>(enableValidationLayers);
+			vulkanSurface = std::make_unique<VulkanSurface>(this);
+			vulkanDevice = std::make_unique<VulkanDevice>(this);
+		}
+
+		bool IsRunning() const
+		{
+			return running;
+		}
+
+		void SetRunning(bool value)
+		{
+			running = value;
+		}
+
+		std::unique_ptr<Window>& GetWindow()
+		{
+			return window;
+		}
+
+		std::unique_ptr<VulkanInstance>& GetVulkanInstance()
+		{
+			return vulkanInstance;
+		}
+
+		std::unique_ptr<VulkanSurface>& GetVulkanSurface()
+		{
+			return vulkanSurface;
+		}
+
+		std::unique_ptr<VulkanDevice>& GetVulkanDevice()
+		{
+			return vulkanDevice;
 		}
 	};
 } // BetterThanNothing
