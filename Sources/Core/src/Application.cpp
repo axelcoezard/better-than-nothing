@@ -5,10 +5,14 @@ namespace BetterThanNothing
 {
 	void Application::Run()
 	{
-		ApplicationContext context;
+		ApplicationContext context = ApplicationContextBuilder()
+			.SetWindowTitle("Better Than Nothing")
+			.SetWindowSize(800, 600)
+			.EnableValidationLayers(true)
+			.AddValidationLayer("VK_LAYER_KHRONOS_validation")
+			.Build();
 
-		context.InitWindow("Better Than Nothing", 800, 600);
-		context.InitVulkan(true);
+		context.Initialize();
 
 		this->OnEnable();
 
@@ -18,8 +22,6 @@ namespace BetterThanNothing
 
 			std::this_thread::sleep_for(std::chrono::milliseconds (10));
 		}
-
-		context.SetRunning(false);
 
 		this->OnDisable();
 	}

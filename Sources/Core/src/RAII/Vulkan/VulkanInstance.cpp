@@ -9,7 +9,12 @@ namespace BetterThanNothing
 {
 	VulkanInstance::VulkanInstance(const bool enableValidationLayers): m_validationLayersEnabled(enableValidationLayers)
 	{
-		m_validationLayersEnabled &= _checkValidationLayerSupport();
+		bool validationLayersAvalaible = _checkValidationLayerSupport();
+
+		if (m_validationLayersEnabled && !validationLayersAvalaible)
+			LOG_WARNING("Validation layers are enabled but not available on this system");
+
+		m_validationLayersEnabled &= validationLayersAvalaible;
 
 		VkApplicationInfo appInfo{};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -38,7 +43,6 @@ namespace BetterThanNothing
 		{
 			createInfo.enabledLayerCount = 0;
 			createInfo.pNext = nullptr;
-			LOG_WARNING("Validation layers are not available on this system");
 		}
 
 		// Create instance

@@ -13,64 +13,151 @@
 
 namespace BetterThanNothing
 {
-	// TODO: rework the application context to be more flexible
-	// => maybe use a builder pattern to create the context
-	// => could first set parameters (validation layers, etc) and then build the context
+	class ApplicationContextError : public std::runtime_error
+	{
+	public:
+		explicit ApplicationContextError(const std::string& message)
+			: std::runtime_error(message) {}
+	};
+
+	struct ApplicationContextWindowParams
+	{
+		std::string title;
+		uint32_t width = 0;
+		uint32_t height = 0;
+		bool fullscreen = false;
+		bool resizable = false;
+	};
+
+	struct ApplicationContextVulkanParams
+	{
+		bool enableValidationLayers = false;
+		std::vector<const char*> validationLayers;
+	};
 
 	class ApplicationContext
 	{
 	private:
-		bool running = true;
+		ApplicationContextWindowParams m_windowParams;
+		ApplicationContextVulkanParams m_vulkanParams;
 
-		std::unique_ptr<Window> window;
-		std::unique_ptr<VulkanInstance> vulkanInstance;
-		std::unique_ptr<VulkanSurface> vulkanSurface;
-		std::unique_ptr<VulkanDevice> vulkanDevice;
+		std::unique_ptr<Window> m_pWindow;
+
+		std::unique_ptr<VulkanInstance> m_pVulkanInstance;
+		std::unique_ptr<VulkanDevice> m_pVulkanDevice;
+		std::unique_ptr<VulkanSurface> m_pVulkanSurface;
 
 	public:
-		explicit ApplicationContext() = default;
+		explicit ApplicationContext(ApplicationContextWindowParams  windowParams, ApplicationContextVulkanParams  vulkanParams)
+			: m_windowParams(std::move(windowParams)), m_vulkanParams(std::move(vulkanParams)) {}
+
 		~ApplicationContext() = default;
 
-		void InitWindow(const std::string& title, int32_t width, int32_t height, bool fullscreen = false, bool resizable = false)
+		ApplicationContext& Initialize()
 		{
-			window = std::make_unique<Window>(title, width, height, fullscreen, resizable);
-		}
+			m_pWindow = std::make_unique<Window>(
+				m_windowParams.title,
+				m_windowParams.width,
+				m_windowParams.height,
+				m_windowParams.fullscreen,
+				m_windowParams.resizable
+			);
 
-		void InitVulkan(bool enableValidationLayers)
-		{
-			vulkanInstance = std::make_unique<VulkanInstance>(enableValidationLayers);
-			vulkanDevice = std::make_unique<VulkanDevice>(this);
-			vulkanSurface = std::make_unique<VulkanSurface>(this);
-		}
+			m_pVulkanInstance = std::make_unique<VulkanInstance>(m_vulkanParams.enableValidationLayers);
+			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
+			m_pVulkanSurface = std::make_unique<VulkanSurface>(this);
 
-		bool IsRunning() const
-		{
-			return running;
-		}
-
-		void SetRunning(bool value)
-		{
-			running = value;
+			return *this;
 		}
 
 		std::unique_ptr<Window>& GetWindow()
 		{
-			return window;
+			return m_pWindow;
 		}
 
 		std::unique_ptr<VulkanInstance>& GetVulkanInstance()
 		{
-			return vulkanInstance;
-		}
-
-		std::unique_ptr<VulkanSurface>& GetVulkanSurface()
-		{
-			return vulkanSurface;
+			return m_pVulkanInstance;
 		}
 
 		std::unique_ptr<VulkanDevice>& GetVulkanDevice()
 		{
-			return vulkanDevice;
+			return m_pVulkanDevice;
+		}
+
+		std::unique_ptr<VulkanSurface>& GetVulkanSurface()
+		{
+			return m_pVulkanSurface;
+		}
+	};
+
+	class ApplicationContextBuilder
+	{
+	private:
+		ApplicationContextWindowParams m_windowParams;
+		ApplicationContextVulkanParams m_vulkanParams;
+
+	public:
+		ApplicationContextBuilder() = default;
+		~ApplicationContextBuilder() = default;
+
+		ApplicationContextBuilder& SetWindowTitle(const std::string& title)
+		{
+			m_windowParams.title = title;
+			return *this;
+		}
+
+		ApplicationContextBuilder& SetWindowSize(uint32_t width, uint32_t height)
+		{
+			m_windowParams.width = width;
+			m_windowParams.height = height;
+			return *this;
+		}
+
+		ApplicationContextBuilder& SetWindowFullscreen(bool fullscreen)
+		{
+			m_windowParams.fullscreen = fullscreen;
+			return *this;
+		}
+
+		ApplicationContextBuilder& SetWindowResizable(bool resizable)
+		{
+			m_windowParams.resizable = resizable;
+			return *this;
+		}
+
+		ApplicationContextBuilder& EnableValidationLayers(bool enable)
+		{
+			m_vulkanParams.enableValidationLayers = enable;
+			return *this;
+		}
+
+		ApplicationContextBuilder& AddValidationLayer(const char* layer)
+		{
+			m_vulkanParams.validationLayers.push_back(layer);
+			return *this;
+		}
+
+		ApplicationContext Build()
+		{
+			if (m_windowParams.title.empty())
+				throw ApplicationContextError("Window title is not set");
+
+			if (m_windowParams.width == 0 || m_windowParams.height == 0)
+				throw ApplicationContextError("Window size is not set");
+
+			auto window = std::make_unique<Window>(
+					m_windowParams.title,
+					m_windowParams.width,
+					m_windowParams.height,
+					m_windowParams.fullscreen,
+					m_windowParams.resizable
+			);
+
+			if (m_vulkanParams.enableValidationLayers && m_vulkanParams.validationLayers.empty())
+				throw ApplicationContextError("Validation layers are enabled but none are set");
+
+			return ApplicationContext(m_windowParams, m_vulkanParams);
 		}
 	};
 } // BetterThanNothing
