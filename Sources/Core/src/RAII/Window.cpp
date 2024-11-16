@@ -60,13 +60,13 @@ namespace BetterThanNothing
 		Input::UpdateKey(key, action);
 	}
 
-	void Window::MouseCursorCallback(GLFWwindow* window, f64 xpos, f64 ypos)
+	void Window::MouseCursorCallback(GLFWwindow* window, double xpos, double ypos)
 	{
 		(void) window;
 		Input::UpdateMousePosition(xpos, ypos);
 	}
 
-	void Window::MouseScrollCallback(GLFWwindow* window, f64 xoffset, f64 yoffset)
+	void Window::MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 	{
 		(void) window;
 		(void) xoffset;

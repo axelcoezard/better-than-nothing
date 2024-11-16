@@ -7,7 +7,7 @@
 #include "RAII/Window.hpp"
 #include "RAII/Vulkan/VulkanInstance.hpp"
 #include "RAII/Vulkan/VulkanSurface.hpp"
-#include "RAII/Vulkan/VulkanPhysicalDevice.hpp"
+#include "RAII/Vulkan/VulkanDevice.hpp"
 
 namespace BetterThanNothing
 {
@@ -18,6 +18,8 @@ namespace BetterThanNothing
 		Window window;
 		VulkanInstance vulkanInstance;
 		VulkanSurface vulkanSurface = {};
-		VulkanPhysicalDevice vulkanPhysicalDevice = {};
+		VulkanDevice vulkanDevice = {};
+
+		VkQueue graphicsQueue = VK_NULL_HANDLE;
 	};
 } // BetterThanNothing

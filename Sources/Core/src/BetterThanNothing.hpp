@@ -12,6 +12,5 @@
 #include "Application.hpp"
 
 // Utils
-#include "Utils/ConfigManager.hpp"
 #include "Utils/JobManager.hpp"
 #include "Utils/Input.hpp"

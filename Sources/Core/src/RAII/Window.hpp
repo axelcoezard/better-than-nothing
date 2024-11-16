@@ -115,7 +115,7 @@ namespace BetterThanNothing
 		 * @param xpos The x position of the mouse cursor
 		 * @param ypos The y position of the mouse cursor
 		 */
-		static void MouseCursorCallback(GLFWwindow* window, f64 xpos, f64 ypos);
+		static void MouseCursorCallback(GLFWwindow* window, double xpos, double ypos);
 
 		/**
 		 * @brief Called when the mouse is scrolled
@@ -123,7 +123,7 @@ namespace BetterThanNothing
 		 * @param xoffset The x offset of the mouse scroll
 		 * @param yoffset The y offset of the mouse scroll
 		 */
-		static void MouseScrollCallback(GLFWwindow* window, f64 xoffset, f64 yoffset);
+		static void MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
 		/**
 		 * @brief Called when a mouse button is pressed or released
@@ -156,7 +156,7 @@ namespace BetterThanNothing
 		 * @brief Gets the width of the window
 		 * @return The width of the window
 		 */
-		u32 GetWidth() const
+		int32_t GetWidth() const
 		{
 			return m_Width;
 		}
@@ -170,7 +170,7 @@ namespace BetterThanNothing
 		 * @brief Gets the height of the window
 		 * @return The height of the window
 		 */
-		u32 GetHeight() const
+		int32_t GetHeight() const
 		{
 			return m_Height;
 		}

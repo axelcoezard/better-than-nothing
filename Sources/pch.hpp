@@ -10,10 +10,10 @@
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
 
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_vulkan.h>
-#include <imgui_internal.h>
+//#include <imgui.h>
+//#include <imgui_impl_glfw.h>
+//#include <imgui_impl_vulkan.h>
+//#include <imgui_internal.h>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
@@ -24,15 +24,15 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <gtx/hash.hpp>
 
-#include <INIReader.h>
+//#include <INIReader.h>
 
-#include <entt/entt.hpp>
+//#include <entt/entt.hpp>
 
-#include <glslang_c_interface.h>
-#include <glslang_c_shader_types.h>
-#include <resource_limits_c.h>
+//#include <glslang_c_interface.h>
+//#include <glslang_c_shader_types.h>
+//#include <resource_limits_c.h>
 
-#include <spirv_cross.hpp>
+//#include <spirv_cross.hpp>
 
 #include "../ThirdParty/vma/include/vk_mem_alloc.h"
 
@@ -46,20 +46,6 @@
 #define BIND_EVENT_LISTENER(fn) [this](auto&&... args) -> decltype(auto) {\
 									return this->fn(std::forward<decltype(args)>(args)...);\
 								}
-
-
-typedef unsigned char	u8;
-typedef unsigned short	u16;
-typedef unsigned int	u32;
-typedef unsigned long	u64;
-
-typedef signed char		i8;
-typedef signed short	i16;
-typedef signed int		i32;
-typedef signed long		i64;
-
-typedef float			f32;
-typedef double			f64;
 
 #define LOG(x) 			std::cout << "\033[1;90m[LOG]\033[0m " << x << "\033[0m" << std::endl;
 #define LOG_INFO(x)		std::cout << "\033[1;34m[INFO]\033[0m " << x << "\033[0m" << std::endl;

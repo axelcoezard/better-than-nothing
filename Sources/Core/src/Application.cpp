@@ -11,8 +11,8 @@ namespace BetterThanNothing
 			.vulkanInstance = VulkanInstance(true)
 		};
 
-		context.vulkanPhysicalDevice = VulkanPhysicalDevice(&context);
-		context.vulkanSurface = VulkanSurface(&context);
+		context.vulkanDevice = VulkanDevice(&context);
+		//context.vulkanSurface = VulkanSurface(&context);
 
 		this->OnEnable();
 

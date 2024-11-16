@@ -18,28 +18,28 @@ namespace BetterThanNothing
 		/**
 		 * @brief The mouse X position
 		 */
-		static f64 m_MouseX;
+		static double m_MouseX;
 
 
 		/**
 		 * @brief The mouse X position
 		 */
-		static f64 m_MouseY;
+		static double m_MouseY;
 
 		/**
 		 * @brief The last mouse X position
 		 */
-		static f64 m_LastMouseX;
+		static double m_LastMouseX;
 
 		/**
 		 * @brief The last mouse Y position
 		 */
-		static f64 m_LastMouseY;
+		static double m_LastMouseY;
 
 		/**
 		 * @brief The mouse scroll
 		 */
-		static f64 m_MouseScroll;
+		static double m_MouseScroll;
 
 		/**
 		 * @brief The mouse buttons
@@ -98,7 +98,7 @@ namespace BetterThanNothing
 		 * @param x The X position of the mouse
 		 * @param y The Y position of the mouse
 		 */
-		static void UpdateMousePosition(f64 x, f64 y);
+		static void UpdateMousePosition(double x, double y);
 
 		/**
 		 * @brief Get the mouse position
@@ -122,13 +122,13 @@ namespace BetterThanNothing
 		 * @brief Update the mouse scroll
 		 * @param y The Y scroll of the mouse
 		 */
-		static void UpdateMouseScroll(f64 y);
+		static void UpdateMouseScroll(double y);
 
 		/**
 		 * @brief Get the mouse scroll
 		 * @return The mouse scroll
 		 */
-		static f64 GetMouseScroll(void);
+		static double GetMouseScroll(void);
 
 		/**
 		 * @brief Check if a key is pressed
