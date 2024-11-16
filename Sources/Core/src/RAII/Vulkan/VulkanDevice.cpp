@@ -8,7 +8,7 @@
 namespace BetterThanNothing
 {
 	VulkanDevice::VulkanDevice(ApplicationContext* context)
-		: m_instance(context->vulkanInstance.Handle())
+		: m_instance(context->vulkanInstance->Handle())
 	{
 		_pickPhysicalDevice();
 		_getPhysicalDeviceProperties();
@@ -97,7 +97,7 @@ namespace BetterThanNothing
 
 		createInfo.enabledExtensionCount = 0;
 
-		if (context->vulkanInstance.IsValidationLayersEnabled()) {
+		if (context->vulkanInstance->IsValidationLayersEnabled()) {
 //			auto validationLayers = context->vulkanInstance.GetValidationLayers();
 
 			std::array<const char*, 1> validationLayers = {

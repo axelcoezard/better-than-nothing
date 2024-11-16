@@ -5,18 +5,14 @@ namespace BetterThanNothing
 {
 	void Application::Run()
 	{
-		ApplicationContext context = {
-			.running = true,
-			.window = Window("Better Than Nothing", 800, 600),
-			.vulkanInstance = VulkanInstance(true)
-		};
+		ApplicationContext context;
 
-		context.vulkanDevice = VulkanDevice(&context);
-		//context.vulkanSurface = VulkanSurface(&context);
+		context.InitWindow("Better Than Nothing", 800, 600);
+		context.InitVulkan(true);
 
 		this->OnEnable();
 
-		while (!context.window.ShouldClose())
+		while (!context.window->ShouldClose())
 		{
 			Window::PollEvents();
 

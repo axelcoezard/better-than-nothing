@@ -10,9 +10,9 @@
 namespace BetterThanNothing
 {
 	VulkanSurface::VulkanSurface(const ApplicationContext* context)
-		: m_instance(context->vulkanInstance.Handle())
+		: m_instance(context->vulkanInstance->Handle())
 	{
-		if (glfwCreateWindowSurface(m_instance, context->window.Handle(), nullptr, &m_surface) != VK_SUCCESS)
+		if (glfwCreateWindowSurface(m_instance, context->window->Handle(), nullptr, &m_surface) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create window surface");
 
 		LOG_INFO("Vulkan surface: ok");
