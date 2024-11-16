@@ -74,7 +74,7 @@ namespace BetterThanNothing
 		return m_validationLayersEnabled;
 	}
 
-	std::vector<const char*> VulkanInstance::GetValidationLayers()
+	std::array<const char*, 1> VulkanInstance::GetValidationLayers()
 	{
 		return m_validationLayers;
 	}

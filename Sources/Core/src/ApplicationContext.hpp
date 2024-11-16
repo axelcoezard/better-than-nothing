@@ -39,8 +39,8 @@ namespace BetterThanNothing
 		void InitVulkan(bool enableValidationLayers)
 		{
 			vulkanInstance = std::make_unique<VulkanInstance>(enableValidationLayers);
-			vulkanSurface = std::make_unique<VulkanSurface>(this);
 			vulkanDevice = std::make_unique<VulkanDevice>(this);
+			vulkanSurface = std::make_unique<VulkanSurface>(this);
 		}
 
 		bool IsRunning() const

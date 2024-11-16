@@ -98,11 +98,11 @@ namespace BetterThanNothing
 		createInfo.enabledExtensionCount = 0;
 
 		if (context->GetVulkanInstance()->IsValidationLayersEnabled()) {
-//			auto validationLayers = context->vulkanInstance.GetValidationLayers();
+			auto validationLayers = context->GetVulkanInstance()->GetValidationLayers();
 
-			std::array<const char*, 1> validationLayers = {
-				"VK_LAYER_KHRONOS_validation"
-			};
+//			std::array<const char*, 1> validationLayers = {
+//				"VK_LAYER_KHRONOS_validation"
+//			};
 
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 			createInfo.ppEnabledLayerNames = validationLayers.data();
