@@ -47,8 +47,7 @@
 									return this->fn(std::forward<decltype(args)>(args)...);\
 								}
 
-#define LOG(x) 			std::cout << "\033[1;90m[LOG]\033[0m " << x << "\033[0m" << std::endl;
-#define LOG_INFO(x)		std::cout << "\033[1;34m[INFO]\033[0m " << x << "\033[0m" << std::endl;
-#define LOG_SUCCESS(x)	std::cout << "\033[1;32m[SUCCESS]\033[0m " << x << "\033[0m" << std::endl;
-#define LOG_WARNING(x)	std::cout << "\033[1;33m[WARNING]\033[0m " << x << "\033[0m" << std::endl;
-#define LOG_ERROR(x)	std::cout << "\033[1;31m[ERROR]\033[0m " << x << "\033[0m" << std::endl;
+#define LOG_INFO(x) 	std::cout << "\033[1;90m[INFO]\033[0m\t\t" << x << "\033[0m" << std::endl;
+#define LOG_SUCCESS(x)	std::cout << "\033[1;32m[SUCCESS]\033[0m\t" << x << "\033[0m" << std::endl;
+#define LOG_WARNING(x)	std::cout << "\033[1;33m[WARNING]\033[0m\t" << x << "\033[0m" << std::endl;
+#define LOG_ERROR(x)	std::cout << "\033[1;31m[ERROR]\033[0m\t\t" << x << "\033[0m" << std::endl;

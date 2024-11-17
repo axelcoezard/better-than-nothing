@@ -54,7 +54,7 @@ namespace BetterThanNothing
 
 		m_physicalDevice = _findSuitableDevice(devices);
 
-		LOG_INFO("Vulkan physical device: ok");
+		LOG_SUCCESS("Vulkan physical device: ok");
 	}
 
 	void VulkanDevice::_getPhysicalDeviceProperties()
@@ -66,9 +66,9 @@ namespace BetterThanNothing
 		m_deviceName = deviceProperties.deviceName;
 		m_apiVersion = std::to_string(deviceProperties.apiVersion);
 
-		LOG("-> Vendor: " << m_vendorName);
-		LOG("-> Device: " << m_deviceName);
-		LOG("-> API Version: " << m_apiVersion);
+		LOG_INFO("Vendor: " << m_vendorName);
+		LOG_INFO("Device: " << m_deviceName);
+		LOG_INFO("API Version: " << m_apiVersion);
 	}
 
 	void VulkanDevice::_createLogicalDevice(ApplicationContext* context)
@@ -113,12 +113,12 @@ namespace BetterThanNothing
 		if (vkCreateDevice(m_physicalDevice, &createInfo, nullptr, &m_logicalDevice) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create logical device");
 
-		LOG_INFO("Vulkan logical device: ok");
+		LOG_SUCCESS("Vulkan logical device: ok");
 
 		VkQueue graphicsQueue;
 		vkGetDeviceQueue(m_logicalDevice, indices.graphicsFamily.value(), 0, &graphicsQueue);
 
-		LOG_INFO("Vulkan graphics queue: ok");
+		LOG_SUCCESS("Vulkan graphics queue: ok");
 	}
 
 	bool VulkanDevice::_isDeviceSuitable(VkPhysicalDevice device) noexcept

@@ -50,7 +50,7 @@ namespace BetterThanNothing
 			throw std::runtime_error("failed to create instance!");
 		}
 
-		LOG_INFO("Vulkan instance: ok");
+		LOG_SUCCESS("Vulkan instance: ok");
 
 		_createDebugMessenger();
 	}
@@ -167,7 +167,7 @@ namespace BetterThanNothing
 			throw std::runtime_error("failed to set up debug messenger!");
 		}
 
-		LOG_INFO("Debug Messenger: ok");
+		LOG_SUCCESS("Debug Messenger: ok");
 	}
 
 	void VulkanInstance::_destroyDebugMessenger()
