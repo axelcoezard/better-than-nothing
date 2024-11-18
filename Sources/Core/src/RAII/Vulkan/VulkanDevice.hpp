@@ -39,18 +39,25 @@ namespace BetterThanNothing
 		VulkanDevice(VulkanDevice&& other) = delete;
 		VulkanDevice& operator=(VulkanDevice&& other) = delete;
 
+		[[nodiscard]]
 		VkPhysicalDevice Handle() const;
-		explicit operator VkPhysicalDevice() const;
 
+		[[nodiscard]]
 		std::string GetVendorName() const;
+
+		[[nodiscard]]
 		std::string GetDeviceName() const;
+
+		[[nodiscard]]
 		std::string GetApiVersion() const;
 
 	private:
 		bool _isDeviceSuitable(VkPhysicalDevice device) noexcept;
 		VkPhysicalDevice _findSuitableDevice(const std::vector<VkPhysicalDevice>& devices);
-		std::string _getVendorById(uint32_t vendorId) const;
 		QueueFamilyIndices _findQueueFamilies(VkPhysicalDevice device);
+
+		[[nodiscard]]
+		std::string _getVendorById(uint32_t vendorId) const;
 
 		void _pickPhysicalDevice();
 		void _getPhysicalDeviceProperties();

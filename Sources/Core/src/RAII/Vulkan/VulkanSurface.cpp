@@ -28,11 +28,6 @@ namespace BetterThanNothing
 			throw std::runtime_error("VulkanSurface::Handle() Vulkan surface is not initialized");
 		return m_surface;
 	}
-
-	VulkanSurface::operator VkSurfaceKHR() const
-	{
-		return m_surface;
-	}
 };
 
 

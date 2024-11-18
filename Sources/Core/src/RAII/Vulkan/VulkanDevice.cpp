@@ -64,7 +64,6 @@ namespace BetterThanNothing
 			indices.presentFamily.value()
 		};
 
-
 		float queuePriority = 1.0f;
 
 		for (uint32_t queueFamily : uniqueQueueFamilies)
@@ -81,16 +80,14 @@ namespace BetterThanNothing
 
 		VkDeviceCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-
 		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 		createInfo.pQueueCreateInfos = queueCreateInfos.data();
-
 		createInfo.pEnabledFeatures = &deviceFeatures;
-
 		createInfo.enabledExtensionCount = 0;
+		createInfo.ppEnabledExtensionNames = nullptr;
 
 		if (context->IsValidationLayersEnabled()) {
-			auto validationLayers = context->GetValidationLayers();
+			const auto validationLayers = context->GetValidationLayers();
 
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 			createInfo.ppEnabledLayerNames = validationLayers.data();
@@ -184,11 +181,6 @@ namespace BetterThanNothing
 	{
 		if (m_physicalDevice == VK_NULL_HANDLE)
 			throw std::runtime_error("Vulkan physical device is not initialized");
-		return m_physicalDevice;
-	}
-
-	VulkanDevice::operator VkPhysicalDevice() const
-	{
 		return m_physicalDevice;
 	}
 

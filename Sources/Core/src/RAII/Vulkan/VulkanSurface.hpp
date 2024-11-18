@@ -21,14 +21,12 @@ namespace BetterThanNothing
 		explicit VulkanSurface(ApplicationContext* context);
 		~VulkanSurface();
 
-		// Prevent copy and move to ensure unique ownership of nodes
 		VulkanSurface(const VulkanSurface&) = delete;
 		VulkanSurface& operator=(const VulkanSurface&) = delete;
 		VulkanSurface(VulkanSurface&& other) = delete;
 		VulkanSurface& operator=(VulkanSurface&& other) = delete;
 
+		[[nodiscard]]
 		VkSurfaceKHR Handle() const;
-
-		explicit operator VkSurfaceKHR() const;
 	};
 };

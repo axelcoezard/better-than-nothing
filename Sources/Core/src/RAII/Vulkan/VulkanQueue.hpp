@@ -15,11 +15,12 @@ namespace BetterThanNothing
 		explicit VulkanQueue(VkQueue queue);
 		~VulkanQueue() = default;
 
-		// Prevent copy to ensure unique ownership of nodes
 		VulkanQueue(const VulkanQueue&) = delete;
 		VulkanQueue& operator=(const VulkanQueue&) = delete;
+		VulkanQueue(VulkanQueue&& other) = delete;
+		VulkanQueue& operator=(VulkanQueue&& other) = delete;
 
+		[[nodiscard]]
 		VkQueue Handle() const;
-		explicit operator VkQueue() const;
 	};
 } // BetterThanNothing

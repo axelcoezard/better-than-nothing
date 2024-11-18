@@ -12,9 +12,4 @@ namespace BetterThanNothing
 	{
 		return m_queue;
 	}
-
-	VulkanQueue::operator VkQueue() const
-	{
-		return m_queue;
-	}
 }

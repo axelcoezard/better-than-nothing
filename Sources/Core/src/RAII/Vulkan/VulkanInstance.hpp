@@ -27,11 +27,13 @@ namespace BetterThanNothing
 		VulkanInstance(VulkanInstance&& other) = delete;
 		VulkanInstance& operator=(VulkanInstance&& other) = delete;
 
+		[[nodiscard]]
 		VkInstance Handle() const;
-		explicit operator VkInstance() const;
 
 	private:
 		bool _checkValidationLayerSupport() noexcept;
+
+		[[nodiscard]]
 		std::vector<const char*> _getRequiredExtensions() noexcept;
 
 		static VKAPI_ATTR VkBool32 VKAPI_CALL s_debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,

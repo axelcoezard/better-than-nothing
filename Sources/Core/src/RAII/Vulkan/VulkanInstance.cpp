@@ -39,7 +39,7 @@ namespace BetterThanNothing
 			VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
 			_populateDebugMessengerCreateInfo(debugCreateInfo);
 
-			auto validationLayers = m_context->GetValidationLayers();
+			const auto validationLayers = m_context->GetValidationLayers();
 
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 			createInfo.ppEnabledLayerNames = validationLayers.data();
@@ -89,7 +89,7 @@ namespace BetterThanNothing
 		std::vector<VkLayerProperties> availableLayers(layerCount);
 		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-		auto validationLayers = m_context->GetValidationLayers();
+		const auto validationLayers = m_context->GetValidationLayers();
 
 		return std::ranges::any_of(availableLayers, [validationLayers](const VkLayerProperties& layerProperties) {
 			return std::ranges::any_of(validationLayers, [&layerProperties](const char* layerName) {
@@ -182,12 +182,6 @@ namespace BetterThanNothing
 			throw std::runtime_error("Vulkan instance is not initialized");
 		return m_instance;
 	}
-
-	VulkanInstance::operator VkInstance() const
-	{
-		return m_instance;
-	}
-
 }
 
 

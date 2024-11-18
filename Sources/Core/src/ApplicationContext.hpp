@@ -129,12 +129,14 @@ namespace BetterThanNothing
 			m_vulkanParams.enableValidationLayers = enable;
 		}
 
+		[[nodiscard]]
 		bool IsValidationLayersEnabled() const
 		{
 			return m_vulkanParams.enableValidationLayers;
 		}
 
-		std::vector<const char*> GetValidationLayers() const
+		[[nodiscard]]
+		std::span<const char* const> GetValidationLayers() const
 		{
 			return m_vulkanParams.validationLayers;
 		}
