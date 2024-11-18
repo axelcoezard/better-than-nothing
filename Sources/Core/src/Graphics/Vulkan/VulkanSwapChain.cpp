@@ -1,9 +1,22 @@
-#include "VulkanSwapChain.hpp"
 #include "ApplicationContext.hpp"
+#include "VulkanSwapChain.hpp"
+#include "VulkanImageView.hpp"
 
 namespace BetterThanNothing
 {
 	VulkanSwapChain::VulkanSwapChain(ApplicationContext* context): m_context(context)
+	{
+		_createSwapChain();
+		_createImages();
+		_createImageViews();
+	}
+
+	VulkanSwapChain::~VulkanSwapChain()
+	{
+		vkDestroySwapchainKHR(m_context->GetVulkanDevice()->Handle(), m_swapChain, nullptr);
+	}
+
+	void VulkanSwapChain::_createSwapChain()
 	{
 		auto swapChainSupport = m_context->GetVulkanDevice()->GetSwapChainSupport();
 
@@ -46,15 +59,59 @@ namespace BetterThanNothing
 
 		createInfo.oldSwapchain = VK_NULL_HANDLE; // For recreation
 
-		if (m_context->GetVulkanDevice()->CreateSwapChain(&createInfo, &m_swapChain) != VK_SUCCESS)
+		auto device = m_context->GetVulkanDevice()->Handle();
+
+		if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &m_swapChain) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create swap chain!");
+
+		m_imageFormat = surfaceFormat.format;
+		m_extent = extent;
 
 		LOG_SUCCESS("Vulkan swap chain: ok");
 	}
 
-	VulkanSwapChain::~VulkanSwapChain()
+	void VulkanSwapChain::_createImages()
 	{
-		m_context->GetVulkanDevice()->DestroySwapChain(m_swapChain);
+		auto device = m_context->GetVulkanDevice()->Handle();
+
+		uint32_t finalImageCount = 0;
+		vkGetSwapchainImagesKHR(device, m_swapChain, &finalImageCount, nullptr);
+
+		m_images.resize(finalImageCount);
+		vkGetSwapchainImagesKHR(device, m_swapChain, &finalImageCount, m_images.data());
+
+		LOG_SUCCESS("Vulkan swap chain images: ok");
+	}
+
+	void VulkanSwapChain::_createImageViews()
+	{
+		const uint32_t imageCount = m_images.size();
+
+		m_imageViews.resize(imageCount);
+
+		for (size_t i = 0; i < imageCount; i++)
+		{
+			VkImageViewCreateInfo createInfo{};
+			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+			createInfo.image = m_images.at(i);
+			createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+			createInfo.format = m_imageFormat;
+
+			createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+			createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+			createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+			createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+
+			createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+			createInfo.subresourceRange.baseMipLevel = 0;
+			createInfo.subresourceRange.levelCount = 1;
+			createInfo.subresourceRange.baseArrayLayer = 0;
+			createInfo.subresourceRange.layerCount = 1;
+
+			m_imageViews.at(i) = std::make_unique<VulkanImageView>(createInfo, m_context);
+		}
+
+		LOG_SUCCESS("Vulkan swap chain image views: ok");
 	}
 
 	VkSurfaceFormatKHR VulkanSwapChain::_chooseSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)

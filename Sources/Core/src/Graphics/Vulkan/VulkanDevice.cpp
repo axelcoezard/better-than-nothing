@@ -232,17 +232,6 @@ namespace BetterThanNothing
 		return _querySwapChainSupport(m_physicalDevice);
 	}
 
-
-	VkResult VulkanDevice::CreateSwapChain(VkSwapchainCreateInfoKHR* createInfo, VkSwapchainKHR* swapChain) const
-	{
-		return vkCreateSwapchainKHR(m_logicalDevice, createInfo, nullptr, swapChain);
-	}
-
-	void VulkanDevice::DestroySwapChain(VkSwapchainKHR swapChain) const
-	{
-		vkDestroySwapchainKHR(m_logicalDevice, swapChain, nullptr);
-	}
-
 	std::string VulkanDevice::_getVendorById(const uint32_t vendorId) const
 	{
 		if (vendorId == 0x1002) return "AMD";

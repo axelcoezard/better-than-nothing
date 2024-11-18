@@ -17,7 +17,6 @@ namespace BetterThanNothing
 		VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 
 	public:
-		VulkanSurface() = default;
 		explicit VulkanSurface(ApplicationContext* context);
 		~VulkanSurface();
 

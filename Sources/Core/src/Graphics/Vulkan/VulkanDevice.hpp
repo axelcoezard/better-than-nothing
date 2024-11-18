@@ -30,6 +30,7 @@ namespace BetterThanNothing
 
 	class VulkanDevice
 	{
+	private:
 		ApplicationContext* m_context = nullptr;
 
 		VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
@@ -39,7 +40,6 @@ namespace BetterThanNothing
 		std::string m_deviceName;
 		std::string m_apiVersion;
 	public:
-		VulkanDevice() = default;
 		explicit VulkanDevice(ApplicationContext* context);
 		~VulkanDevice();
 
@@ -65,9 +65,6 @@ namespace BetterThanNothing
 
 		[[nodiscard]]
 		QueueFamilyIndices GetQueueFamilies() const;
-
-		VkResult CreateSwapChain(VkSwapchainCreateInfoKHR* createInfo, VkSwapchainKHR* swapChain) const;
-		void DestroySwapChain(VkSwapchainKHR swapChain) const;
 
 	private:
 		VkPhysicalDevice _findSuitableDevice(const std::vector<VkPhysicalDevice>& devices);

@@ -18,7 +18,6 @@ namespace BetterThanNothing
 		VkDebugUtilsMessengerEXT m_debugMessenger = VK_NULL_HANDLE;
 
 	public:
-		VulkanInstance() = default;
 		explicit VulkanInstance(ApplicationContext* context);
 		~VulkanInstance();
 
