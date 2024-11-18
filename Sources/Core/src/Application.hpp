@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RAII/Window.hpp"
+#include "Graphics/Window.hpp"
 
 namespace BetterThanNothing
 {

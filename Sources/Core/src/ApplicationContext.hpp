@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include "RAII/Window.hpp"
-#include "RAII/Vulkan/VulkanInstance.hpp"
-#include "RAII/Vulkan/VulkanSurface.hpp"
-#include "RAII/Vulkan/VulkanDevice.hpp"
-#include "RAII/Vulkan/VulkanQueue.hpp"
-#include "RAII/Vulkan/VulkanSwapChain.hpp"
+#include "Graphics/Window.hpp"
+#include "Graphics/Vulkan/VulkanInstance.hpp"
+#include "Graphics/Vulkan/VulkanSurface.hpp"
+#include "Graphics/Vulkan/VulkanDevice.hpp"
+#include "Graphics/Vulkan/VulkanQueue.hpp"
+#include "Graphics/Vulkan/VulkanSwapChain.hpp"
 
 namespace BetterThanNothing
 {

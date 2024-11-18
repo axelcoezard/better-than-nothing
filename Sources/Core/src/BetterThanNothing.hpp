@@ -1,11 +1,12 @@
 #pragma once
 
-// Containers
-#include "Utils/DependencyGraph.hpp"
-
-#include "RAII/Window.hpp"
-#include "RAII/Vulkan/VulkanInstance.hpp"
-#include "RAII/Vulkan/VulkanSurface.hpp"
+// Graphics
+#include "Graphics/Window.hpp"
+#include "Graphics/Vulkan/VulkanInstance.hpp"
+#include "Graphics/Vulkan/VulkanSurface.hpp"
+#include "Graphics/Vulkan/VulkanDevice.hpp"
+#include "Graphics/Vulkan/VulkanQueue.hpp"
+#include "Graphics/Vulkan/VulkanSwapChain.hpp"
 
 // Application
 #include "ApplicationContext.hpp"
@@ -14,3 +15,4 @@
 // Utils
 #include "Utils/JobManager.hpp"
 #include "Utils/Input.hpp"
+#include "Utils/DependencyGraph.hpp"

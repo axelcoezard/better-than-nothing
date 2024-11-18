@@ -1,5 +1,4 @@
 #include "BetterThanNothing.hpp"
-#include "RAII/Vulkan/VulkanInstance.hpp"
 
 namespace BetterThanNothing
 {
