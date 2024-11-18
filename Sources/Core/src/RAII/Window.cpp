@@ -3,7 +3,7 @@
 
 namespace BetterThanNothing
 {
-	Window::Window(std::string  title, const int32_t width, const int32_t height, const bool fullscreen, const bool resizable)
+	Window::Window(std::string  title, const uint32_t width, const uint32_t height, const bool fullscreen, const bool resizable)
 		: m_Title(std::move(title)), m_Width(width), m_Height(height), m_fullscreen(fullscreen), m_resizable(resizable)
 	{
 		if (glfwInit() == GLFW_FALSE) {
@@ -38,6 +38,45 @@ namespace BetterThanNothing
 			glfwDestroyWindow(m_Window);
 			glfwTerminate();
 		}
+	}
+
+	GLFWwindow* Window::Handle() const
+	{
+		return m_Window;
+	}
+
+	bool Window::ShouldClose() const
+	{
+		if (m_Window == nullptr)
+			return true;
+		return glfwWindowShouldClose(m_Window) == GLFW_TRUE;
+	}
+
+	std::pair<uint32_t, uint32_t> Window::GetFramebufferSize() const
+	{
+		int width, height;
+		glfwGetFramebufferSize(m_Window, &width, &height);
+		return {width, height};
+	}
+
+	bool Window::IsResized() const
+	{
+		return m_Resized;
+	}
+
+	void Window::SetResized(const bool resized)
+	{
+		m_Resized = resized;
+	}
+
+	void Window::SetWidth(const uint32_t width)
+	{
+		m_Width = width;
+	}
+
+	void Window::SetHeight(const uint32_t height)
+	{
+		m_Height = height;
 	}
 
 	void Window::ResizeCallback(GLFWwindow* window, int width, int height)
