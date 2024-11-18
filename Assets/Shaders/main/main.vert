@@ -1,28 +1,20 @@
 #version 450
 
-layout(binding = 0) uniform GlobalUniforms {
-	mat4 view;
-	mat4 projection;
-} globalUniforms;
+layout(location = 0) out vec3 fragColor;
 
-layout(binding = 1) uniform DynamicUniforms {
-	mat4 model;
-} dynamicUniforms;
+vec2 positions[3] = vec2[](
+    vec2(0.0, -0.5),
+    vec2(0.5, 0.5),
+    vec2(-0.5, 0.5)
+);
 
-layout(location = 0) in vec3 inPosition;
-layout(location = 1) in vec3 inNormal;
-layout(location = 2) in vec2 inTexCoord;
-
-layout(location = 0) out vec3 fragPosition;
-layout(location = 1) out vec3 fragNormal;
-layout(location = 2) out vec2 fragTexCoord;
+vec3 colors[3] = vec3[](
+    vec3(1.0, 0.0, 0.0),
+    vec3(0.0, 1.0, 0.0),
+    vec3(0.0, 0.0, 1.0)
+);
 
 void main() {
-	vec4 worldPosition = globalUniforms.view * dynamicUniforms.model * vec4(inPosition, 1.0);
-
-	gl_Position = globalUniforms.projection * worldPosition;
-
-	fragPosition = worldPosition.xyz;
-	fragNormal = mat3(transpose(inverse(globalUniforms.view * dynamicUniforms.model))) * inNormal;
-	fragTexCoord = inTexCoord;
+    gl_Position = vec4(positions[gl_VertexIndex], 0.0, 1.0);
+    fragColor = colors[gl_VertexIndex];
 }
