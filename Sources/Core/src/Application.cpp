@@ -9,7 +9,6 @@ namespace BetterThanNothing
 			.SetWindowTitle("Better Than Nothing")
 			.SetWindowSize(800, 600)
 			.EnableValidationLayers(true)
-			.AddValidationLayer("VK_LAYER_KHRONOS_validation")
 			.Build();
 
 		context.Initialize();

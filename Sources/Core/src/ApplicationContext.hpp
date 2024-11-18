@@ -31,7 +31,7 @@ namespace BetterThanNothing
 	struct ApplicationContextVulkanParams
 	{
 		bool enableValidationLayers = false;
-		std::vector<const char*> validationLayers;
+		std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
 	};
 
 	class ApplicationContext
@@ -143,8 +143,8 @@ namespace BetterThanNothing
 	class ApplicationContextBuilder
 	{
 	private:
-		ApplicationContextWindowParams m_windowParams;
-		ApplicationContextVulkanParams m_vulkanParams;
+		ApplicationContextWindowParams m_windowParams{};
+		ApplicationContextVulkanParams m_vulkanParams{};
 
 	public:
 		ApplicationContextBuilder() = default;
