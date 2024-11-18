@@ -18,12 +18,10 @@ file(GLOB SOURCES
 	"src/Utils/*.hpp"
 	"src/Events/*.hpp"
 	"src/Events/*.cpp"
-	"src/Containers/*.hpp"
-	"src/Containers/*.cpp"
-	"src/RAII/*.hpp"
-	"src/RAII/*.cpp"
-	"src/RAII/Vulkan/*.hpp"
-	"src/RAII/Vulkan/*.cpp"
+	"src/Graphics/*.hpp"
+	"src/Graphics/*.cpp"
+	"src/Graphics/Vulkan/*.hpp"
+	"src/Graphics/Vulkan/*.cpp"
 )
 
 include_directories(src)

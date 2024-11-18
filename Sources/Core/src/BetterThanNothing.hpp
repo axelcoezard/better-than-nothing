@@ -1,7 +1,7 @@
 #pragma once
 
 // Containers
-#include "Containers/DependencyGraph.hpp"
+#include "Utils/DependencyGraph.hpp"
 
 #include "RAII/Window.hpp"
 #include "RAII/Vulkan/VulkanInstance.hpp"
