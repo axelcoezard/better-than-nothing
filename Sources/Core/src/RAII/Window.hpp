@@ -1,8 +1,5 @@
 #pragma once
 
-#include <cstdint>
-#include <string>
-
 namespace BetterThanNothing
 {
 	class Window
@@ -25,6 +22,8 @@ namespace BetterThanNothing
 
 		[[nodiscard]]
 		GLFWwindow* Handle() const;
+
+		static void PollEvents();
 
 		[[nodiscard]]
 		bool ShouldClose() const;

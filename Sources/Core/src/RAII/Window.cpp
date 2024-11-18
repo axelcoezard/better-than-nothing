@@ -45,6 +45,11 @@ namespace BetterThanNothing
 		return m_Window;
 	}
 
+	void Window::PollEvents()
+	{
+		glfwPollEvents();
+	}
+
 	bool Window::ShouldClose() const
 	{
 		if (m_Window == nullptr)
