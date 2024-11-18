@@ -9,7 +9,7 @@
 #include "RAII/Vulkan/VulkanSurface.hpp"
 #include "RAII/Vulkan/VulkanDevice.hpp"
 #include "RAII/Vulkan/VulkanQueue.hpp"
-#include "RAII/Vulkan/VulkanSwapchain.hpp"
+#include "RAII/Vulkan/VulkanSwapChain.hpp"
 
 namespace BetterThanNothing
 {
@@ -51,7 +51,7 @@ namespace BetterThanNothing
 		std::unique_ptr<VulkanQueue> m_pGraphicsQueue = nullptr;
 		std::unique_ptr<VulkanQueue> m_pPresentQueue = nullptr;
 
-		std::unique_ptr<VulkanSwapchain> m_pVulkanSwapchain = nullptr;
+		std::unique_ptr<VulkanSwapChain> m_pVulkanSwapChain = nullptr;
 
 	public:
 		explicit ApplicationContext(ApplicationContextWindowParams  windowParams, ApplicationContextVulkanParams  vulkanParams)
@@ -72,7 +72,7 @@ namespace BetterThanNothing
 			m_pVulkanInstance = std::make_unique<VulkanInstance>(this);
 			m_pVulkanSurface = std::make_unique<VulkanSurface>(this);
 			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
-			m_pVulkanSwapchain = std::make_unique<VulkanSwapchain>(this);
+			m_pVulkanSwapChain = std::make_unique<VulkanSwapChain>(this);
 
 			return *this;
 		}
@@ -127,6 +127,13 @@ namespace BetterThanNothing
 			if (!m_pPresentQueue)
 				throw ApplicationContextError("Presentation queue is not set");
 			return m_pPresentQueue;
+		}
+
+		std::unique_ptr<VulkanSwapChain>& GetVulkanSwapChain()
+		{
+			if (!m_pVulkanSwapChain)
+				throw ApplicationContextError("Vulkan swap chain is not set");
+			return m_pVulkanSwapChain;
 		}
 
 		void EnableValidationLayers(const bool enable)

@@ -1,20 +1,20 @@
-#include "VulkanSwapchain.hpp"
+#include "VulkanSwapChain.hpp"
 #include "ApplicationContext.hpp"
 
 namespace BetterThanNothing
 {
-	VulkanSwapchain::VulkanSwapchain(ApplicationContext* context): m_context(context)
+	VulkanSwapChain::VulkanSwapChain(ApplicationContext* context): m_context(context)
 	{
-		auto swapchainSupport = m_context->GetVulkanDevice()->GetSwapChainSupport();
+		auto swapChainSupport = m_context->GetVulkanDevice()->GetSwapChainSupport();
 
-		VkSurfaceFormatKHR surfaceFormat = _chooseSurfaceFormat(swapchainSupport.formats);
-		VkPresentModeKHR presentMode = _choosePresentMode(swapchainSupport.presentModes);
-		VkExtent2D extent = _chooseExtent(swapchainSupport.capabilities);
+		VkSurfaceFormatKHR surfaceFormat = _chooseSurfaceFormat(swapChainSupport.formats);
+		VkPresentModeKHR presentMode = _choosePresentMode(swapChainSupport.presentModes);
+		VkExtent2D extent = _chooseExtent(swapChainSupport.capabilities);
 
-		uint32_t imageCount = swapchainSupport.capabilities.minImageCount + 1;
+		uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
 
-		if (swapchainSupport.capabilities.maxImageCount > 0 && imageCount > swapchainSupport.capabilities.maxImageCount)
-			imageCount = swapchainSupport.capabilities.maxImageCount;
+		if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
+			imageCount = swapChainSupport.capabilities.maxImageCount;
 
 		VkSwapchainCreateInfoKHR createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -37,7 +37,7 @@ namespace BetterThanNothing
 			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		}
 
-		createInfo.preTransform = swapchainSupport.capabilities.currentTransform; // No transformation
+		createInfo.preTransform = swapChainSupport.capabilities.currentTransform; // No transformation
 
 		createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; // No blending with other windows
 
@@ -52,12 +52,12 @@ namespace BetterThanNothing
 		LOG_SUCCESS("Vulkan swap chain: ok");
 	}
 
-	VulkanSwapchain::~VulkanSwapchain()
+	VulkanSwapChain::~VulkanSwapChain()
 	{
 		m_context->GetVulkanDevice()->DestroySwapChain(m_swapChain);
 	}
 
-	VkSurfaceFormatKHR VulkanSwapchain::_chooseSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
+	VkSurfaceFormatKHR VulkanSwapChain::_chooseSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 	{
 		for (const auto& surfaceFormat : availableFormats)
 		{
@@ -70,7 +70,7 @@ namespace BetterThanNothing
 		return availableFormats[0];
 	}
 
-	VkPresentModeKHR VulkanSwapchain::_choosePresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
+	VkPresentModeKHR VulkanSwapChain::_choosePresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 	{
 		for (const auto& availablePresentMode : availablePresentModes)
 		{
@@ -80,7 +80,7 @@ namespace BetterThanNothing
 		return VK_PRESENT_MODE_FIFO_KHR; // V-Sync
 	}
 
-	VkExtent2D VulkanSwapchain::_chooseExtent(const VkSurfaceCapabilitiesKHR& capabilities)
+	VkExtent2D VulkanSwapChain::_chooseExtent(const VkSurfaceCapabilitiesKHR& capabilities)
 	{
 		if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
 			return capabilities.currentExtent;

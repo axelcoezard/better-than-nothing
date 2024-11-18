@@ -5,19 +5,19 @@ namespace BetterThanNothing
 {
 	class ApplicationContext;
 
-	class VulkanSwapchain {
+	class VulkanSwapChain {
 	private:
 		ApplicationContext* m_context = nullptr;
 		VkSwapchainKHR m_swapChain = VK_NULL_HANDLE;
 
 	public:
-		explicit VulkanSwapchain(ApplicationContext* context);
-		~VulkanSwapchain();
+		explicit VulkanSwapChain(ApplicationContext* context);
+		~VulkanSwapChain();
 
-		VulkanSwapchain(const VulkanSwapchain&) = delete;
-		VulkanSwapchain& operator=(const VulkanSwapchain&) = delete;
-		VulkanSwapchain(VulkanSwapchain&& other) = delete;
-		VulkanSwapchain& operator=(VulkanSwapchain&& other) = delete;
+		VulkanSwapChain(const VulkanSwapChain&) = delete;
+		VulkanSwapChain& operator=(const VulkanSwapChain&) = delete;
+		VulkanSwapChain(VulkanSwapChain&& other) = delete;
+		VulkanSwapChain& operator=(VulkanSwapChain&& other) = delete;
 
 	private:
 		[[nodiscard]]
