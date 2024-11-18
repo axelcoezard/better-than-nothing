@@ -12,15 +12,17 @@ namespace BetterThanNothing
 
 	struct QueueFamilyIndices {
 		std::optional<uint32_t> graphicsFamily;
+		std::optional<uint32_t> presentFamily;
 
-		bool IsComplete() {
-			return graphicsFamily.has_value();
+		bool IsComplete() const {
+			return graphicsFamily.has_value() && presentFamily.has_value();
 		}
 	};
 
 	class VulkanDevice
 	{
-		VkInstance m_instance = VK_NULL_HANDLE;
+		ApplicationContext* m_context = nullptr;
+
 		VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 		VkDevice m_logicalDevice = VK_NULL_HANDLE;
 
@@ -34,9 +36,8 @@ namespace BetterThanNothing
 
 		VulkanDevice(const VulkanDevice&) = delete;
 		VulkanDevice& operator=(const VulkanDevice&) = delete;
-
-		VulkanDevice(VulkanDevice&& other) noexcept;
-		VulkanDevice& operator=(VulkanDevice&& other) noexcept;
+		VulkanDevice(VulkanDevice&& other) = delete;
+		VulkanDevice& operator=(VulkanDevice&& other) = delete;
 
 		VkPhysicalDevice Handle() const;
 		explicit operator VkPhysicalDevice() const;
@@ -46,7 +47,6 @@ namespace BetterThanNothing
 		std::string GetApiVersion() const;
 
 	private:
-		void _move(VulkanDevice&& other) noexcept;
 		bool _isDeviceSuitable(VkPhysicalDevice device) noexcept;
 		VkPhysicalDevice _findSuitableDevice(const std::vector<VkPhysicalDevice>& devices);
 		std::string _getVendorById(uint32_t vendorId) const;

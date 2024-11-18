@@ -12,7 +12,8 @@ namespace BetterThanNothing
 
 	class VulkanSurface
 	{
-		VkInstance m_instance = VK_NULL_HANDLE;
+		ApplicationContext* m_context = nullptr;
+
 		VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 
 	public:
@@ -20,19 +21,14 @@ namespace BetterThanNothing
 		explicit VulkanSurface(ApplicationContext* context);
 		~VulkanSurface();
 
-		// Prevent copy to ensure unique ownership of nodes
+		// Prevent copy and move to ensure unique ownership of nodes
 		VulkanSurface(const VulkanSurface&) = delete;
 		VulkanSurface& operator=(const VulkanSurface&) = delete;
-
-		// Allow move semantics
-		VulkanSurface(VulkanSurface&& other) noexcept;
-		VulkanSurface& operator=(VulkanSurface&& other) noexcept;
+		VulkanSurface(VulkanSurface&& other) = delete;
+		VulkanSurface& operator=(VulkanSurface&& other) = delete;
 
 		VkSurfaceKHR Handle() const;
 
 		explicit operator VkSurfaceKHR() const;
-
-	private:
-		void _swap(VulkanSurface&& other);
 	};
 };

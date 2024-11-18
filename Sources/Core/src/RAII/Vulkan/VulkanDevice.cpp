@@ -7,8 +7,7 @@
 
 namespace BetterThanNothing
 {
-	VulkanDevice::VulkanDevice(ApplicationContext* context)
-		: m_instance(context->GetVulkanInstance()->Handle())
+	VulkanDevice::VulkanDevice(ApplicationContext* context): m_context(context)
 	{
 		_pickPhysicalDevice();
 		_getPhysicalDeviceProperties();
@@ -21,36 +20,18 @@ namespace BetterThanNothing
 			vkDestroyDevice(m_logicalDevice, nullptr);
 	}
 
-	VulkanDevice::VulkanDevice(VulkanDevice&& other) noexcept
-	{
-		_move(std::move(other));
-	}
-
-	VulkanDevice& VulkanDevice::operator=(VulkanDevice&& other) noexcept
-	{
-		if (this != &other)
-			_move(std::move(other));
-		return *this;
-	}
-
-	void VulkanDevice::_move(VulkanDevice&& other) noexcept
-	{
-		// TODO: if m_physicalDevice != VK_NULL_HANDLE then destroy
-
-		m_physicalDevice = other.m_physicalDevice;
-		other.m_physicalDevice = VK_NULL_HANDLE;
-	}
-
 	void VulkanDevice::_pickPhysicalDevice()
 	{
+		auto vkInstance = m_context->GetVulkanInstance()->Handle();
+
 		uint32_t deviceCount = 0;
-		vkEnumeratePhysicalDevices(m_instance, &deviceCount, nullptr);
+		vkEnumeratePhysicalDevices(vkInstance, &deviceCount, nullptr);
 
 		if (deviceCount == 0)
 			throw std::runtime_error("Failed to find GPUs with Vulkan support");
 
 		std::vector<VkPhysicalDevice> devices(deviceCount);
-		vkEnumeratePhysicalDevices(m_instance, &deviceCount, devices.data());
+		vkEnumeratePhysicalDevices(vkInstance, &deviceCount, devices.data());
 
 		m_physicalDevice = _findSuitableDevice(devices);
 
@@ -77,32 +58,39 @@ namespace BetterThanNothing
 		if (!indices.IsComplete())
 			throw std::runtime_error("Failed to find queue families");
 
-		VkDeviceQueueCreateInfo queueCreateInfo{};
-		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-		queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
-		queueCreateInfo.queueCount = 1;
+		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+		std::set uniqueQueueFamilies = {
+			indices.graphicsFamily.value(),
+			indices.presentFamily.value()
+		};
+
 
 		float queuePriority = 1.0f;
-		queueCreateInfo.pQueuePriorities = &queuePriority;
+
+		for (uint32_t queueFamily : uniqueQueueFamilies)
+		{
+			VkDeviceQueueCreateInfo queueCreateInfo{};
+			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+			queueCreateInfo.queueFamilyIndex = queueFamily;
+			queueCreateInfo.queueCount = 1;
+			queueCreateInfo.pQueuePriorities = &queuePriority;
+			queueCreateInfos.push_back(queueCreateInfo);
+		}
 
 		VkPhysicalDeviceFeatures deviceFeatures{};
 
 		VkDeviceCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 
-		createInfo.pQueueCreateInfos = &queueCreateInfo;
-		createInfo.queueCreateInfoCount = 1;
+		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+		createInfo.pQueueCreateInfos = queueCreateInfos.data();
 
 		createInfo.pEnabledFeatures = &deviceFeatures;
 
 		createInfo.enabledExtensionCount = 0;
 
-		if (context->GetVulkanInstance()->IsValidationLayersEnabled()) {
-			auto validationLayers = context->GetVulkanInstance()->GetValidationLayers();
-
-//			std::array<const char*, 1> validationLayers = {
-//				"VK_LAYER_KHRONOS_validation"
-//			};
+		if (context->IsValidationLayersEnabled()) {
+			auto validationLayers = context->GetValidationLayers();
 
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 			createInfo.ppEnabledLayerNames = validationLayers.data();
@@ -117,8 +105,15 @@ namespace BetterThanNothing
 
 		VkQueue graphicsQueue;
 		vkGetDeviceQueue(m_logicalDevice, indices.graphicsFamily.value(), 0, &graphicsQueue);
+		m_context->SetGraphicsQueue(graphicsQueue);
 
 		LOG_SUCCESS("Vulkan graphics queue: ok");
+
+		VkQueue presentQueue;
+		vkGetDeviceQueue(m_logicalDevice, indices.presentFamily.value(), 0, &presentQueue);
+		m_context->SetPresentQueue(presentQueue);
+
+		LOG_SUCCESS("Vulkan presentation queue: ok");
 	}
 
 	bool VulkanDevice::_isDeviceSuitable(VkPhysicalDevice device) noexcept
@@ -161,14 +156,24 @@ namespace BetterThanNothing
 		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
 		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
+		auto vkSurface = m_context->GetVulkanSurface()->Handle();
+
 		uint32_t i = 0;
-		for (const auto& queueFamily : queueFamilies) {
-			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+		for (const auto& queueFamily : queueFamilies)
+		{
+			// Check if the queue family supports graphics queue
+			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
 				indices.graphicsFamily = i;
-			}
-			if (indices.IsComplete()) {
+
+			// Check if the queue family supports present queue
+			VkBool32 presentSupport = false;
+			vkGetPhysicalDeviceSurfaceSupportKHR(device, i, vkSurface, &presentSupport);
+			if (presentSupport)
+				indices.presentFamily = i;
+
+			// If both graphics and present queues are supported, then we are done
+			if (indices.IsComplete())
 				break;
-			}
 			i++;
 		}
 

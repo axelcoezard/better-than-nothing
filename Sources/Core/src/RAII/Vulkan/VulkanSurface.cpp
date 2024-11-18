@@ -9,10 +9,9 @@
 
 namespace BetterThanNothing
 {
-	VulkanSurface::VulkanSurface(ApplicationContext* context)
-		: m_instance(context->GetVulkanInstance()->Handle())
+	VulkanSurface::VulkanSurface(ApplicationContext* context): m_context(context)
 	{
-		if (glfwCreateWindowSurface(m_instance, context->GetWindow()->Handle(), nullptr, &m_surface) != VK_SUCCESS)
+		if (glfwCreateWindowSurface(m_context->GetVulkanInstance()->Handle(), m_context->GetWindow()->Handle(), nullptr, &m_surface) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create window surface");
 
 		LOG_SUCCESS("Vulkan surface: ok");
@@ -20,28 +19,7 @@ namespace BetterThanNothing
 
 	VulkanSurface::~VulkanSurface()
 	{
-		vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
-	}
-
-	VulkanSurface::VulkanSurface(VulkanSurface&& other) noexcept
-	{
-		_swap(std::move(other));
-	}
-
-	VulkanSurface& VulkanSurface::operator=(VulkanSurface&& other) noexcept
-	{
-		if (this != &other)
-			_swap(std::move(other));
-		return *this;
-	}
-
-	void VulkanSurface::_swap(VulkanSurface&& other)
-	{
-		if (m_surface != VK_NULL_HANDLE)
-			vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
-
-		m_surface = other.m_surface;
-		other.m_surface = VK_NULL_HANDLE;
+		vkDestroySurfaceKHR(m_context->GetVulkanInstance()->Handle(), m_surface, nullptr);
 	}
 
 	VkSurfaceKHR VulkanSurface::Handle() const

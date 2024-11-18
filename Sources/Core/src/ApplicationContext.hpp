@@ -4,12 +4,11 @@
 
 #pragma once
 
-#include <utility>
-
 #include "RAII/Window.hpp"
 #include "RAII/Vulkan/VulkanInstance.hpp"
 #include "RAII/Vulkan/VulkanSurface.hpp"
 #include "RAII/Vulkan/VulkanDevice.hpp"
+#include "RAII/Vulkan/VulkanQueue.hpp"
 
 namespace BetterThanNothing
 {
@@ -44,8 +43,11 @@ namespace BetterThanNothing
 		std::unique_ptr<Window> m_pWindow;
 
 		std::unique_ptr<VulkanInstance> m_pVulkanInstance;
-		std::unique_ptr<VulkanDevice> m_pVulkanDevice;
 		std::unique_ptr<VulkanSurface> m_pVulkanSurface;
+		std::unique_ptr<VulkanDevice> m_pVulkanDevice;
+
+		std::unique_ptr<VulkanQueue> m_pGraphicsQueue;
+		std::unique_ptr<VulkanQueue> m_pPresentQueue;
 
 	public:
 		explicit ApplicationContext(ApplicationContextWindowParams  windowParams, ApplicationContextVulkanParams  vulkanParams)
@@ -63,31 +65,78 @@ namespace BetterThanNothing
 				m_windowParams.resizable
 			);
 
-			m_pVulkanInstance = std::make_unique<VulkanInstance>(m_vulkanParams.enableValidationLayers);
-			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
+			m_pVulkanInstance = std::make_unique<VulkanInstance>(this);
 			m_pVulkanSurface = std::make_unique<VulkanSurface>(this);
+			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
 
 			return *this;
 		}
 
 		std::unique_ptr<Window>& GetWindow()
 		{
+			if (!m_pWindow)
+				throw ApplicationContextError("Window is not set");
 			return m_pWindow;
 		}
 
 		std::unique_ptr<VulkanInstance>& GetVulkanInstance()
 		{
+			if (!m_pVulkanInstance)
+				throw ApplicationContextError("Vulkan instance is not set");
 			return m_pVulkanInstance;
 		}
 
 		std::unique_ptr<VulkanDevice>& GetVulkanDevice()
 		{
+			if (!m_pVulkanDevice)
+				throw ApplicationContextError("Vulkan device is not set");
 			return m_pVulkanDevice;
 		}
 
 		std::unique_ptr<VulkanSurface>& GetVulkanSurface()
 		{
+			if (!m_pVulkanSurface)
+				throw ApplicationContextError("Vulkan surface is not set");
 			return m_pVulkanSurface;
+		}
+
+		void SetGraphicsQueue(VkQueue graphicsQueue)
+		{
+			m_pGraphicsQueue = std::make_unique<VulkanQueue>(graphicsQueue);
+		}
+
+		std::unique_ptr<VulkanQueue>& GetGraphicsQueue()
+		{
+			if (!m_pGraphicsQueue)
+				throw ApplicationContextError("Graphics queue is not set");
+			return m_pGraphicsQueue;
+		}
+
+		void SetPresentQueue(VkQueue presentQueue)
+		{
+			m_pPresentQueue = std::make_unique<VulkanQueue>(presentQueue);
+		}
+
+		std::unique_ptr<VulkanQueue>& GetPresentQueue()
+		{
+			if (!m_pPresentQueue)
+				throw ApplicationContextError("Presentation queue is not set");
+			return m_pPresentQueue;
+		}
+
+		void EnableValidationLayers(const bool enable)
+		{
+			m_vulkanParams.enableValidationLayers = enable;
+		}
+
+		bool IsValidationLayersEnabled() const
+		{
+			return m_vulkanParams.enableValidationLayers;
+		}
+
+		std::vector<const char*> GetValidationLayers() const
+		{
+			return m_vulkanParams.validationLayers;
 		}
 	};
 

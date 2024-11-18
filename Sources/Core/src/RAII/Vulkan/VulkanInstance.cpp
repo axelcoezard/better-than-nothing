@@ -5,16 +5,20 @@
 #include "VulkanInstance.hpp"
 #include <stdexcept>
 
+#include "ApplicationContext.hpp"
+
 namespace BetterThanNothing
 {
-	VulkanInstance::VulkanInstance(const bool enableValidationLayers): m_validationLayersEnabled(enableValidationLayers)
+	VulkanInstance::VulkanInstance(ApplicationContext* context): m_context(context)
 	{
+		bool validationLayersEnabled = context->IsValidationLayersEnabled();
 		bool validationLayersAvalaible = _checkValidationLayerSupport();
 
-		if (m_validationLayersEnabled && !validationLayersAvalaible)
+		if (validationLayersEnabled && !validationLayersAvalaible)
 			LOG_WARNING("Validation layers are enabled but not available on this system");
 
-		m_validationLayersEnabled &= validationLayersAvalaible;
+		validationLayersEnabled &= validationLayersAvalaible;
+		context->EnableValidationLayers(validationLayersEnabled);
 
 		VkApplicationInfo appInfo{};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -30,13 +34,15 @@ namespace BetterThanNothing
 		createInfo.ppEnabledExtensionNames = extensions.data();
 
 		// Prepare validation layers
-		if (m_validationLayersEnabled)
+		if (validationLayersEnabled)
 		{
 			VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
 			_populateDebugMessengerCreateInfo(debugCreateInfo);
 
-			createInfo.enabledLayerCount = static_cast<uint32_t>(m_validationLayers.size());
-			createInfo.ppEnabledLayerNames = m_validationLayers.data();
+			auto validationLayers = m_context->GetValidationLayers();
+
+			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+			createInfo.ppEnabledLayerNames = validationLayers.data();
 			createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
 		}
 		else
@@ -61,42 +67,6 @@ namespace BetterThanNothing
 		vkDestroyInstance(m_instance, nullptr);
 	}
 
-	VulkanInstance::VulkanInstance(VulkanInstance&& other) noexcept
-	{
-		_move(std::move(other));
-	}
-
-	VulkanInstance& VulkanInstance::operator=(VulkanInstance&& other) noexcept
-	{
-		if (this != &other)
-			_move(std::move(other));
-		return *this;
-	}
-
-	bool VulkanInstance::IsValidationLayersEnabled() const
-	{
-		return m_validationLayersEnabled;
-	}
-
-	std::array<const char*, 1> VulkanInstance::GetValidationLayers()
-	{
-		return m_validationLayers;
-	}
-
-	void VulkanInstance::_move(VulkanInstance&& other) noexcept
-	{
-		if (m_instance != VK_NULL_HANDLE)
-		{
-			_destroyDebugMessenger();
-			vkDestroyInstance(m_instance, nullptr);
-		}
-
-		m_instance = other.m_instance;
-		other.m_instance = VK_NULL_HANDLE;
-
-		_createDebugMessenger();
-	}
-
 	std::vector<const char*> VulkanInstance::_getRequiredExtensions() noexcept
 	{
 		uint32_t glfwExtensionCount = 0;
@@ -104,7 +74,7 @@ namespace BetterThanNothing
 
 		std::vector extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
-		if (m_validationLayersEnabled) {
+		if (m_context->IsValidationLayersEnabled()) {
 			extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 		}
 
@@ -119,8 +89,10 @@ namespace BetterThanNothing
 		std::vector<VkLayerProperties> availableLayers(layerCount);
 		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-		return std::ranges::any_of(availableLayers, [this](const VkLayerProperties& layerProperties) {
-			return std::ranges::any_of(m_validationLayers, [&layerProperties](const char* layerName) {
+		auto validationLayers = m_context->GetValidationLayers();
+
+		return std::ranges::any_of(availableLayers, [validationLayers](const VkLayerProperties& layerProperties) {
+			return std::ranges::any_of(validationLayers, [&layerProperties](const char* layerName) {
 				return layerProperties.layerName == std::string_view(layerName);
 			});
 		});
@@ -149,7 +121,7 @@ namespace BetterThanNothing
 		createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
 		createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 		createInfo.pfnUserCallback = s_debugCallback;
-		createInfo.pUserData = nullptr; // TODO: Perhaps add a pointer to ApplicationContext
+		createInfo.pUserData = m_context;
 	}
 
 	void VulkanInstance::_createDebugMessenger()
@@ -157,7 +129,7 @@ namespace BetterThanNothing
 		if (m_instance == VK_NULL_HANDLE)
 			throw std::runtime_error("Vulkan instance is not initialized");
 
-		if (!m_validationLayersEnabled)
+		if (!m_context->IsValidationLayersEnabled())
 			return;
 
 		VkDebugUtilsMessengerCreateInfoEXT createInfo;
@@ -175,7 +147,7 @@ namespace BetterThanNothing
 		if (m_instance == VK_NULL_HANDLE)
 			throw std::runtime_error("Vulkan instance is not initialized");
 
-		if (!m_validationLayersEnabled)
+		if (!m_context->IsValidationLayersEnabled())
 			return;
 
 		if (m_debugMessenger != VK_NULL_HANDLE) {

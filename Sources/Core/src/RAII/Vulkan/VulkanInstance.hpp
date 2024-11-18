@@ -8,36 +8,29 @@
 
 namespace BetterThanNothing
 {
+	class ApplicationContext;
+
 	class VulkanInstance
 	{
-		bool m_validationLayersEnabled = false;
+		ApplicationContext* m_context = nullptr;
 
 		VkInstance m_instance = VK_NULL_HANDLE;
 		VkDebugUtilsMessengerEXT m_debugMessenger = VK_NULL_HANDLE;
 
-		const std::array<const char*, 1> m_validationLayers = {
-			"VK_LAYER_KHRONOS_validation"
-		};
-
 	public:
 		VulkanInstance() = default;
-		explicit VulkanInstance(bool enableValidationLayers);
+		explicit VulkanInstance(ApplicationContext* context);
 		~VulkanInstance();
 
 		VulkanInstance(const VulkanInstance&) = delete;
 		VulkanInstance& operator=(const VulkanInstance&) = delete;
-
-		VulkanInstance(VulkanInstance&& other) noexcept;
-		VulkanInstance& operator=(VulkanInstance&& other) noexcept;
+		VulkanInstance(VulkanInstance&& other) = delete;
+		VulkanInstance& operator=(VulkanInstance&& other) = delete;
 
 		VkInstance Handle() const;
 		explicit operator VkInstance() const;
 
-		bool IsValidationLayersEnabled() const;
-		std::array<const char*, 1> GetValidationLayers();
-
 	private:
-		void _move(VulkanInstance&& other) noexcept;
 		bool _checkValidationLayerSupport() noexcept;
 		std::vector<const char*> _getRequiredExtensions() noexcept;
 
