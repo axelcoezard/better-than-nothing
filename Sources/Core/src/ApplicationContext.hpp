@@ -9,6 +9,7 @@
 #include "RAII/Vulkan/VulkanSurface.hpp"
 #include "RAII/Vulkan/VulkanDevice.hpp"
 #include "RAII/Vulkan/VulkanQueue.hpp"
+#include "RAII/Vulkan/VulkanSwapchain.hpp"
 
 namespace BetterThanNothing
 {
@@ -32,22 +33,25 @@ namespace BetterThanNothing
 	{
 		bool enableValidationLayers = false;
 		std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
+		std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 	};
 
 	class ApplicationContext
 	{
 	private:
-		ApplicationContextWindowParams m_windowParams;
-		ApplicationContextVulkanParams m_vulkanParams;
+		ApplicationContextWindowParams m_windowParams{};
+		ApplicationContextVulkanParams m_vulkanParams{};
 
-		std::unique_ptr<Window> m_pWindow;
+		std::unique_ptr<Window> m_pWindow = nullptr;
 
-		std::unique_ptr<VulkanInstance> m_pVulkanInstance;
-		std::unique_ptr<VulkanSurface> m_pVulkanSurface;
-		std::unique_ptr<VulkanDevice> m_pVulkanDevice;
+		std::unique_ptr<VulkanInstance> m_pVulkanInstance = nullptr;
+		std::unique_ptr<VulkanSurface> m_pVulkanSurface = nullptr;
+		std::unique_ptr<VulkanDevice> m_pVulkanDevice = nullptr;
 
-		std::unique_ptr<VulkanQueue> m_pGraphicsQueue;
-		std::unique_ptr<VulkanQueue> m_pPresentQueue;
+		std::unique_ptr<VulkanQueue> m_pGraphicsQueue = nullptr;
+		std::unique_ptr<VulkanQueue> m_pPresentQueue = nullptr;
+
+		std::unique_ptr<VulkanSwapchain> m_pVulkanSwapchain = nullptr;
 
 	public:
 		explicit ApplicationContext(ApplicationContextWindowParams  windowParams, ApplicationContextVulkanParams  vulkanParams)
@@ -68,6 +72,7 @@ namespace BetterThanNothing
 			m_pVulkanInstance = std::make_unique<VulkanInstance>(this);
 			m_pVulkanSurface = std::make_unique<VulkanSurface>(this);
 			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
+			m_pVulkanSwapchain = std::make_unique<VulkanSwapchain>(this);
 
 			return *this;
 		}
@@ -140,6 +145,12 @@ namespace BetterThanNothing
 		{
 			return m_vulkanParams.validationLayers;
 		}
+
+		[[nodiscard]]
+		std::span<const char* const> GetDeviceExtensions() const
+		{
+			return m_vulkanParams.deviceExtensions;
+		}
 	};
 
 	class ApplicationContextBuilder
@@ -186,6 +197,12 @@ namespace BetterThanNothing
 		ApplicationContextBuilder& AddValidationLayer(const char* layer)
 		{
 			m_vulkanParams.validationLayers.push_back(layer);
+			return *this;
+		}
+
+		ApplicationContextBuilder& RequireDeviceExtension(const char* extension)
+		{
+			m_vulkanParams.deviceExtensions.push_back(extension);
 			return *this;
 		}
 

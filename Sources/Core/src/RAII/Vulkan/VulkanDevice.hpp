@@ -10,13 +10,22 @@ namespace BetterThanNothing
 {
 	class ApplicationContext;
 
-	struct QueueFamilyIndices {
+	struct QueueFamilyIndices
+	{
 		std::optional<uint32_t> graphicsFamily;
 		std::optional<uint32_t> presentFamily;
 
-		bool IsComplete() const {
+		bool IsComplete() const
+		{
 			return graphicsFamily.has_value() && presentFamily.has_value();
 		}
+	};
+
+	struct SwapChainSupportDetails
+	{
+		VkSurfaceCapabilitiesKHR capabilities;
+		std::vector<VkSurfaceFormatKHR> formats;
+		std::vector<VkPresentModeKHR> presentModes;
 	};
 
 	class VulkanDevice
@@ -40,7 +49,7 @@ namespace BetterThanNothing
 		VulkanDevice& operator=(VulkanDevice&& other) = delete;
 
 		[[nodiscard]]
-		VkPhysicalDevice Handle() const;
+		VkDevice Handle() const;
 
 		[[nodiscard]]
 		std::string GetVendorName() const;
@@ -51,10 +60,21 @@ namespace BetterThanNothing
 		[[nodiscard]]
 		std::string GetApiVersion() const;
 
+		[[nodiscard]]
+		SwapChainSupportDetails GetSwapChainSupport() const;
+
+		[[nodiscard]]
+		QueueFamilyIndices GetQueueFamilies() const;
+
+		VkResult CreateSwapChain(VkSwapchainCreateInfoKHR* createInfo, VkSwapchainKHR* swapChain) const;
+		void DestroySwapChain(VkSwapchainKHR swapChain) const;
+
 	private:
-		bool _isDeviceSuitable(VkPhysicalDevice device) noexcept;
 		VkPhysicalDevice _findSuitableDevice(const std::vector<VkPhysicalDevice>& devices);
-		QueueFamilyIndices _findQueueFamilies(VkPhysicalDevice device);
+		bool _isDeviceSuitable(VkPhysicalDevice device) noexcept;
+		bool _checkDeviceExtensionSupport(VkPhysicalDevice device) noexcept;
+		QueueFamilyIndices _findQueueFamilies(VkPhysicalDevice device) const;
+		SwapChainSupportDetails _querySwapChainSupport(VkPhysicalDevice device) const;
 
 		[[nodiscard]]
 		std::string _getVendorById(uint32_t vendorId) const;

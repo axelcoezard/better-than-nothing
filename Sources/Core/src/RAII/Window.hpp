@@ -138,9 +138,18 @@ namespace BetterThanNothing
 		 * @brief Gets the GLFWwindow pointer
 		 * @return The GLFWwindow pointer
 		 */
+		 [[nodiscard]]
 		GLFWwindow* Handle() const
 		{
 			return m_Window;
+		}
+
+		[[nodiscard]]
+		std::pair<uint32_t, uint32_t> GetFramebufferSize() const
+		{
+			int width, height;
+			glfwGetFramebufferSize(m_Window, &width, &height);
+			return {width, height};
 		}
 
 		/**

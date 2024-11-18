@@ -83,12 +83,13 @@ namespace BetterThanNothing
 		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 		createInfo.pQueueCreateInfos = queueCreateInfos.data();
 		createInfo.pEnabledFeatures = &deviceFeatures;
-		createInfo.enabledExtensionCount = 0;
-		createInfo.ppEnabledExtensionNames = nullptr;
+
+		const auto deviceExtensions = context->GetDeviceExtensions();
+		createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
+		createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
 		if (context->IsValidationLayersEnabled()) {
 			const auto validationLayers = context->GetValidationLayers();
-
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 			createInfo.ppEnabledLayerNames = validationLayers.data();
 		} else {
@@ -113,12 +114,6 @@ namespace BetterThanNothing
 		LOG_SUCCESS("Vulkan presentation queue: ok");
 	}
 
-	bool VulkanDevice::_isDeviceSuitable(VkPhysicalDevice device) noexcept
-	{
-		QueueFamilyIndices indices = _findQueueFamilies(device);
-		return indices.IsComplete();
-	}
-
 	VkPhysicalDevice VulkanDevice::_findSuitableDevice(const std::vector<VkPhysicalDevice>& devices)
 	{
 		for (const auto& device : devices)
@@ -129,31 +124,53 @@ namespace BetterThanNothing
 		throw std::runtime_error("Failed to find a suitable GPU");
 	}
 
-	std::string VulkanDevice::_getVendorById(const uint32_t vendorId) const
+	bool VulkanDevice::_isDeviceSuitable(VkPhysicalDevice device) noexcept
 	{
-		if (vendorId == 0x1002) return "AMD";
-		if (vendorId == 0x1010) return "ImgTec";
-		if (vendorId == 0x10DE) return "NVIDIA";
-		if (vendorId == 0x13B5) return "ARM";
-		if (vendorId == 0x5143) return "Qualcomm";
-		if (vendorId == 0x8086) return "INTEL";
-		return "Unknown";
+		QueueFamilyIndices queueFamilyIndices = _findQueueFamilies(device);
+
+		bool queueFamiliesSupported = queueFamilyIndices.IsComplete();
+		bool extensionsSupported = _checkDeviceExtensionSupport(device);
+		bool swapchainSupported = false;
+
+		if (extensionsSupported)
+		{
+			auto swapChainSupport = _querySwapChainSupport(device);
+			swapchainSupported = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
+		}
+
+		return queueFamiliesSupported && extensionsSupported && swapchainSupported;
 	}
 
-	QueueFamilyIndices VulkanDevice::_findQueueFamilies(VkPhysicalDevice device)
+	bool VulkanDevice::_checkDeviceExtensionSupport(VkPhysicalDevice device) noexcept
 	{
-		QueueFamilyIndices indices;
+		auto deviceExtensions = m_context->GetDeviceExtensions();
+
+		uint32_t extensionCount;
+		vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+
+		std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+		vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+
+		std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
+
+		for (const auto& extension : availableExtensions) {
+			requiredExtensions.erase(extension.extensionName);
+		}
+
+		return requiredExtensions.empty();
+	}
+
+	QueueFamilyIndices VulkanDevice::_findQueueFamilies(VkPhysicalDevice device) const
+	{
+		auto vkSurface = m_context->GetVulkanSurface()->Handle();
 
 		uint32_t queueFamilyCount = 0;
 		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
 
-		if (queueFamilyCount == 0)
-			throw std::runtime_error("Failed to find queue families");
-
 		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
 		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
-		auto vkSurface = m_context->GetVulkanSurface()->Handle();
+		QueueFamilyIndices indices;
 
 		uint32_t i = 0;
 		for (const auto& queueFamily : queueFamilies)
@@ -177,11 +194,71 @@ namespace BetterThanNothing
 		return indices;
 	}
 
-	VkPhysicalDevice VulkanDevice::Handle() const
+	QueueFamilyIndices VulkanDevice::GetQueueFamilies() const
 	{
-		if (m_physicalDevice == VK_NULL_HANDLE)
-			throw std::runtime_error("Vulkan physical device is not initialized");
-		return m_physicalDevice;
+		return _findQueueFamilies(m_physicalDevice);
+	}
+
+	SwapChainSupportDetails VulkanDevice::_querySwapChainSupport(VkPhysicalDevice device) const
+	{
+		auto surface = m_context->GetVulkanSurface()->Handle();
+
+		SwapChainSupportDetails details;
+		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
+
+		uint32_t formatCount;
+		vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
+
+		if (formatCount != 0)
+		{
+			details.formats.resize(formatCount);
+			vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
+		}
+
+		uint32_t presentModeCount;
+		vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, nullptr);
+
+		if (presentModeCount != 0)
+		{
+			details.presentModes.resize(presentModeCount);
+			vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, details.presentModes.data());
+		}
+
+		return details;
+	}
+
+	SwapChainSupportDetails VulkanDevice::GetSwapChainSupport() const
+	{
+		return _querySwapChainSupport(m_physicalDevice);
+	}
+
+
+	VkResult VulkanDevice::CreateSwapChain(VkSwapchainCreateInfoKHR* createInfo, VkSwapchainKHR* swapChain) const
+	{
+		return vkCreateSwapchainKHR(m_logicalDevice, createInfo, nullptr, swapChain);
+	}
+
+	void VulkanDevice::DestroySwapChain(VkSwapchainKHR swapChain) const
+	{
+		vkDestroySwapchainKHR(m_logicalDevice, swapChain, nullptr);
+	}
+
+	std::string VulkanDevice::_getVendorById(const uint32_t vendorId) const
+	{
+		if (vendorId == 0x1002) return "AMD";
+		if (vendorId == 0x1010) return "ImgTec";
+		if (vendorId == 0x10DE) return "NVIDIA";
+		if (vendorId == 0x13B5) return "ARM";
+		if (vendorId == 0x5143) return "Qualcomm";
+		if (vendorId == 0x8086) return "INTEL";
+		return "Unknown";
+	}
+
+	VkDevice VulkanDevice::Handle() const
+	{
+		if (m_logicalDevice == VK_NULL_HANDLE)
+			throw std::runtime_error("Vulkan logical device is not initialized");
+		return m_logicalDevice;
 	}
 
 	std::string VulkanDevice::GetVendorName() const
