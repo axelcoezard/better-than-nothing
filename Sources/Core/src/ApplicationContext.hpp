@@ -10,7 +10,9 @@
 #include "Graphics/Vulkan/VulkanDevice.hpp"
 #include "Graphics/Vulkan/VulkanQueue.hpp"
 #include "Graphics/Vulkan/VulkanSwapChain.hpp"
-
+#include "Graphics/Vulkan/VulkanShaderType.hpp"
+#include "Graphics/Vulkan/VulkanShaderModule.hpp"
+#include "Graphics/ShaderPool.hpp"
 
 namespace BetterThanNothing
 {
@@ -35,6 +37,8 @@ namespace BetterThanNothing
 		bool enableValidationLayers = false;
 		std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
 		std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
+
+		std::string shadersFolderPath;
 	};
 
 	class ApplicationContext
@@ -53,6 +57,8 @@ namespace BetterThanNothing
 		std::unique_ptr<VulkanQueue> m_pPresentQueue = nullptr;
 
 		std::unique_ptr<VulkanSwapChain> m_pVulkanSwapChain = nullptr;
+
+		std::unique_ptr<ShaderPool> m_pShaderPool = nullptr;
 
 	public:
 		explicit ApplicationContext(ApplicationContextWindowParams  windowParams, ApplicationContextVulkanParams  vulkanParams)
@@ -74,6 +80,8 @@ namespace BetterThanNothing
 			m_pVulkanSurface = std::make_unique<VulkanSurface>(this);
 			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
 			m_pVulkanSwapChain = std::make_unique<VulkanSwapChain>(this);
+
+			m_pShaderPool = std::make_unique<ShaderPool>(m_vulkanParams.shadersFolderPath, this);
 
 			return *this;
 		}
@@ -135,6 +143,18 @@ namespace BetterThanNothing
 			if (!m_pVulkanSwapChain)
 				throw ApplicationContextError("Vulkan swap chain is not set");
 			return m_pVulkanSwapChain;
+		}
+
+		std::unique_ptr<ShaderPool>& GetShaderPool()
+		{
+			if (!m_pShaderPool)
+				throw ApplicationContextError("Shader pool is not set");
+			return m_pShaderPool;
+		}
+
+		VulkanShaderModule LoadShader(const std::string& name, VulkanShaderType type)
+		{
+			return m_pShaderPool->LoadShader(name, type);
 		}
 
 		void EnableValidationLayers(const bool enable)
@@ -214,6 +234,12 @@ namespace BetterThanNothing
 			return *this;
 		}
 
+		ApplicationContextBuilder& SetShadersFolderPath(const std::string& path)
+		{
+			m_vulkanParams.shadersFolderPath = path;
+			return *this;
+		}
+
 		ApplicationContext Build()
 		{
 			if (m_windowParams.title.empty())
@@ -222,16 +248,11 @@ namespace BetterThanNothing
 			if (m_windowParams.width == 0 || m_windowParams.height == 0)
 				throw ApplicationContextError("Window size is not set");
 
-			auto window = std::make_unique<Window>(
-					m_windowParams.title,
-					m_windowParams.width,
-					m_windowParams.height,
-					m_windowParams.fullscreen,
-					m_windowParams.resizable
-			);
-
 			if (m_vulkanParams.enableValidationLayers && m_vulkanParams.validationLayers.empty())
 				throw ApplicationContextError("Validation layers are enabled but none are set");
+
+			if (m_vulkanParams.shadersFolderPath.empty())
+				throw ApplicationContextError("Assets folder path is not set");
 
 			return ApplicationContext(m_windowParams, m_vulkanParams);
 		}

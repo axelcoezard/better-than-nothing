@@ -9,19 +9,18 @@ namespace BetterThanNothing
 			.SetWindowTitle("Better Than Nothing")
 			.SetWindowSize(800, 600)
 			.EnableValidationLayers(true)
+			.SetShadersFolderPath("../../Assets/Shaders/")
 			.Build();
 
 		context.Initialize();
 
-		ShaderPool shaderPool("../../Assets/Shaders/", &context);
-		shaderPool.LoadShader("main/main.vert", VulkanShaderType::Vertex);
+		auto vert = context.LoadShader("main/main.vert", VulkanShaderType::Vertex);
+		auto frag = context.LoadShader("main/main.frag", VulkanShaderType::Fragment);
 
-		// VulkanPipeline pipeline = VulkanPipelineBuilder(&context)
-		// 	.AddShader("shaders/vert.spv", VulkanShaderType::Vertex)
-		// 	.AddShader("shaders/frag.spv", VulkanShaderType::Fragment)
-		// 	.Build();
-
-		// (void) pipeline;
+		VulkanPipeline pipeline = VulkanPipelineBuilder()
+			.AddShader(vert)
+			.AddShader(frag)
+			.Build(&context);
 
 		this->OnEnable();
 

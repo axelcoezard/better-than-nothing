@@ -34,12 +34,9 @@ namespace BetterThanNothing
 		}
 	}
 
-	VulkanPipelineBuilder& VulkanPipelineBuilder::AddShader(const VulkanShaderModule& shaderModule, const VulkanShaderType type)
+	VulkanPipelineBuilder& VulkanPipelineBuilder::AddShader(const VulkanShaderModule& shaderModule)
 	{
-		m_params.shaders.push_back({
-			.shaderModule = shaderModule.Handle(),
-			.type = type
-		});
+		m_params.shaders.push_back(shaderModule);
 		return *this;
 	}
 
