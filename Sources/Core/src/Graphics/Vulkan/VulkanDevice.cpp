@@ -243,7 +243,14 @@ namespace BetterThanNothing
 		return "Unknown";
 	}
 
-	VkDevice VulkanDevice::Handle() const
+	VkPhysicalDevice VulkanDevice::PhysicalHandle() const
+	{
+		if (m_physicalDevice == VK_NULL_HANDLE)
+			throw std::runtime_error("Vulkan physical device is not initialized");
+		return m_physicalDevice;
+	}
+
+	VkDevice VulkanDevice::LogicalHandle() const
 	{
 		if (m_logicalDevice == VK_NULL_HANDLE)
 			throw std::runtime_error("Vulkan logical device is not initialized");

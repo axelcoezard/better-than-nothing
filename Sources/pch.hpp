@@ -10,18 +10,19 @@
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
 
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
-#include <glm.hpp>
-#include <gtc/matrix_transform.hpp>
-
-#include <vk_mem_alloc.h>
+#define VMA_VULKAN_VERSION 1003000 // Vulkan 1.3
+#include "vk_mem_alloc.h"
 
 #include <glslang_c_interface.h>
 #include <glslang_c_shader_types.h>
 #include <resource_limits_c.h>
 #include <spirv_cross.hpp>
+
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
 
 // LOGS
 

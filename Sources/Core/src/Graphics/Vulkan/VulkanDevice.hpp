@@ -49,7 +49,10 @@ namespace BetterThanNothing
 		VulkanDevice& operator=(VulkanDevice&& other) = delete;
 
 		[[nodiscard]]
-		VkDevice Handle() const;
+		VkPhysicalDevice PhysicalHandle() const;
+
+		[[nodiscard]]
+		VkDevice LogicalHandle() const;
 
 		[[nodiscard]]
 		std::string GetVendorName() const;

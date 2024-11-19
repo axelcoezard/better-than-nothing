@@ -13,7 +13,7 @@ namespace BetterThanNothing
 
 	VulkanSwapChain::~VulkanSwapChain()
 	{
-		vkDestroySwapchainKHR(m_context->GetVulkanDevice()->Handle(), m_swapChain, nullptr);
+		vkDestroySwapchainKHR(m_context->GetVulkanDevice()->LogicalHandle(), m_swapChain, nullptr);
 	}
 
 	void VulkanSwapChain::_createSwapChain()
@@ -59,7 +59,7 @@ namespace BetterThanNothing
 
 		createInfo.oldSwapchain = VK_NULL_HANDLE; // For recreation
 
-		auto device = m_context->GetVulkanDevice()->Handle();
+		auto device = m_context->GetVulkanDevice()->LogicalHandle();
 
 		if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &m_swapChain) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create swap chain!");
@@ -72,7 +72,7 @@ namespace BetterThanNothing
 
 	void VulkanSwapChain::_createImages()
 	{
-		auto device = m_context->GetVulkanDevice()->Handle();
+		auto device = m_context->GetVulkanDevice()->LogicalHandle();
 
 		uint32_t finalImageCount = 0;
 		vkGetSwapchainImagesKHR(device, m_swapChain, &finalImageCount, nullptr);

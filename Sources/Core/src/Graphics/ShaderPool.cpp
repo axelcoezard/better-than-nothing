@@ -14,7 +14,7 @@ namespace BetterThanNothing
 {
 	ShaderPool::~ShaderPool()
 	{
-		auto device = m_context->GetVulkanDevice()->Handle();
+		auto device = m_context->GetVulkanDevice()->LogicalHandle();
 		for (const auto& shader : m_shaders)
 			vkDestroyShaderModule(device, shader.second.shaderModule, nullptr);
 	}
@@ -121,10 +121,16 @@ namespace BetterThanNothing
 			const spirv_cross::ShaderResources shaderResources = compiler.get_shader_resources();
 
 			if (!shaderResources.stage_inputs.empty())
-				LOG_INFO("Stage inputs: " << shaderResources.stage_inputs.size());
+			{
+				for (const auto& resource : shaderResources.stage_inputs)
+					LOG_INFO("Stage input: " << resource.name);
+			}
 
 			if (!shaderResources.stage_outputs.empty())
-				LOG_INFO("Stage outputs: " << shaderResources.stage_outputs.size());
+			{
+				for (const auto& resource : shaderResources.stage_outputs)
+					LOG_INFO("Stage output: " << resource.name);
+			}
 
 			if (!shaderResources.uniform_buffers.empty())
 				LOG_INFO("Uniform buffers: " << shaderResources.uniform_buffers.size());
@@ -149,7 +155,7 @@ namespace BetterThanNothing
 		createInfo.pCode = glslang_program_SPIRV_get_ptr(program);
 
 		VkShaderModule shaderModule;
-		if (vkCreateShaderModule(m_context->GetVulkanDevice()->Handle(), &createInfo, nullptr, &shaderModule) != VK_SUCCESS)
+		if (vkCreateShaderModule(m_context->GetVulkanDevice()->LogicalHandle(), &createInfo, nullptr, &shaderModule) != VK_SUCCESS)
 			throw std::runtime_error("failed to create shader module!");
 
 		glslang_program_delete(program);

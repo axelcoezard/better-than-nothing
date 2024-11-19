@@ -9,6 +9,7 @@
 #include "Graphics/Vulkan/VulkanSurface.hpp"
 #include "Graphics/Vulkan/VulkanDevice.hpp"
 #include "Graphics/Vulkan/VulkanQueue.hpp"
+#include "Graphics/Vulkan/VulkanAllocator.hpp"
 #include "Graphics/Vulkan/VulkanSwapChain.hpp"
 #include "Graphics/Vulkan/VulkanShaderType.hpp"
 #include "Graphics/Vulkan/VulkanShaderModule.hpp"
@@ -56,6 +57,7 @@ namespace BetterThanNothing
 		std::unique_ptr<VulkanQueue> m_pGraphicsQueue = nullptr;
 		std::unique_ptr<VulkanQueue> m_pPresentQueue = nullptr;
 
+		std::unique_ptr<VulkanAllocator> m_pVulkanAllocator = nullptr;
 		std::unique_ptr<VulkanSwapChain> m_pVulkanSwapChain = nullptr;
 
 		std::unique_ptr<ShaderPool> m_pShaderPool = nullptr;
@@ -79,6 +81,7 @@ namespace BetterThanNothing
 			m_pVulkanInstance = std::make_unique<VulkanInstance>(this);
 			m_pVulkanSurface = std::make_unique<VulkanSurface>(this);
 			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
+			m_pVulkanAllocator = std::make_unique<VulkanAllocator>(this);
 			m_pVulkanSwapChain = std::make_unique<VulkanSwapChain>(this);
 
 			m_pShaderPool = std::make_unique<ShaderPool>(m_vulkanParams.shadersFolderPath, this);
