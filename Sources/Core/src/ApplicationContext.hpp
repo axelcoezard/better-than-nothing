@@ -14,6 +14,7 @@
 #include "Graphics/Vulkan/VulkanShaderType.hpp"
 #include "Graphics/Vulkan/VulkanShaderModule.hpp"
 #include "Graphics/ShaderPool.hpp"
+#include "Graphics/Vulkan/VulkanRenderPass.hpp"
 
 namespace BetterThanNothing
 {
@@ -64,6 +65,8 @@ namespace BetterThanNothing
 
 		std::unique_ptr<ShaderPool> m_pShaderPool = nullptr;
 
+		std::unique_ptr<VulkanRenderPass> m_pVulkanRenderPass = nullptr;
+
 	public:
 		explicit ApplicationContext(ApplicationContextWindowParams  windowParams, ApplicationContextVulkanParams  vulkanParams)
 			: m_windowParams(std::move(windowParams)), m_vulkanParams(std::move(vulkanParams)) {}
@@ -87,6 +90,8 @@ namespace BetterThanNothing
 			m_pVulkanSwapChain = std::make_unique<VulkanSwapChain>(this);
 
 			m_pShaderPool = std::make_unique<ShaderPool>(m_vulkanParams.shadersFolderPath, this);
+
+			m_pVulkanRenderPass = std::make_unique<VulkanRenderPass>(this);
 
 			return *this;
 		}
@@ -162,6 +167,13 @@ namespace BetterThanNothing
 			if (!m_pShaderPool)
 				throw ApplicationContextError("Shader pool is not set");
 			return m_pShaderPool;
+		}
+
+		std::unique_ptr<VulkanRenderPass>& GetVulkanRenderPass()
+		{
+			if (!m_pVulkanRenderPass)
+				throw ApplicationContextError("Vulkan render pass is not set");
+			return m_pVulkanRenderPass;
 		}
 
 		VulkanShaderModule LoadShader(const std::string& name, VulkanShaderType type)

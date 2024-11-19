@@ -11,6 +11,7 @@ namespace BetterThanNothing
 		auto frag = context->LoadShader("main/main.frag", VulkanShaderType::Fragment);
 
 		VulkanPipeline pipeline = VulkanPipelineBuilder()
+			.SetName("main")
 			.AddShader(vert)
 			.AddShader(frag)
 			.Build(context);

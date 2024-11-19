@@ -23,9 +23,16 @@ namespace BetterThanNothing
 			shaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 			shaderStageInfo.stage = shaderStageType;
 			shaderStageInfo.module = shader.shaderModule;
-			shaderStageInfo.pName = params.name.c_str();
+			shaderStageInfo.pName = params.name;
 			shaderStages.push_back(shaderStageInfo);
 		}
+
+		VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
+		vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+		vertexInputInfo.vertexBindingDescriptionCount = 0;
+		vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
+		vertexInputInfo.vertexAttributeDescriptionCount = 0;
+		vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
 
 		VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
 		inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -112,10 +119,35 @@ namespace BetterThanNothing
 			throw std::runtime_error("Failed to create pipeline layout");
 
 		LOG_SUCCESS("Vulkan pipeline layout: ok");
+
+		VkGraphicsPipelineCreateInfo pipelineInfo{};
+		pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+		pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+		pipelineInfo.pStages = shaderStages.data();
+
+		pipelineInfo.pVertexInputState = &vertexInputInfo;
+		pipelineInfo.pInputAssemblyState = &inputAssembly;
+		pipelineInfo.pViewportState = &viewportState;
+		pipelineInfo.pRasterizationState = &rasterizer;
+		pipelineInfo.pMultisampleState = &multisampling;
+		pipelineInfo.pDepthStencilState = nullptr; // Optional
+		pipelineInfo.pColorBlendState = &colorBlending;
+		pipelineInfo.pDynamicState = &dynamicState;
+		pipelineInfo.layout = m_pipelineLayout;
+		pipelineInfo.renderPass = m_context->GetVulkanRenderPass()->Handle();
+		pipelineInfo.subpass = 0;
+		pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
+		pipelineInfo.basePipelineIndex = -1; // Optional
+
+		if (vkCreateGraphicsPipelines(m_context->GetVulkanDevice()->LogicalHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline) != VK_SUCCESS)
+			throw std::runtime_error("Failed to create graphics pipeline");
+
+		LOG_SUCCESS("Vulkan graphics pipeline: ok");
 	}
 
 	VulkanPipeline::~VulkanPipeline()
 	{
+		vkDestroyPipeline(m_context->GetVulkanDevice()->LogicalHandle(), m_pipeline, nullptr);
 		vkDestroyPipelineLayout(m_context->GetVulkanDevice()->LogicalHandle(), m_pipelineLayout, nullptr);
 	}
 
@@ -132,7 +164,7 @@ namespace BetterThanNothing
 		}
 	}
 
-	VulkanPipelineBuilder& VulkanPipelineBuilder::SetName(const std::string& name)
+	VulkanPipelineBuilder& VulkanPipelineBuilder::SetName(const char* name)
 	{
 		m_params.name = name;
 		return *this;
