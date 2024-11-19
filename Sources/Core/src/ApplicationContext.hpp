@@ -35,6 +35,8 @@ namespace BetterThanNothing
 
 	struct ApplicationContextVulkanParams
 	{
+		uint32_t apiVersion = VK_API_VERSION_1_3;
+
 		bool enableValidationLayers = false;
 		std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
 		std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
@@ -160,6 +162,12 @@ namespace BetterThanNothing
 			return m_pShaderPool->LoadShader(name, type);
 		}
 
+		[[nodiscard]]
+		uint32_t GetVulkanApiVersion() const
+		{
+			return m_vulkanParams.apiVersion;
+		}
+
 		void EnableValidationLayers(const bool enable)
 		{
 			m_vulkanParams.enableValidationLayers = enable;
@@ -216,6 +224,12 @@ namespace BetterThanNothing
 		ApplicationContextBuilder& SetWindowResizable(bool resizable)
 		{
 			m_windowParams.resizable = resizable;
+			return *this;
+		}
+
+		ApplicationContextBuilder& SetVulkanApiVersion(uint32_t version)
+		{
+			m_vulkanParams.apiVersion = version;
 			return *this;
 		}
 

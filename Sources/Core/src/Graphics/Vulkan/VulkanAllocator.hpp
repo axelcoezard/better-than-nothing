@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <vk_mem_alloc.h>
+
 namespace BetterThanNothing
 {
 	class ApplicationContext;
@@ -17,6 +19,7 @@ namespace BetterThanNothing
 		explicit VulkanAllocator(ApplicationContext* pContext);
 		~VulkanAllocator();
 
+		[[nodiscard]]
 		VmaAllocator Handle() const;
 	};
 };

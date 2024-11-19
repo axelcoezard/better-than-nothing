@@ -33,7 +33,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 		glslang-default-resource-limits
 		SPIRV
 		spirv_cross
-		GPUOpen::VulkanMemoryAllocator
+		VulkanMemoryAllocator
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glfw/include)

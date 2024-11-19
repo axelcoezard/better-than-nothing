@@ -47,11 +47,14 @@ namespace BetterThanNothing
 		if (!file.is_open())
 			throw std::runtime_error("failed to open file!");
 
-		const std::streamsize fileSize = file.tellg();
-		std::vector<char> buffer(fileSize);
+		uint32_t fileSize = (uint32_t) file.tellg();
+		std::vector<char> buffer;
+
+		buffer.resize(fileSize);
+		std::memset(buffer.data(), 0, fileSize);
 
 		file.seekg(0);
-		file.read(buffer.data(), fileSize);
+		file.read(buffer.data(), fileSize - 1);
 		file.close();
 
 		return buffer;
