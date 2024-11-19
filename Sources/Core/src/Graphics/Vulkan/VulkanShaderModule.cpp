@@ -10,10 +10,8 @@ namespace BetterThanNothing
 		const std::vector<char> source = _readFile(filename);
 		const auto stage = _getShaderStage(m_shaderType);
 		const auto program = _getShaderProgram(source, stage);
-		const auto module = _getShaderModule(program);
 
-		m_shaderStage = stage;
-		m_shaderModule = module;
+		m_shaderModule = _getShaderModule(program);
 
 		LOG_SUCCESS("Vulkan shader module '" << filename << "': ok");
 	}
@@ -95,6 +93,20 @@ namespace BetterThanNothing
 			LOG_INFO("Shader messages: " << glslang_program_SPIRV_get_messages(program));
 
 		glslang_shader_delete(shader);
+
+		{
+			const uint32_t* spirvCode = glslang_program_SPIRV_get_ptr(program);
+			const size_t spirvSize = glslang_program_SPIRV_get_size(program);
+
+			spirv_cross::Compiler compiler(spirvCode, spirvSize);
+			spirv_cross::ShaderResources shaderResources = compiler.get_shader_resources();
+
+			LOG_INFO("Uniform buffers: " << shaderResources.uniform_buffers.size());
+			LOG_INFO("Storage buffers: " << shaderResources.storage_buffers.size());
+			LOG_INFO("Sampled images: " << shaderResources.sampled_images.size());
+		}
+
+		glslang_finalize_process();
 
 		return program;
 	}

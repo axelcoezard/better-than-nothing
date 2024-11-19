@@ -20,8 +20,6 @@ namespace BetterThanNothing
 
 		VulkanShaderType m_shaderType;
 
-		glslang_stage_t m_shaderStage;
-
 		VkShaderModule m_shaderModule = VK_NULL_HANDLE;
 
 	public:
