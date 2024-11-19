@@ -105,18 +105,18 @@ namespace BetterThanNothing
 			return m_pVulkanInstance;
 		}
 
-		std::unique_ptr<VulkanDevice>& GetVulkanDevice()
-		{
-			if (!m_pVulkanDevice)
-				throw ApplicationContextError("Vulkan device is not set");
-			return m_pVulkanDevice;
-		}
-
 		std::unique_ptr<VulkanSurface>& GetVulkanSurface()
 		{
 			if (!m_pVulkanSurface)
 				throw ApplicationContextError("Vulkan surface is not set");
 			return m_pVulkanSurface;
+		}
+
+		std::unique_ptr<VulkanDevice>& GetVulkanDevice()
+		{
+			if (!m_pVulkanDevice)
+				throw ApplicationContextError("Vulkan device is not set");
+			return m_pVulkanDevice;
 		}
 
 		void SetGraphicsQueue(VkQueue graphicsQueue)
@@ -141,6 +141,13 @@ namespace BetterThanNothing
 			if (!m_pPresentQueue)
 				throw ApplicationContextError("Presentation queue is not set");
 			return m_pPresentQueue;
+		}
+
+		std::unique_ptr<VulkanMemoryAllocator>& GetVulkanMemoryAllocator()
+		{
+			if (!m_pVulkanMemoryAllocator)
+				throw ApplicationContextError("Vulkan memory allocator is not set");
+			return m_pVulkanMemoryAllocator;
 		}
 
 		std::unique_ptr<VulkanSwapChain>& GetVulkanSwapChain()
