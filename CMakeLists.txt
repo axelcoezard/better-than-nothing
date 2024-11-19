@@ -22,8 +22,8 @@ add_subdirectory("ThirdParty/vulkan")
 # add_subdirectory("ThirdParty/imgui")
 # add_subdirectory("ThirdParty/stb")
 # add_subdirectory("ThirdParty/inih")
-# add_subdirectory("ThirdParty/glslang")
-# add_subdirectory("ThirdParty/spirv_cross")
+add_subdirectory("ThirdParty/glslang")
+add_subdirectory("ThirdParty/spirv_cross")
 add_subdirectory("ThirdParty/vma")
 
 # ==================================================================================================

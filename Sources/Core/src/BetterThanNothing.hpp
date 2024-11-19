@@ -7,6 +7,10 @@
 #include "Graphics/Vulkan/VulkanDevice.hpp"
 #include "Graphics/Vulkan/VulkanQueue.hpp"
 #include "Graphics/Vulkan/VulkanSwapChain.hpp"
+#include "Graphics/Vulkan/VulkanShaderModule.hpp"
+#include "Graphics/Vulkan/VulkanShaderType.hpp"
+#include "Graphics/Vulkan/VulkanPipeline.hpp"
+
 
 // Application
 #include "ApplicationContext.hpp"

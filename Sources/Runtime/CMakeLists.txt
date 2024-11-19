@@ -29,10 +29,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 		# stb
 		# imgui
 		# inih
-		# glslang
-		# glslang-default-resource-limits
-		# SPIRV
-		# spirv_cross
+		glslang
+		glslang-default-resource-limits
+		SPIRV
+		spirv_cross
 		GPUOpen::VulkanMemoryAllocator
 )
 
@@ -44,9 +44,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glm/include)
 # target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/entt/single_include)
 # target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/imgui/include)
 # target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/inih/include)
-# target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glslang/glslang/Include)
-# target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glslang/glslang/Public)
-# target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/spirv_cross/spirv_cross)
+target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glslang/glslang/Include)
+target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glslang/glslang/Public)
+target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/spirv_cross/spirv_cross)
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/vma/include)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ../Core/src)

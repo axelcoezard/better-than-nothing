@@ -18,6 +18,11 @@
 
 #include <vk_mem_alloc.h>
 
+#include <glslang_c_interface.h>
+#include <glslang_c_shader_types.h>
+#include <resource_limits_c.h>
+#include <spirv_cross.hpp>
+
 // LOGS
 
 #define LOG_INFO(x) 	std::cout << "\033[1;90m[INFO]\033[0m\t\t" << x << "\033[0m" << std::endl;

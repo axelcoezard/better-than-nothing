@@ -1,4 +1,5 @@
 #include "BetterThanNothing.hpp"
+#include "Graphics/ShaderPool.hpp"
 
 namespace BetterThanNothing
 {
@@ -11,6 +12,16 @@ namespace BetterThanNothing
 			.Build();
 
 		context.Initialize();
+
+		ShaderPool shaderPool("../../Assets/Shaders/", &context);
+		shaderPool.LoadShader("main/main.vert", VulkanShaderType::Vertex);
+
+		// VulkanPipeline pipeline = VulkanPipelineBuilder(&context)
+		// 	.AddShader("shaders/vert.spv", VulkanShaderType::Vertex)
+		// 	.AddShader("shaders/frag.spv", VulkanShaderType::Fragment)
+		// 	.Build();
+
+		// (void) pipeline;
 
 		this->OnEnable();
 

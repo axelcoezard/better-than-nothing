@@ -11,6 +11,7 @@
 #include "Graphics/Vulkan/VulkanQueue.hpp"
 #include "Graphics/Vulkan/VulkanSwapChain.hpp"
 
+
 namespace BetterThanNothing
 {
 	class ApplicationContextError : public std::runtime_error
