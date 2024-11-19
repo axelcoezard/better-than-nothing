@@ -13,8 +13,8 @@ namespace BetterThanNothing
 
 	struct VulkanPipelineParams
 	{
+		std::string name;
 		std::vector<VulkanShaderModule> shaders;
-		VkPrimitiveTopology topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 	};
 
 	class VulkanPipeline
@@ -23,12 +23,14 @@ namespace BetterThanNothing
 		ApplicationContext* m_context;
 		VulkanPipelineParams m_params;
 
+		VkPipelineLayout m_pipelineLayout = VK_NULL_HANDLE;
+
 	public:
 		explicit VulkanPipeline(VulkanPipelineParams  params, ApplicationContext* context);
 		~VulkanPipeline();
 
 	private:
-		static uint32_t _getShaderStageTypeByShaderType(VulkanShaderType type);
+		static VkShaderStageFlagBits _getShaderStageTypeByShaderType(VulkanShaderType type);
 	};
 
 	class VulkanPipelineBuilder
@@ -40,8 +42,8 @@ namespace BetterThanNothing
 		explicit VulkanPipelineBuilder() = default;
 		~VulkanPipelineBuilder() = default;
 
+		VulkanPipelineBuilder& SetName(const std::string& name);
 		VulkanPipelineBuilder& AddShader(const VulkanShaderModule& shaderModule);
-		VulkanPipelineBuilder& SetInputAssembly(VkPrimitiveTopology topology);
 		VulkanPipeline Build(ApplicationContext* context) const;
 	};
 }; // BetterThanNothing

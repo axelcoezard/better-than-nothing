@@ -39,5 +39,12 @@ namespace BetterThanNothing
 
 		[[nodiscard]]
 		VkExtent2D _chooseExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+
+	public:
+		[[nodiscard]]
+		VkFormat GetImageFormat() const;
+
+		[[nodiscard]]
+		VkExtent2D GetExtent() const;
 	};
 };

@@ -150,4 +150,14 @@ namespace BetterThanNothing
 
 		return actualExtent;
 	}
+
+	VkFormat VulkanSwapChain::GetImageFormat() const
+	{
+		return m_imageFormat;
+	}
+
+	VkExtent2D VulkanSwapChain::GetExtent() const
+	{
+		return m_extent;
+	}
 };
