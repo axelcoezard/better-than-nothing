@@ -14,15 +14,7 @@ namespace BetterThanNothing
 
 		context.Initialize();
 
-		auto vert = context.LoadShader("main/main.vert", VulkanShaderType::Vertex);
-		auto frag = context.LoadShader("main/main.frag", VulkanShaderType::Fragment);
-
-		VulkanPipeline pipeline = VulkanPipelineBuilder()
-			.AddShader(vert)
-			.AddShader(frag)
-			.Build(&context);
-
-		this->OnEnable();
+		this->OnEnable(&context);
 
 		while (!context.GetWindow()->ShouldClose())
 		{
@@ -31,6 +23,6 @@ namespace BetterThanNothing
 			std::this_thread::sleep_for(std::chrono::milliseconds (10));
 		}
 
-		this->OnDisable();
+		this->OnDisable(&context);
 	}
 };

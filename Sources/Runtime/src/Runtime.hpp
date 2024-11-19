@@ -4,14 +4,13 @@
 
 namespace BetterThanNothing
 {
-	class Event;
-	class KeyPressEvent;
+	class ApplicationContext;
 
 	class Runtime: public Application {
 	public:
 		Runtime() = default;
 
-		void OnEnable() override;
-		void OnDisable() override;
+		void OnEnable(ApplicationContext* context) override;
+		void OnDisable(ApplicationContext* context) override;
 	};
 };

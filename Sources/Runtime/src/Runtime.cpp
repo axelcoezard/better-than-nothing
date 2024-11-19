@@ -4,14 +4,20 @@
 
 namespace BetterThanNothing
 {
-	void Runtime::OnEnable()
+	void Runtime::OnEnable(ApplicationContext* context)
 	{
+		auto vert = context->LoadShader("main/main.vert", VulkanShaderType::Vertex);
+		auto frag = context->LoadShader("main/main.frag", VulkanShaderType::Fragment);
 
+		VulkanPipeline pipeline = VulkanPipelineBuilder()
+			.AddShader(vert)
+			.AddShader(frag)
+			.Build(context);
 	}
 
-	void Runtime::OnDisable()
+	void Runtime::OnDisable(ApplicationContext* context)
 	{
-
+		(void) context;
 	}
 };
 

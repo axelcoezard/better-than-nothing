@@ -4,7 +4,7 @@
 
 namespace BetterThanNothing
 {
-	class Event;
+	class ApplicationContext;
 
 	/**
 	 * @brief The Application class is the main class of the engine's applications.
@@ -29,11 +29,11 @@ namespace BetterThanNothing
 		/**
 		 * @brief Called when the Application is enabled
 		*/
-		virtual void OnEnable() = 0;
+		virtual void OnEnable(ApplicationContext* context) = 0;
 
 		/**
 		 * @brief Called when the Application is disabled
 		*/
-		virtual void OnDisable() = 0;
+		virtual void OnDisable(ApplicationContext* context) = 0;
 	};
 };
