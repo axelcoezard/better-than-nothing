@@ -10,14 +10,14 @@ namespace BetterThanNothing
 {
 	class ApplicationContext;
 
-	class VulkanAllocator
+	class VulkanMemoryAllocator
 	{
 	private:
 		VmaAllocator m_allocator = VK_NULL_HANDLE;
 
 	public:
-		explicit VulkanAllocator(ApplicationContext* pContext);
-		~VulkanAllocator();
+		explicit VulkanMemoryAllocator(ApplicationContext* pContext);
+		~VulkanMemoryAllocator();
 
 		[[nodiscard]]
 		VmaAllocator Handle() const;

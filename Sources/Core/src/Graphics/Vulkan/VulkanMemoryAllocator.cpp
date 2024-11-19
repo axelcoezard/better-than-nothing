@@ -3,12 +3,12 @@
 //
 
 #include "ApplicationContext.hpp"
-#include "VulkanAllocator.hpp"
+#include "VulkanMemoryAllocator.hpp"
 
 
 namespace BetterThanNothing
 {
-	VulkanAllocator::VulkanAllocator(ApplicationContext* pContext)
+	VulkanMemoryAllocator::VulkanMemoryAllocator(ApplicationContext* pContext)
 	{
 		VmaVulkanFunctions vulkanFunctions = {};
 		vulkanFunctions.vkGetInstanceProcAddr = &vkGetInstanceProcAddr;
@@ -28,12 +28,12 @@ namespace BetterThanNothing
 		LOG_SUCCESS("Vulkan memory allocator (Vma): ok");
 	}
 
-	VulkanAllocator::~VulkanAllocator()
+	VulkanMemoryAllocator::~VulkanMemoryAllocator()
 	{
 		 vmaDestroyAllocator(m_allocator);
 	}
 
-	VmaAllocator VulkanAllocator::Handle() const
+	VmaAllocator VulkanMemoryAllocator::Handle() const
 	{
 		return m_allocator;
 	}
