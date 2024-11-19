@@ -25,6 +25,8 @@ namespace BetterThanNothing
 
 		static void PollEvents();
 
+		void Show() const;
+
 		[[nodiscard]]
 		bool ShouldClose() const;
 

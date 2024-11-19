@@ -12,6 +12,7 @@ namespace BetterThanNothing
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, m_resizable ? GLFW_TRUE : GLFW_FALSE);
+		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
 		GLFWmonitor* monitor = m_fullscreen
 			? glfwGetPrimaryMonitor()
@@ -48,6 +49,11 @@ namespace BetterThanNothing
 	void Window::PollEvents()
 	{
 		glfwPollEvents();
+	}
+
+	void Window::Show() const
+	{
+		glfwShowWindow(m_Window);
 	}
 
 	bool Window::ShouldClose() const

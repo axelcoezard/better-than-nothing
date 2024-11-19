@@ -16,6 +16,8 @@ namespace BetterThanNothing
 
 		this->OnEnable(&context);
 
+		context.GetWindow()->Show();
+
 		while (!context.GetWindow()->ShouldClose())
 		{
 			Window::PollEvents();
