@@ -18,6 +18,8 @@
 #include "Graphics/Vulkan/VulkanFramebuffer.hpp"
 #include "Graphics/Vulkan/VulkanRenderPass.hpp"
 #include "Graphics/Vulkan/VulkanMemoryAllocator.hpp"
+#include "Graphics/Vulkan/VulkanSemaphore.hpp"
+#include "Graphics/Vulkan/VulkanFence.hpp"
 
 #include "Graphics/Renderer.hpp"
 
