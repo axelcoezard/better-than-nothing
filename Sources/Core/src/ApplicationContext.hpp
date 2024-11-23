@@ -63,17 +63,11 @@ namespace BetterThanNothing
 		std::unique_ptr<VulkanInstance> m_pVulkanInstance = nullptr;
 		std::unique_ptr<VulkanSurface> m_pVulkanSurface = nullptr;
 		std::unique_ptr<VulkanDevice> m_pVulkanDevice = nullptr;
-
 		std::unique_ptr<VulkanQueue> m_pGraphicsQueue = nullptr;
 		std::unique_ptr<VulkanQueue> m_pPresentQueue = nullptr;
-
 		std::unique_ptr<VulkanMemoryAllocator> m_pVulkanMemoryAllocator = nullptr;
-		std::unique_ptr<VulkanCommandPool> m_pVulkanCommandPool = nullptr;
-
 		std::unique_ptr<VulkanSwapChain> m_pVulkanSwapChain = nullptr;
-
 		std::unique_ptr<ShaderPool> m_pShaderPool = nullptr;
-
 		std::unique_ptr<VulkanRenderPass> m_pVulkanRenderPass = nullptr;
 
 		std::unique_ptr<Renderer> m_pRenderer = nullptr;
@@ -103,7 +97,6 @@ namespace BetterThanNothing
 			LOG_INFO("API Version: " << m_pVulkanDevice->GetApiVersion());
 
 			m_pVulkanMemoryAllocator = std::make_unique<VulkanMemoryAllocator>(this);
-			m_pVulkanCommandPool = std::make_unique<VulkanCommandPool>(this);
 
 			LOG_INFO("Buffering type: " << GetMaxFrameInFlightCount());
 			LOG_INFO("VSync: " << (m_vulkanParams.enableVSync ? "enabled" : "disabled"));
@@ -179,13 +172,6 @@ namespace BetterThanNothing
 			if (!m_pVulkanMemoryAllocator)
 				throw ApplicationContextError("Vulkan memory allocator is not set");
 			return m_pVulkanMemoryAllocator;
-		}
-
-		std::unique_ptr<VulkanCommandPool>& GetVulkanCommandPool()
-		{
-			if (!m_pVulkanCommandPool)
-				throw ApplicationContextError("Vulkan command pool is not set");
-			return m_pVulkanCommandPool;
 		}
 
 		std::unique_ptr<VulkanSwapChain>& GetVulkanSwapChain()

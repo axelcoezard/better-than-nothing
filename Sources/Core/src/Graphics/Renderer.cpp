@@ -5,7 +5,7 @@ namespace BetterThanNothing
 {
 	Renderer::Renderer(ApplicationContext* context): m_Context(context)
 	{
-		(void) m_Context;
+		m_pVulkanCommandPool = std::make_unique<VulkanCommandPool>(m_Context);
 	}
 
 	Renderer::~Renderer()
