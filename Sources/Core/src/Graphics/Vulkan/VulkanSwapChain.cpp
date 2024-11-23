@@ -183,4 +183,11 @@ namespace BetterThanNothing
 	{
 		return m_extent;
 	}
+
+	VkFramebuffer VulkanSwapChain::GetFramebuffer(uint32_t imageIndex)
+	{
+		if (imageIndex >= m_framebuffers.size())
+			throw std::runtime_error("Framebuffer index out of range");
+		return m_framebuffers.at(imageIndex)->Handle();
+	}
 };

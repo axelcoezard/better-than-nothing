@@ -144,8 +144,16 @@ namespace BetterThanNothing
 
 	VulkanPipeline::~VulkanPipeline()
 	{
-		vkDestroyPipeline(m_context->GetVulkanDevice()->LogicalHandle(), m_pipeline, nullptr);
-		vkDestroyPipelineLayout(m_context->GetVulkanDevice()->LogicalHandle(), m_pipelineLayout, nullptr);
+		if (m_pipelineLayout != VK_NULL_HANDLE)
+			vkDestroyPipelineLayout(m_context->GetVulkanDevice()->LogicalHandle(), m_pipelineLayout, nullptr);
+
+		if (m_pipeline != VK_NULL_HANDLE)
+			vkDestroyPipeline(m_context->GetVulkanDevice()->LogicalHandle(), m_pipeline, nullptr);
+	}
+
+	VkPipeline VulkanPipeline::Handle() const
+	{
+		return m_pipeline;
 	}
 
 	VkShaderStageFlagBits VulkanPipeline::_getShaderStageTypeByShaderType(const VulkanShaderType type)
@@ -177,8 +185,8 @@ namespace BetterThanNothing
 		return *this;
 	}
 
-	VulkanPipeline VulkanPipelineBuilder::Build(ApplicationContext* context) const
+	VulkanPipelineParams& VulkanPipelineBuilder::GetBuildParams()
 	{
-		return VulkanPipeline(m_params, context);
+		return m_params;
 	}
 };

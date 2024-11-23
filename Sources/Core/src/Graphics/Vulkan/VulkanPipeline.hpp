@@ -20,7 +20,7 @@ namespace BetterThanNothing
 	class VulkanPipeline
 	{
 	private:
-		ApplicationContext* m_context;
+		ApplicationContext* m_context = nullptr;
 		VulkanPipelineParams m_params;
 
 		VkPipelineLayout m_pipelineLayout = VK_NULL_HANDLE;
@@ -29,6 +29,9 @@ namespace BetterThanNothing
 	public:
 		explicit VulkanPipeline(VulkanPipelineParams  params, ApplicationContext* context);
 		~VulkanPipeline();
+
+		[[nodiscard]]
+		VkPipeline Handle() const;
 
 	private:
 		static VkShaderStageFlagBits _getShaderStageTypeByShaderType(VulkanShaderType type);
@@ -45,6 +48,7 @@ namespace BetterThanNothing
 
 		VulkanPipelineBuilder& SetName(const char* name);
 		VulkanPipelineBuilder& AddShader(const std::string& shaderPath, VulkanShaderType shaderType);
-		VulkanPipeline Build(ApplicationContext* context) const;
+
+		VulkanPipelineParams& GetBuildParams();
 	};
 }; // BetterThanNothing

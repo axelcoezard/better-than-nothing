@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace BetterThanNothing
 {
 	class ApplicationContext;
@@ -51,5 +50,8 @@ namespace BetterThanNothing
 
 		[[nodiscard]]
 		VkExtent2D GetExtent() const;
+
+		[[nodiscard]]
+		VkFramebuffer GetFramebuffer(uint32_t index);
 	};
 };

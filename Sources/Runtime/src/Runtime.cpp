@@ -6,11 +6,11 @@ namespace BetterThanNothing
 {
 	void Runtime::OnEnable(ApplicationContext* context)
 	{
-		VulkanPipeline pipeline = VulkanPipelineBuilder()
-			.SetName("main")
-			.AddShader("main/main.vert", VulkanShaderType::Vertex)
-			.AddShader("main/main.frag", VulkanShaderType::Fragment)
-			.Build(context);
+		context->GetRenderer()->AddPipeline([&](VulkanPipelineBuilder& builder) {
+			builder.SetName("main");
+			builder.AddShader("main/main.vert", VulkanShaderType::Vertex);
+			builder.AddShader("main/main.frag", VulkanShaderType::Fragment);
+		});
 	}
 
 	void Runtime::OnDisable(ApplicationContext* context)

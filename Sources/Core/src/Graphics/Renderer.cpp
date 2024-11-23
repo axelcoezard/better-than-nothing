@@ -28,6 +28,54 @@ namespace BetterThanNothing
 		LOG_SUCCESS("Renderer: ok");
 	}
 
+	void Renderer::Render()
+	{
+		m_commandBuffer->BeginRecording();
+
+		VkRenderPassBeginInfo renderPassInfo{};
+		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		renderPassInfo.renderPass = m_pVulkanRenderPass->Handle();
+		renderPassInfo.framebuffer = m_pVulkanSwapChain->GetFramebuffer(m_ImageIndex);
+		renderPassInfo.renderArea.offset = {0, 0};
+		renderPassInfo.renderArea.extent = m_pVulkanSwapChain->GetExtent();
+
+		VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 1.0f}}};
+		renderPassInfo.clearValueCount = 1;
+		renderPassInfo.pClearValues = &clearColor;
+
+		vkCmdBeginRenderPass(m_commandBuffer->Handle(), &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+		vkCmdBindPipeline(m_commandBuffer->Handle(), VK_PIPELINE_BIND_POINT_GRAPHICS, m_Pipeline->Handle());
+
+		VkViewport viewport{};
+		viewport.x = 0.0f;
+		viewport.y = 0.0f;
+		viewport.width = static_cast<float>(m_pVulkanSwapChain->GetExtent().width);
+		viewport.height = static_cast<float>(m_pVulkanSwapChain->GetExtent().height);
+		viewport.minDepth = 0.0f;
+		viewport.maxDepth = 1.0f;
+		vkCmdSetViewport(m_commandBuffer->Handle(), 0, 1, &viewport);
+
+		VkRect2D scissor{};
+		scissor.offset = {0, 0};
+		scissor.extent = m_pVulkanSwapChain->GetExtent();
+		vkCmdSetScissor(m_commandBuffer->Handle(), 0, 1, &scissor);
+
+		vkCmdDraw(m_commandBuffer->Handle(), 3, 1, 0, 0);
+
+		vkCmdEndRenderPass(m_commandBuffer->Handle());
+
+		m_commandBuffer->EndRecording();
+	}
+
+	void Renderer::AddPipeline(const std::function<void(VulkanPipelineBuilder&)>& callback)
+	{
+		VulkanPipelineBuilder builder;
+		callback(builder);
+
+		m_Pipeline = std::make_unique<VulkanPipeline>(builder.GetBuildParams(), m_Context);
+	}
+
 	void Renderer::_createCommandBuffers()
 	{
 		auto device = m_Context->GetVulkanDevice()->LogicalHandle();
