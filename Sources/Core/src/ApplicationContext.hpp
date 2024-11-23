@@ -16,6 +16,7 @@
 #include "Graphics/ShaderPool.hpp"
 #include "Graphics/Vulkan/VulkanRenderPass.hpp"
 #include "Graphics/Vulkan/VulkanFramebuffer.hpp"
+#include "Graphics/Vulkan/VulkanCommandPool.hpp"
 
 namespace BetterThanNothing
 {
@@ -62,6 +63,8 @@ namespace BetterThanNothing
 		std::unique_ptr<VulkanQueue> m_pPresentQueue = nullptr;
 
 		std::unique_ptr<VulkanMemoryAllocator> m_pVulkanMemoryAllocator = nullptr;
+		std::unique_ptr<VulkanCommandPool> m_pVulkanCommandPool = nullptr;
+
 		std::unique_ptr<VulkanSwapChain> m_pVulkanSwapChain = nullptr;
 
 		std::unique_ptr<ShaderPool> m_pShaderPool = nullptr;
@@ -87,7 +90,10 @@ namespace BetterThanNothing
 			m_pVulkanInstance = std::make_unique<VulkanInstance>(this);
 			m_pVulkanSurface = std::make_unique<VulkanSurface>(this);
 			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
+
 			m_pVulkanMemoryAllocator = std::make_unique<VulkanMemoryAllocator>(this);
+			m_pVulkanCommandPool = std::make_unique<VulkanCommandPool>(this);
+
 			m_pVulkanSwapChain = std::make_unique<VulkanSwapChain>(this);
 			m_pVulkanSwapChain->CreateImages();
 			m_pVulkanSwapChain->CreateImageViews();
@@ -157,6 +163,13 @@ namespace BetterThanNothing
 			if (!m_pVulkanMemoryAllocator)
 				throw ApplicationContextError("Vulkan memory allocator is not set");
 			return m_pVulkanMemoryAllocator;
+		}
+
+		std::unique_ptr<VulkanCommandPool>& GetVulkanCommandPool()
+		{
+			if (!m_pVulkanCommandPool)
+				throw ApplicationContextError("Vulkan command pool is not set");
+			return m_pVulkanCommandPool;
 		}
 
 		std::unique_ptr<VulkanSwapChain>& GetVulkanSwapChain()

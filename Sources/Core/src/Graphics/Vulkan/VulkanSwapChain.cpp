@@ -104,7 +104,7 @@ namespace BetterThanNothing
 			m_imageViews.at(i) = std::make_unique<VulkanImageView>(createInfo, m_context);
 		}
 
-		LOG_SUCCESS("Vulkan image views: ok");
+		LOG_SUCCESS("Vulkan swap chain image views: ok");
 	}
 
 	void VulkanSwapChain::CreateFramebuffers()
