@@ -33,7 +33,7 @@ namespace BetterThanNothing
 	{
 		m_pFrameInFlightFence->Wait();
 		m_pFrameInFlightFence->Reset();
-		
+
 		auto device = m_Context->GetVulkanDevice()->LogicalHandle();
 		auto swapchain = m_pVulkanSwapChain->Handle();
 
