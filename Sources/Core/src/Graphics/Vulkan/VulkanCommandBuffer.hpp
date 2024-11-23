@@ -10,7 +10,7 @@ namespace BetterThanNothing
 		ApplicationContext* m_context = nullptr;
 
 		VkCommandPool m_commandPool = VK_NULL_HANDLE;
-		VkCommandBuffer m_CommandBuffer = VK_NULL_HANDLE;
+		VkCommandBuffer m_commandBuffer = VK_NULL_HANDLE;
 
 		bool m_bRecording = false;
 

@@ -14,13 +14,13 @@ namespace BetterThanNothing
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		allocInfo.commandBufferCount = 1;
 
-		if (vkAllocateCommandBuffers(device, &allocInfo, &m_CommandBuffer) != VK_SUCCESS)
+		if (vkAllocateCommandBuffers(device, &allocInfo, &m_commandBuffer) != VK_SUCCESS)
 			throw std::runtime_error("failed to allocate command buffers!");
 	}
 
 	VulkanCommandBuffer::~VulkanCommandBuffer()
 	{
-		vkFreeCommandBuffers(m_context->GetVulkanDevice()->LogicalHandle(), m_commandPool, 1, &m_CommandBuffer);
+		vkFreeCommandBuffers(m_context->GetVulkanDevice()->LogicalHandle(), m_commandPool, 1, &m_commandBuffer);
 	}
 
 	void VulkanCommandBuffer::BeginRecording()
@@ -33,7 +33,7 @@ namespace BetterThanNothing
 		beginInfo.flags = 0; // Optional
 		beginInfo.pInheritanceInfo = nullptr; // Optional
 
-		if (vkBeginCommandBuffer(m_CommandBuffer, &beginInfo) != VK_SUCCESS)
+		if (vkBeginCommandBuffer(m_commandBuffer, &beginInfo) != VK_SUCCESS)
 			throw std::runtime_error("failed to begin recording command buffer!");
 
 		m_bRecording = true;
@@ -44,7 +44,7 @@ namespace BetterThanNothing
 		if (!m_bRecording)
 			throw std::runtime_error("Command buffer is not recording");
 
-		if (vkEndCommandBuffer(m_CommandBuffer) != VK_SUCCESS)
+		if (vkEndCommandBuffer(m_commandBuffer) != VK_SUCCESS)
 			throw std::runtime_error("failed to record command buffer!");
 
 		m_bRecording = false;
@@ -52,6 +52,6 @@ namespace BetterThanNothing
 
 	VkCommandBuffer VulkanCommandBuffer::Handle() const
 	{
-		return m_CommandBuffer;
+		return m_commandBuffer;
 	}
 }
