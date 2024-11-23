@@ -43,9 +43,8 @@ namespace BetterThanNothing
 		renderPassInfo.clearValueCount = 1;
 		renderPassInfo.pClearValues = &clearColor;
 
-		vkCmdBeginRenderPass(m_commandBuffer->Handle(), &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-
-		vkCmdBindPipeline(m_commandBuffer->Handle(), VK_PIPELINE_BIND_POINT_GRAPHICS, m_Pipeline->Handle());
+		m_commandBuffer->CmdBeginRenderPass(&renderPassInfo);
+		m_commandBuffer->CmdBindPipeline(m_Pipeline->Handle());
 
 		VkViewport viewport{};
 		viewport.x = 0.0f;
@@ -54,17 +53,16 @@ namespace BetterThanNothing
 		viewport.height = static_cast<float>(m_pVulkanSwapChain->GetExtent().height);
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
-		vkCmdSetViewport(m_commandBuffer->Handle(), 0, 1, &viewport);
+		m_commandBuffer->CmdSetViewport(&viewport);
 
 		VkRect2D scissor{};
 		scissor.offset = {0, 0};
 		scissor.extent = m_pVulkanSwapChain->GetExtent();
-		vkCmdSetScissor(m_commandBuffer->Handle(), 0, 1, &scissor);
+		m_commandBuffer->CmdSetScissor(&scissor);
 
-		vkCmdDraw(m_commandBuffer->Handle(), 3, 1, 0, 0);
+		m_commandBuffer->CmdDraw(3, 1, 0, 0);
 
-		vkCmdEndRenderPass(m_commandBuffer->Handle());
-
+		m_commandBuffer->CmdEndRenderPass();
 		m_commandBuffer->EndRecording();
 	}
 

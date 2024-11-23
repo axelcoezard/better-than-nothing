@@ -35,6 +35,36 @@ namespace BetterThanNothing
 		m_bRecording = false;
 	}
 
+	void VulkanCommandBuffer::CmdBeginRenderPass(VkRenderPassBeginInfo* renderPassInfo, VkSubpassContents subpassContents)
+	{
+		vkCmdBeginRenderPass(m_commandBuffer, renderPassInfo, subpassContents);
+	}
+
+	void VulkanCommandBuffer::CmdEndRenderPass()
+	{
+		vkCmdEndRenderPass(m_commandBuffer);
+	}
+
+	void VulkanCommandBuffer::CmdBindPipeline(VkPipeline pipeline, VkPipelineBindPoint bindPoint)
+	{
+		vkCmdBindPipeline(m_commandBuffer, bindPoint, pipeline);
+	}
+
+	void VulkanCommandBuffer::CmdSetViewport(const VkViewport* viewports, uint32_t firstViewport, uint32_t viewportCount)
+	{
+		vkCmdSetViewport(m_commandBuffer, firstViewport, viewportCount, viewports);
+	}
+
+	void VulkanCommandBuffer::CmdSetScissor(const VkRect2D* scissors, uint32_t firstScissor, uint32_t scissorCount)
+	{
+		vkCmdSetScissor(m_commandBuffer, firstScissor, scissorCount, scissors);
+	}
+
+	void VulkanCommandBuffer::CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
+	{
+		vkCmdDraw(m_commandBuffer, vertexCount, instanceCount, firstVertex, firstInstance);
+	}
+
 	VkCommandBuffer VulkanCommandBuffer::Handle() const
 	{
 		return m_commandBuffer;
