@@ -2,12 +2,14 @@
 // Created by acoezard on 11/5/24.
 //
 
+#include <utility>
+
 #include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {
 	ApplicationContext::ApplicationContext(ApplicationContextWindowParams windowParams, ApplicationContextVulkanParams vulkanParams)
-		: m_windowParams(windowParams), m_vulkanParams(vulkanParams)
+		: m_windowParams(std::move(windowParams)), m_vulkanParams(std::move(vulkanParams))
 	{
 	}
 
