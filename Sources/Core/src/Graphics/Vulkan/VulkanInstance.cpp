@@ -2,10 +2,7 @@
 // Created by acoezard on 11/5/24.
 //
 
-#include "VulkanInstance.hpp"
-#include <stdexcept>
-
-#include "ApplicationContext.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {

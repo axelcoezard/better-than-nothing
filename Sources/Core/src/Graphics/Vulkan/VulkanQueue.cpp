@@ -2,7 +2,7 @@
 // Created by acoezard on 11/18/24.
 //
 
-#include "VulkanQueue.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {

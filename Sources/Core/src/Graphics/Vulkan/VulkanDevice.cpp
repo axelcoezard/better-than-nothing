@@ -2,8 +2,7 @@
 // Created by acoezard on 11/6/24.
 //
 
-#include "VulkanDevice.hpp"
-#include "ApplicationContext.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {

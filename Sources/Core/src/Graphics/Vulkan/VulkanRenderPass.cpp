@@ -1,12 +1,11 @@
-#include "VulkanRenderPass.hpp"
-#include "ApplicationContext.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {
 	VulkanRenderPass::VulkanRenderPass(ApplicationContext* context): m_context(context)
 	{
 		VkAttachmentDescription colorAttachment{};
-		colorAttachment.format = context->GetVulkanSwapChain()->GetImageFormat();
+		colorAttachment.format = context->GetRenderer()->GetVulkanSwapChain()->GetImageFormat();
 		colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
 		colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 		colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;

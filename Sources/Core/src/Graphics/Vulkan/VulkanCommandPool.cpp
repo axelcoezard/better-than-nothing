@@ -1,6 +1,4 @@
-#include "ApplicationContext.hpp"
-#include "VulkanCommandPool.hpp"
-#include "VulkanCommandBuffer.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {
@@ -28,10 +26,5 @@ namespace BetterThanNothing
 	VkCommandPool VulkanCommandPool::Handle() const
 	{
 		return m_commandPool;
-	}
-
-	void VulkanCommandPool::CreateCommandBuffers()
-	{
-
 	}
 }

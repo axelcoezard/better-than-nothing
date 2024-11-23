@@ -2,10 +2,7 @@
 // Created by acoezard on 11/5/24.
 //
 
-#include "VulkanSurface.hpp"
-
-#include "ApplicationContext.hpp"
-#include "VulkanInstance.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {

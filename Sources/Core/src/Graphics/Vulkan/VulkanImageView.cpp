@@ -1,5 +1,4 @@
-#include "VulkanImageView.hpp"
-#include "ApplicationContext.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {

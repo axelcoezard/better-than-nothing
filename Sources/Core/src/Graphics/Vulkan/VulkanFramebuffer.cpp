@@ -1,5 +1,4 @@
-#include "ApplicationContext.hpp"
-#include "VulkanFramebuffer.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {

@@ -3,24 +3,9 @@
 
 namespace BetterThanNothing
 {
-	VulkanCommandBuffer::VulkanCommandBuffer(VkCommandPool commandPool, ApplicationContext* context)
-		: m_context(context), m_commandPool(commandPool)
+	VulkanCommandBuffer::VulkanCommandBuffer(VkCommandBuffer commandBuffer)
+		: m_commandBuffer(commandBuffer)
 	{
-		auto device = m_context->GetVulkanDevice()->LogicalHandle();
-
-		VkCommandBufferAllocateInfo allocInfo{};
-		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-		allocInfo.commandPool = m_commandPool;
-		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-		allocInfo.commandBufferCount = 1;
-
-		if (vkAllocateCommandBuffers(device, &allocInfo, &m_commandBuffer) != VK_SUCCESS)
-			throw std::runtime_error("failed to allocate command buffers!");
-	}
-
-	VulkanCommandBuffer::~VulkanCommandBuffer()
-	{
-		vkFreeCommandBuffers(m_context->GetVulkanDevice()->LogicalHandle(), m_commandPool, 1, &m_commandBuffer);
 	}
 
 	void VulkanCommandBuffer::BeginRecording()

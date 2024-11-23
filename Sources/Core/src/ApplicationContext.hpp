@@ -4,24 +4,11 @@
 
 #pragma once
 
-#include "Graphics/Window.hpp"
-#include "Graphics/Vulkan/VulkanInstance.hpp"
-#include "Graphics/Vulkan/VulkanSurface.hpp"
-#include "Graphics/Vulkan/VulkanDevice.hpp"
-#include "Graphics/Vulkan/VulkanQueue.hpp"
-#include "Graphics/Vulkan/VulkanMemoryAllocator.hpp"
-#include "Graphics/Vulkan/VulkanSwapChain.hpp"
-#include "Graphics/Vulkan/VulkanShaderType.hpp"
-#include "Graphics/Vulkan/VulkanShaderModule.hpp"
-#include "Graphics/ShaderPool.hpp"
-#include "Graphics/Vulkan/VulkanRenderPass.hpp"
-#include "Graphics/Vulkan/VulkanFramebuffer.hpp"
-#include "Graphics/Vulkan/VulkanCommandPool.hpp"
-#include "Graphics/Vulkan/VulkanBufferingType.hpp"
-#include "Graphics/Renderer.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {
+
 	class ApplicationContextError : public std::runtime_error
 	{
 	public:
@@ -66,187 +53,58 @@ namespace BetterThanNothing
 		std::unique_ptr<VulkanQueue> m_pGraphicsQueue = nullptr;
 		std::unique_ptr<VulkanQueue> m_pPresentQueue = nullptr;
 		std::unique_ptr<VulkanMemoryAllocator> m_pVulkanMemoryAllocator = nullptr;
-		std::unique_ptr<VulkanSwapChain> m_pVulkanSwapChain = nullptr;
-		std::unique_ptr<ShaderPool> m_pShaderPool = nullptr;
-		std::unique_ptr<VulkanRenderPass> m_pVulkanRenderPass = nullptr;
 
 		std::unique_ptr<Renderer> m_pRenderer = nullptr;
+		std::unique_ptr<ShaderPool> m_pShaderPool = nullptr;
 
 	public:
-		explicit ApplicationContext(ApplicationContextWindowParams  windowParams, ApplicationContextVulkanParams  vulkanParams)
-			: m_windowParams(std::move(windowParams)), m_vulkanParams(std::move(vulkanParams)) {}
+		explicit ApplicationContext(ApplicationContextWindowParams  windowParams, ApplicationContextVulkanParams  vulkanParams);
 
-		~ApplicationContext() = default;
+		ApplicationContext& Initialize();
 
-		ApplicationContext& Initialize()
-		{
-			m_pWindow = std::make_unique<Window>(
-				m_windowParams.title,
-				m_windowParams.width,
-				m_windowParams.height,
-				m_windowParams.fullscreen,
-				m_windowParams.resizable
-			);
+		std::unique_ptr<Window>& GetWindow();
 
-			m_pVulkanInstance = std::make_unique<VulkanInstance>(this);
-			m_pVulkanSurface = std::make_unique<VulkanSurface>(this);
-			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
+		std::unique_ptr<VulkanInstance>& GetVulkanInstance();
 
-			LOG_INFO("Vendor: " << m_pVulkanDevice->GetVendorName());
-			LOG_INFO("Device: " << m_pVulkanDevice->GetDeviceName());
-			LOG_INFO("API Version: " << m_pVulkanDevice->GetApiVersion());
+		std::unique_ptr<VulkanSurface>& GetVulkanSurface();
 
-			m_pVulkanMemoryAllocator = std::make_unique<VulkanMemoryAllocator>(this);
+		std::unique_ptr<VulkanDevice>& GetVulkanDevice();
 
-			LOG_INFO("Buffering type: " << GetMaxFrameInFlightCount());
-			LOG_INFO("VSync: " << (m_vulkanParams.enableVSync ? "enabled" : "disabled"));
+		void SetGraphicsQueue(VkQueue graphicsQueue);
 
-			m_pVulkanSwapChain = std::make_unique<VulkanSwapChain>(this);
-			m_pVulkanSwapChain->CreateImages();
-			m_pVulkanSwapChain->CreateImageViews();
+		std::unique_ptr<VulkanQueue>& GetGraphicsQueue();
 
-			m_pShaderPool = std::make_unique<ShaderPool>(m_vulkanParams.shadersFolderPath, this);
-			m_pVulkanRenderPass = std::make_unique<VulkanRenderPass>(this);
+		void SetPresentQueue(VkQueue presentQueue);
 
-			m_pVulkanSwapChain->CreateFramebuffers();
+		std::unique_ptr<VulkanQueue>& GetPresentQueue();
 
-			m_pRenderer = std::make_unique<Renderer>(this);
+		std::unique_ptr<VulkanMemoryAllocator>& GetVulkanMemoryAllocator();
 
-			return *this;
-		}
+		std::unique_ptr<Renderer>& GetRenderer();
 
-		std::unique_ptr<Window>& GetWindow()
-		{
-			if (!m_pWindow)
-				throw ApplicationContextError("Window is not set");
-			return m_pWindow;
-		}
+		std::unique_ptr<ShaderPool>& GetShaderPool();
 
-		std::unique_ptr<VulkanInstance>& GetVulkanInstance()
-		{
-			if (!m_pVulkanInstance)
-				throw ApplicationContextError("Vulkan instance is not set");
-			return m_pVulkanInstance;
-		}
-
-		std::unique_ptr<VulkanSurface>& GetVulkanSurface()
-		{
-			if (!m_pVulkanSurface)
-				throw ApplicationContextError("Vulkan surface is not set");
-			return m_pVulkanSurface;
-		}
-
-		std::unique_ptr<VulkanDevice>& GetVulkanDevice()
-		{
-			if (!m_pVulkanDevice)
-				throw ApplicationContextError("Vulkan device is not set");
-			return m_pVulkanDevice;
-		}
-
-		void SetGraphicsQueue(VkQueue graphicsQueue)
-		{
-			m_pGraphicsQueue = std::make_unique<VulkanQueue>(graphicsQueue);
-		}
-
-		std::unique_ptr<VulkanQueue>& GetGraphicsQueue()
-		{
-			if (!m_pGraphicsQueue)
-				throw ApplicationContextError("Graphics queue is not set");
-			return m_pGraphicsQueue;
-		}
-
-		void SetPresentQueue(VkQueue presentQueue)
-		{
-			m_pPresentQueue = std::make_unique<VulkanQueue>(presentQueue);
-		}
-
-		std::unique_ptr<VulkanQueue>& GetPresentQueue()
-		{
-			if (!m_pPresentQueue)
-				throw ApplicationContextError("Presentation queue is not set");
-			return m_pPresentQueue;
-		}
-
-		std::unique_ptr<VulkanMemoryAllocator>& GetVulkanMemoryAllocator()
-		{
-			if (!m_pVulkanMemoryAllocator)
-				throw ApplicationContextError("Vulkan memory allocator is not set");
-			return m_pVulkanMemoryAllocator;
-		}
-
-		std::unique_ptr<VulkanSwapChain>& GetVulkanSwapChain()
-		{
-			if (!m_pVulkanSwapChain)
-				throw ApplicationContextError("Vulkan swap chain is not set");
-			return m_pVulkanSwapChain;
-		}
-
-		std::unique_ptr<ShaderPool>& GetShaderPool()
-		{
-			if (!m_pShaderPool)
-				throw ApplicationContextError("Shader pool is not set");
-			return m_pShaderPool;
-		}
-
-		std::unique_ptr<VulkanRenderPass>& GetVulkanRenderPass()
-		{
-			if (!m_pVulkanRenderPass)
-				throw ApplicationContextError("Vulkan render pass is not set");
-			return m_pVulkanRenderPass;
-		}
-
-		std::unique_ptr<Renderer>& GetRenderer()
-		{
-			if (!m_pRenderer)
-				throw ApplicationContextError("Renderer is not set");
-			return m_pRenderer;
-		}
-
-		VulkanShaderModule LoadShader(const std::string& name, VulkanShaderType type)
-		{
-			return m_pShaderPool->LoadShader(name, type);
-		}
+		VulkanShaderModule LoadShader(const std::string& name, VulkanShaderType type);
 
 		[[nodiscard]]
-		uint32_t GetVulkanApiVersion() const
-		{
-			return m_vulkanParams.apiVersion;
-		}
+		uint32_t GetVulkanApiVersion() const;
 
-		void EnableValidationLayers(const bool enable)
-		{
-			m_vulkanParams.enableValidationLayers = enable;
-		}
+		void EnableValidationLayers(bool enable);
 
 		[[nodiscard]]
-		bool IsValidationLayersEnabled() const
-		{
-			return m_vulkanParams.enableValidationLayers;
-		}
+		bool IsValidationLayersEnabled() const;
 
 		[[nodiscard]]
-		std::span<const char* const> GetValidationLayers() const
-		{
-			return m_vulkanParams.validationLayers;
-		}
+		std::span<const char* const> GetValidationLayers() const;
 
 		[[nodiscard]]
-		std::span<const char* const> GetDeviceExtensions() const
-		{
-			return m_vulkanParams.deviceExtensions;
-		}
+		std::span<const char* const> GetDeviceExtensions() const;
 
 		[[nodiscard]]
-		uint32_t GetMaxFrameInFlightCount() const
-		{
-			return static_cast<uint32_t>(m_vulkanParams.bufferingType);
-		}
+		uint32_t GetMaxFrameInFlightCount() const;
 
 		[[nodiscard]]
-		bool IsVSyncEnabled() const
-		{
-			return m_vulkanParams.enableVSync;
-		}
+		bool IsVSyncEnabled() const;
 	};
 
 	class ApplicationContextBuilder

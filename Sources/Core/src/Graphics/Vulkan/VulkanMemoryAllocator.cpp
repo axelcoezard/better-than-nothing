@@ -2,9 +2,7 @@
 // Created by acoezard on 11/19/24.
 //
 
-#include "ApplicationContext.hpp"
-#include "VulkanMemoryAllocator.hpp"
-
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {

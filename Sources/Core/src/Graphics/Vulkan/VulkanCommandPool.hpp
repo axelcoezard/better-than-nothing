@@ -3,15 +3,12 @@
 namespace BetterThanNothing
 {
 	class ApplicationContext;
-	class VulkanCommandBuffer;
 
 	class VulkanCommandPool
 	{
 	private:
 		ApplicationContext* m_context = nullptr;
 		VkCommandPool m_commandPool = VK_NULL_HANDLE;
-
-		std::vector<std::unique_ptr<VulkanCommandBuffer>> m_commandBuffers;
 
 	public:
 		explicit VulkanCommandPool(ApplicationContext* context);
@@ -24,7 +21,5 @@ namespace BetterThanNothing
 
 		[[nodiscard]]
 		VkCommandPool Handle() const;
-
-		void CreateCommandBuffers();
 	};
 }

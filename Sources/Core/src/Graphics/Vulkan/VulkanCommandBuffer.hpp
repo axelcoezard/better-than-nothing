@@ -7,16 +7,13 @@ namespace BetterThanNothing
 	class VulkanCommandBuffer
 	{
 	private:
-		ApplicationContext* m_context = nullptr;
-
-		VkCommandPool m_commandPool = VK_NULL_HANDLE;
 		VkCommandBuffer m_commandBuffer = VK_NULL_HANDLE;
 
 		bool m_bRecording = false;
 
 	public:
-		explicit VulkanCommandBuffer(VkCommandPool commandPool, ApplicationContext* context);
-		~VulkanCommandBuffer();
+		explicit VulkanCommandBuffer(VkCommandBuffer commandBuffer);
+		~VulkanCommandBuffer() = default;
 
 		VulkanCommandBuffer(const VulkanCommandBuffer&) = delete;
 		VulkanCommandBuffer& operator=(const VulkanCommandBuffer&) = delete;

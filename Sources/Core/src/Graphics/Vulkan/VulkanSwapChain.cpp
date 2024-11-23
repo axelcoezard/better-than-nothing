@@ -1,6 +1,4 @@
-#include "ApplicationContext.hpp"
-#include "VulkanSwapChain.hpp"
-#include "VulkanImageView.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {
@@ -114,7 +112,7 @@ namespace BetterThanNothing
 		for (size_t i = 0; i < m_imageViews.size(); i++)
 		{
 			auto imageView = m_imageViews.at(i)->Handle();
-			auto renderPass = m_context->GetVulkanRenderPass()->Handle();
+			auto renderPass = m_context->GetRenderer()->GetVulkanRenderPass()->Handle();
 
 			std::array<VkImageView, 1> attachments = { imageView };
 

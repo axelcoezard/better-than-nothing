@@ -2,12 +2,7 @@
 // Created by acoezard on 11/19/24.
 //
 
-#include "ApplicationContext.hpp"
-#include "VulkanPipeline.hpp"
-
-#include <utility>
-
-#include "VulkanShaderModule.hpp"
+#include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {
@@ -44,14 +39,14 @@ namespace BetterThanNothing
 		VkViewport viewport{};
 		viewport.x = 0.0f;
 		viewport.y = 0.0f;
-		viewport.width = static_cast<float>(m_context->GetVulkanSwapChain()->GetExtent().width);
-		viewport.height = static_cast<float>(m_context->GetVulkanSwapChain()->GetExtent().height);
+		viewport.width = static_cast<float>(m_context->GetRenderer()->GetVulkanSwapChain()->GetExtent().width);
+		viewport.height = static_cast<float>(m_context->GetRenderer()->GetVulkanSwapChain()->GetExtent().height);
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 
 		VkRect2D scissor{};
 		scissor.offset = { 0, 0 };
-		scissor.extent = m_context->GetVulkanSwapChain()->GetExtent();
+		scissor.extent = m_context->GetRenderer()->GetVulkanSwapChain()->GetExtent();
 
 		std::vector<VkDynamicState> dynamicStates = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
 
@@ -136,7 +131,7 @@ namespace BetterThanNothing
 		pipelineInfo.pColorBlendState = &colorBlending;
 		pipelineInfo.pDynamicState = &dynamicState;
 		pipelineInfo.layout = m_pipelineLayout;
-		pipelineInfo.renderPass = m_context->GetVulkanRenderPass()->Handle();
+		pipelineInfo.renderPass = m_context->GetRenderer()->GetVulkanRenderPass()->Handle();
 		pipelineInfo.subpass = 0;
 		pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 		pipelineInfo.basePipelineIndex = -1; // Optional
