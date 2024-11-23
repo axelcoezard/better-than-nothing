@@ -46,10 +46,6 @@ namespace BetterThanNothing
 		m_vendorName = _getVendorById(deviceProperties.vendorID);
 		m_deviceName = deviceProperties.deviceName;
 		m_apiVersion = std::to_string(deviceProperties.apiVersion);
-
-		LOG_INFO("Vendor: " << m_vendorName);
-		LOG_INFO("Device: " << m_deviceName);
-		LOG_INFO("API Version: " << m_apiVersion);
 	}
 
 	void VulkanDevice::_createLogicalDevice(ApplicationContext* context)

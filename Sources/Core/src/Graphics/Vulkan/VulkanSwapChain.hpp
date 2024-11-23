@@ -47,6 +47,9 @@ namespace BetterThanNothing
 		VkFormat GetImageFormat() const;
 
 		[[nodiscard]]
+		uint32_t GetImageCount() const;
+
+		[[nodiscard]]
 		VkExtent2D GetExtent() const;
 	};
 };

@@ -151,7 +151,7 @@ namespace BetterThanNothing
 	{
 		for (const auto& availablePresentMode : availablePresentModes)
 		{
-			if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) // Triple buffering
+			if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) // TripleBuffering buffering
 				return availablePresentMode;
 		}
 		return VK_PRESENT_MODE_FIFO_KHR; // V-Sync
@@ -174,6 +174,11 @@ namespace BetterThanNothing
 	VkFormat VulkanSwapChain::GetImageFormat() const
 	{
 		return m_imageFormat;
+	}
+
+	uint32_t VulkanSwapChain::GetImageCount() const
+	{
+		return m_images.size();
 	}
 
 	VkExtent2D VulkanSwapChain::GetExtent() const

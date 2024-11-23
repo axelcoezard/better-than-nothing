@@ -1,5 +1,6 @@
 #include "ApplicationContext.hpp"
 #include "VulkanCommandPool.hpp"
+#include "VulkanCommandBuffer.hpp"
 
 namespace BetterThanNothing
 {
@@ -13,7 +14,7 @@ namespace BetterThanNothing
 		poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 		poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
 
-		if (vkCreateCommandPool(device, &poolInfo, nullptr, &m_CommandPool) != VK_SUCCESS)
+		if (vkCreateCommandPool(device, &poolInfo, nullptr, &m_commandPool) != VK_SUCCESS)
 			throw std::runtime_error("failed to create command pool!");
 
 		LOG_SUCCESS("Vulkan command pool: ok");
@@ -21,11 +22,16 @@ namespace BetterThanNothing
 
 	VulkanCommandPool::~VulkanCommandPool()
 	{
-		vkDestroyCommandPool(m_context->GetVulkanDevice()->LogicalHandle(), m_CommandPool, nullptr);
+		vkDestroyCommandPool(m_context->GetVulkanDevice()->LogicalHandle(), m_commandPool, nullptr);
 	}
 
 	VkCommandPool VulkanCommandPool::Handle() const
 	{
-		return m_CommandPool;
+		return m_commandPool;
+	}
+
+	void VulkanCommandPool::CreateCommandBuffers()
+	{
+
 	}
 }

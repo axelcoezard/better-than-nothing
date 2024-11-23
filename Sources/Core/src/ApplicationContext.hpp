@@ -17,6 +17,7 @@
 #include "Graphics/Vulkan/VulkanRenderPass.hpp"
 #include "Graphics/Vulkan/VulkanFramebuffer.hpp"
 #include "Graphics/Vulkan/VulkanCommandPool.hpp"
+#include "Graphics/Vulkan/VulkanBufferingType.hpp"
 
 namespace BetterThanNothing
 {
@@ -45,6 +46,9 @@ namespace BetterThanNothing
 		std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 
 		std::string shadersFolderPath;
+
+		VulkanBufferingType bufferingType = VulkanBufferingType::None;
+		bool enableVSync = true;
 	};
 
 	class ApplicationContext
@@ -91,8 +95,15 @@ namespace BetterThanNothing
 			m_pVulkanSurface = std::make_unique<VulkanSurface>(this);
 			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
 
+			LOG_INFO("Vendor: " << m_pVulkanDevice->GetVendorName());
+			LOG_INFO("Device: " << m_pVulkanDevice->GetDeviceName());
+			LOG_INFO("API Version: " << m_pVulkanDevice->GetApiVersion());
+
 			m_pVulkanMemoryAllocator = std::make_unique<VulkanMemoryAllocator>(this);
 			m_pVulkanCommandPool = std::make_unique<VulkanCommandPool>(this);
+
+			LOG_INFO("Buffering type: " << GetMaxFrameInFlightCount());
+			LOG_INFO("VSync: " << (m_vulkanParams.enableVSync ? "enabled" : "disabled"));
 
 			m_pVulkanSwapChain = std::make_unique<VulkanSwapChain>(this);
 			m_pVulkanSwapChain->CreateImages();
@@ -226,6 +237,18 @@ namespace BetterThanNothing
 		{
 			return m_vulkanParams.deviceExtensions;
 		}
+
+		[[nodiscard]]
+		uint32_t GetMaxFrameInFlightCount() const
+		{
+			return static_cast<uint32_t>(m_vulkanParams.bufferingType);
+		}
+
+		[[nodiscard]]
+		bool IsVSyncEnabled() const
+		{
+			return m_vulkanParams.enableVSync;
+		}
 	};
 
 	class ApplicationContextBuilder
@@ -293,6 +316,18 @@ namespace BetterThanNothing
 			return *this;
 		}
 
+		ApplicationContextBuilder& SetBufferingType(VulkanBufferingType type)
+		{
+			m_vulkanParams.bufferingType = type;
+			return *this;
+		}
+
+		ApplicationContextBuilder& EnableVSync(bool enable)
+		{
+			m_vulkanParams.enableVSync = enable;
+			return *this;
+		}
+
 		ApplicationContext Build()
 		{
 			if (m_windowParams.title.empty())
@@ -306,6 +341,12 @@ namespace BetterThanNothing
 
 			if (m_vulkanParams.shadersFolderPath.empty())
 				throw ApplicationContextError("Assets folder path is not set");
+
+			if (m_vulkanParams.deviceExtensions.empty())
+				throw ApplicationContextError("Device extensions are not set");
+
+			if (m_vulkanParams.bufferingType == VulkanBufferingType::None)
+				throw ApplicationContextError("Buffering type is not set");
 
 			return ApplicationContext(m_windowParams, m_vulkanParams);
 		}
