@@ -53,5 +53,8 @@ namespace BetterThanNothing
 
 		[[nodiscard]]
 		VkFramebuffer GetFramebuffer(uint32_t index);
+
+		[[nodiscard]]
+		VkSwapchainKHR Handle() const;
 	};
 };

@@ -24,8 +24,12 @@ namespace BetterThanNothing
 		{
 			Window::PollEvents();
 
+			context.GetRenderer()->Render();
+
 			std::this_thread::sleep_for(std::chrono::milliseconds (10));
 		}
+
+		context.GetVulkanDevice()->WaitIdle();
 
 		this->OnDisable(&context);
 	}

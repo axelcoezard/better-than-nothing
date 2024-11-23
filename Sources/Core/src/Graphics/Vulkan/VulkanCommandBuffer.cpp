@@ -8,6 +8,15 @@ namespace BetterThanNothing
 	{
 	}
 
+	void VulkanCommandBuffer::Reset()
+	{
+		if (m_bRecording)
+			throw std::runtime_error("Command buffer is recording");
+
+		if (vkResetCommandBuffer(m_commandBuffer, 0) != VK_SUCCESS)
+			throw std::runtime_error("failed to reset command buffer!");
+	}
+
 	void VulkanCommandBuffer::BeginRecording()
 	{
 		if (m_bRecording)

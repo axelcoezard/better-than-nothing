@@ -14,6 +14,9 @@ namespace BetterThanNothing
 		explicit VulkanFence(ApplicationContext* context);
 		~VulkanFence();
 
+		void Wait();
+		void Reset();
+
 		[[nodiscard]]
 		VkFence Handle() const;
 	};

@@ -19,9 +19,12 @@ namespace BetterThanNothing
 		std::unique_ptr<VulkanCommandPool> m_pVulkanCommandPool = nullptr;
 		std::unique_ptr<VulkanCommandBuffer> m_commandBuffer = nullptr;
 
-		std::unique_ptr<VulkanPipeline> m_Pipeline = nullptr;
+		std::unique_ptr<VulkanPipeline> m_pPipeline = nullptr;
 
-		uint32_t m_ImageIndex = 0;
+		std::unique_ptr<VulkanSemaphore> m_pImageAvailableSemaphore = nullptr;
+		std::unique_ptr<VulkanSemaphore> m_pRenderFinishedSemaphore = nullptr;
+		std::unique_ptr<VulkanFence> m_pFrameInFlightFence = nullptr;
+
 	public:
 		explicit Renderer(ApplicationContext* context);
 		~Renderer();
@@ -32,6 +35,8 @@ namespace BetterThanNothing
 
 	private:
 		void _createCommandBuffers();
+		void _createSyncObjects();
+		void _recordCommandBuffer(uint32_t imageIndex);
 
 	public:
 		std::unique_ptr<VulkanSwapChain>& GetVulkanSwapChain();

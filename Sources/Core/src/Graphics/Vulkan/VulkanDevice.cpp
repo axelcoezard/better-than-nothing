@@ -194,6 +194,11 @@ namespace BetterThanNothing
 		return _findQueueFamilies(m_physicalDevice);
 	}
 
+	void VulkanDevice::WaitIdle() const
+	{
+		vkDeviceWaitIdle(m_logicalDevice);
+	}
+
 	SwapChainSupportDetails VulkanDevice::_querySwapChainSupport(VkPhysicalDevice device) const
 	{
 		auto surface = m_context->GetVulkanSurface()->Handle();

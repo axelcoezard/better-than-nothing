@@ -190,4 +190,9 @@ namespace BetterThanNothing
 			throw std::runtime_error("Framebuffer index out of range");
 		return m_framebuffers.at(imageIndex)->Handle();
 	}
+
+	VkSwapchainKHR VulkanSwapChain::Handle() const
+	{
+		return m_swapChain;
+	}
 };

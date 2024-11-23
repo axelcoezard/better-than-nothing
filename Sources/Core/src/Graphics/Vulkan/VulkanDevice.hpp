@@ -69,6 +69,8 @@ namespace BetterThanNothing
 		[[nodiscard]]
 		QueueFamilyIndices GetQueueFamilies() const;
 
+		void WaitIdle() const;
+
 	private:
 		VkPhysicalDevice _findSuitableDevice(const std::vector<VkPhysicalDevice>& devices);
 		bool _isDeviceSuitable(VkPhysicalDevice device) noexcept;

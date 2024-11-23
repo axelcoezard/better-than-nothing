@@ -20,6 +20,7 @@ namespace BetterThanNothing
 		VulkanCommandBuffer(VulkanCommandBuffer&& other) = delete;
 		VulkanCommandBuffer& operator=(VulkanCommandBuffer&& other) = delete;
 
+		void Reset();
 		void BeginRecording();
 		void EndRecording();
 
