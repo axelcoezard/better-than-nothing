@@ -14,7 +14,7 @@ namespace BetterThanNothing
 	struct VulkanPipelineParams
 	{
 		const char* name;
-		std::vector<VulkanShaderModule> shaders;
+		std::vector<VulkanShaderModule> shadersInfos;
 	};
 
 	class VulkanPipeline
@@ -44,7 +44,7 @@ namespace BetterThanNothing
 		~VulkanPipelineBuilder() = default;
 
 		VulkanPipelineBuilder& SetName(const char* name);
-		VulkanPipelineBuilder& AddShader(const VulkanShaderModule& shaderModule);
+		VulkanPipelineBuilder& AddShader(const std::string& shaderPath, VulkanShaderType shaderType);
 		VulkanPipeline Build(ApplicationContext* context) const;
 	};
 }; // BetterThanNothing

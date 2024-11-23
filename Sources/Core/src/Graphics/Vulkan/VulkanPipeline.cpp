@@ -15,8 +15,10 @@ namespace BetterThanNothing
 		: m_context(context), m_params(std::move(params))
 	{
 		std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
-		for (const auto& shader : m_params.shaders)
+		for (const auto& shaderInfos : m_params.shadersInfos)
 		{
+			auto shader = m_context->LoadShader(shaderInfos.shaderPath, shaderInfos.shaderType);
+
 			VkShaderStageFlagBits shaderStageType = _getShaderStageTypeByShaderType(shader.shaderType);
 
 			VkPipelineShaderStageCreateInfo shaderStageInfo{};
@@ -170,9 +172,13 @@ namespace BetterThanNothing
 		return *this;
 	}
 
-	VulkanPipelineBuilder& VulkanPipelineBuilder::AddShader(const VulkanShaderModule& shaderModule)
+	VulkanPipelineBuilder& VulkanPipelineBuilder::AddShader(const std::string& shaderPath, VulkanShaderType shaderType)
 	{
-		m_params.shaders.push_back(shaderModule);
+		VulkanShaderModule shaderModule;
+		shaderModule.shaderPath = shaderPath;
+		shaderModule.shaderType = shaderType;
+
+		m_params.shadersInfos.push_back(shaderModule);
 		return *this;
 	}
 

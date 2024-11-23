@@ -19,25 +19,25 @@ namespace BetterThanNothing
 			vkDestroyShaderModule(device, shader.second.shaderModule, nullptr);
 	}
 
-	VulkanShaderModule ShaderPool::LoadShader(const std::string& filename, const VulkanShaderType type)
+	VulkanShaderModule ShaderPool::LoadShader(const std::string& path, const VulkanShaderType type)
 	{
-		auto it = m_shaders.find(filename);
+		auto it = m_shaders.find(path);
 		if (it != m_shaders.end())
 			return it->second;
 
-		std::vector<char> shaderSource = _readFile(m_basePath + filename);
+		std::vector<char> shaderSource = _readFile(m_basePath + path);
 		glslang_stage_t shaderStage = _getShaderStage(type);
 		glslang_program_t* shaderProgram = _getShaderProgram(shaderSource, shaderStage);
 
-		m_shaders[filename] = {
-			.filename = filename,
+		m_shaders[path] = {
+			.shaderPath = path,
 			.shaderType = type,
 			.shaderModule = _getShaderModule(shaderProgram)
 		};
 
-		LOG_SUCCESS("Shader loaded: " << filename);
+		LOG_SUCCESS("Shader loaded: " << path);
 
-		return m_shaders[filename];
+		return m_shaders[path];
 	}
 
 	std::vector<char> ShaderPool::_readFile(const std::string& filename)

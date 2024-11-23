@@ -6,7 +6,7 @@ namespace BetterThanNothing
 {
 	struct VulkanShaderModule
 	{
-		std::string filename;
+		std::string shaderPath;
 
 		VulkanShaderType shaderType;
 

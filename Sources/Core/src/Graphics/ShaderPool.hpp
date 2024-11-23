@@ -23,7 +23,7 @@ namespace BetterThanNothing
 		explicit ShaderPool(std::string  basePath, ApplicationContext* context): m_context(context), m_basePath(std::move(basePath)) {}
 		~ShaderPool();
 
-		VulkanShaderModule LoadShader(const std::string& name, VulkanShaderType type);
+		VulkanShaderModule LoadShader(const std::string& path, VulkanShaderType type);
 	private:
 		static std::vector<char> _readFile(const std::string& filename);
 		static glslang_stage_t _getShaderStage(VulkanShaderType type);
