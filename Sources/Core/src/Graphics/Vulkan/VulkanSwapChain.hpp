@@ -5,6 +5,7 @@ namespace BetterThanNothing
 {
 	class ApplicationContext;
 	class VulkanImageView;
+	class VulkanFramebuffer;
 
 	class VulkanSwapChain {
 	private:
@@ -16,6 +17,7 @@ namespace BetterThanNothing
 
 		std::vector<VkImage> m_images;
 		std::vector<std::unique_ptr<VulkanImageView>> m_imageViews;
+		std::vector<std::unique_ptr<VulkanFramebuffer>> m_framebuffers;
 
 	public:
 		explicit VulkanSwapChain(ApplicationContext* context);
@@ -26,11 +28,11 @@ namespace BetterThanNothing
 		VulkanSwapChain(VulkanSwapChain&& other) = delete;
 		VulkanSwapChain& operator=(VulkanSwapChain&& other) = delete;
 
-	private:
-		void _createSwapChain();
-		void _createImages();
-		void _createImageViews();
+		void CreateImages();
+		void CreateImageViews();
+		void CreateFramebuffers();
 
+	private:
 		[[nodiscard]]
 		VkSurfaceFormatKHR _chooseSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 

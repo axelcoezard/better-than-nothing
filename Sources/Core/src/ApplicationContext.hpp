@@ -15,6 +15,7 @@
 #include "Graphics/Vulkan/VulkanShaderModule.hpp"
 #include "Graphics/ShaderPool.hpp"
 #include "Graphics/Vulkan/VulkanRenderPass.hpp"
+#include "Graphics/Vulkan/VulkanFramebuffer.hpp"
 
 namespace BetterThanNothing
 {
@@ -88,10 +89,13 @@ namespace BetterThanNothing
 			m_pVulkanDevice = std::make_unique<VulkanDevice>(this);
 			m_pVulkanMemoryAllocator = std::make_unique<VulkanMemoryAllocator>(this);
 			m_pVulkanSwapChain = std::make_unique<VulkanSwapChain>(this);
+			m_pVulkanSwapChain->CreateImages();
+			m_pVulkanSwapChain->CreateImageViews();
 
 			m_pShaderPool = std::make_unique<ShaderPool>(m_vulkanParams.shadersFolderPath, this);
-
 			m_pVulkanRenderPass = std::make_unique<VulkanRenderPass>(this);
+
+			m_pVulkanSwapChain->CreateFramebuffers();
 
 			return *this;
 		}

@@ -6,18 +6,6 @@ namespace BetterThanNothing
 {
 	VulkanSwapChain::VulkanSwapChain(ApplicationContext* context): m_context(context)
 	{
-		_createSwapChain();
-		_createImages();
-		_createImageViews();
-	}
-
-	VulkanSwapChain::~VulkanSwapChain()
-	{
-		vkDestroySwapchainKHR(m_context->GetVulkanDevice()->LogicalHandle(), m_swapChain, nullptr);
-	}
-
-	void VulkanSwapChain::_createSwapChain()
-	{
 		auto swapChainSupport = m_context->GetVulkanDevice()->GetSwapChainSupport();
 
 		VkSurfaceFormatKHR surfaceFormat = _chooseSurfaceFormat(swapChainSupport.formats);
@@ -70,7 +58,12 @@ namespace BetterThanNothing
 		LOG_SUCCESS("Vulkan swap chain: ok");
 	}
 
-	void VulkanSwapChain::_createImages()
+	VulkanSwapChain::~VulkanSwapChain()
+	{
+		vkDestroySwapchainKHR(m_context->GetVulkanDevice()->LogicalHandle(), m_swapChain, nullptr);
+	}
+
+	void VulkanSwapChain::CreateImages()
 	{
 		auto device = m_context->GetVulkanDevice()->LogicalHandle();
 
@@ -83,7 +76,7 @@ namespace BetterThanNothing
 		LOG_SUCCESS("Vulkan swap chain images: ok");
 	}
 
-	void VulkanSwapChain::_createImageViews()
+	void VulkanSwapChain::CreateImageViews()
 	{
 		const uint32_t imageCount = m_images.size();
 
@@ -111,7 +104,34 @@ namespace BetterThanNothing
 			m_imageViews.at(i) = std::make_unique<VulkanImageView>(createInfo, m_context);
 		}
 
-		LOG_SUCCESS("Vulkan swap chain image views: ok");
+		LOG_SUCCESS("Vulkan image views: ok");
+	}
+
+	void VulkanSwapChain::CreateFramebuffers()
+	{
+		m_framebuffers.resize(m_imageViews.size());
+
+		for (size_t i = 0; i < m_imageViews.size(); i++)
+		{
+			auto imageView = m_imageViews.at(i)->Handle();
+			auto renderPass = m_context->GetVulkanRenderPass()->Handle();
+
+			std::array<VkImageView, 1> attachments = { imageView };
+
+			VkFramebufferCreateInfo createInfo{};
+			createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+			createInfo.renderPass = renderPass;
+			createInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+			createInfo.pAttachments = attachments.data();
+			createInfo.width = m_extent.width;
+			createInfo.height = m_extent.height;
+			createInfo.layers = 1;
+
+			auto framebuffer = std::make_unique<VulkanFramebuffer>(&createInfo, m_context);
+			m_framebuffers.at(i) = std::move(framebuffer);
+		}
+
+		LOG_SUCCESS("Vulkan framebuffers: ok");
 	}
 
 	VkSurfaceFormatKHR VulkanSwapChain::_chooseSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
