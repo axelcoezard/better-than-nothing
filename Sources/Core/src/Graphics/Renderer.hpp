@@ -12,18 +12,21 @@ namespace BetterThanNothing
 	class Renderer
 	{
 	private:
-		ApplicationContext* m_Context;
+		ApplicationContext* m_context;
 
 		std::unique_ptr<VulkanSwapChain> m_pVulkanSwapChain = nullptr;
 		std::unique_ptr<VulkanRenderPass> m_pVulkanRenderPass = nullptr;
 		std::unique_ptr<VulkanCommandPool> m_pVulkanCommandPool = nullptr;
-		std::unique_ptr<VulkanCommandBuffer> m_commandBuffer = nullptr;
+
+		std::vector<std::unique_ptr<VulkanCommandBuffer>> m_commandBuffers;
 
 		std::unique_ptr<VulkanPipeline> m_pPipeline = nullptr;
 
-		std::unique_ptr<VulkanSemaphore> m_pImageAvailableSemaphore = nullptr;
-		std::unique_ptr<VulkanSemaphore> m_pRenderFinishedSemaphore = nullptr;
-		std::unique_ptr<VulkanFence> m_pFrameInFlightFence = nullptr;
+		std::vector<std::unique_ptr<VulkanSemaphore>> m_imageAvailableSemaphores;
+		std::vector<std::unique_ptr<VulkanSemaphore>> m_renderFinishedSemaphores;
+		std::vector<std::unique_ptr<VulkanFence>> m_frameInFlightFences;
+
+		uint32_t m_currentFrame = 0;
 
 	public:
 		explicit Renderer(ApplicationContext* context);

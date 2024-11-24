@@ -2,7 +2,7 @@
 
 namespace BetterThanNothing
 {
-	Renderer::Renderer(ApplicationContext* context): m_Context(context)
+	Renderer::Renderer(ApplicationContext* context): m_context(context)
 	{
 
 	}
@@ -13,15 +13,15 @@ namespace BetterThanNothing
 
 	void Renderer::Initialize()
 	{
-		m_pVulkanSwapChain = std::make_unique<VulkanSwapChain>(m_Context);
+		m_pVulkanSwapChain = std::make_unique<VulkanSwapChain>(m_context);
 		m_pVulkanSwapChain->CreateImages();
 		m_pVulkanSwapChain->CreateImageViews();
 
-		m_pVulkanRenderPass = std::make_unique<VulkanRenderPass>(m_Context);
+		m_pVulkanRenderPass = std::make_unique<VulkanRenderPass>(m_context);
 
 		m_pVulkanSwapChain->CreateFramebuffers();
 
-		m_pVulkanCommandPool = std::make_unique<VulkanCommandPool>(m_Context);
+		m_pVulkanCommandPool = std::make_unique<VulkanCommandPool>(m_context);
 
 		_createCommandBuffers();
 		_createSyncObjects();
@@ -31,18 +31,19 @@ namespace BetterThanNothing
 
 	void Renderer::Render()
 	{
-		m_pFrameInFlightFence->Wait();
-		m_pFrameInFlightFence->Reset();
+		m_frameInFlightFences[m_currentFrame]->Wait();
+		m_frameInFlightFences[m_currentFrame]->Reset();
 
-		auto device = m_Context->GetVulkanDevice()->LogicalHandle();
+		auto device = m_context->GetVulkanDevice()->LogicalHandle();
 		auto swapchain = m_pVulkanSwapChain->Handle();
 
 		uint32_t imageIndex;
-		vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, m_pImageAvailableSemaphore->Handle(), VK_NULL_HANDLE, &imageIndex);
+		vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, m_imageAvailableSemaphores[m_currentFrame]->Handle(), VK_NULL_HANDLE, &imageIndex);
 
+		m_commandBuffers[m_currentFrame]->Reset();
 		_recordCommandBuffer(imageIndex);
 
-		VkSemaphore waitSemaphores[] = { m_pImageAvailableSemaphore->Handle() };
+		VkSemaphore waitSemaphores[] = { m_imageAvailableSemaphores[m_currentFrame]->Handle() };
 
 		// We wait for the fragment shader to output the color before we can start writing to the image
 		VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
@@ -54,15 +55,15 @@ namespace BetterThanNothing
 		submitInfo.pWaitDstStageMask = waitStages;
 		submitInfo.commandBufferCount = 1;
 
-		auto commandBuffer = m_commandBuffer->Handle();
+		auto commandBuffer = m_commandBuffers[m_currentFrame]->Handle();
 		submitInfo.pCommandBuffers = &commandBuffer;
 
-		VkSemaphore signalSemaphores[] = { m_pRenderFinishedSemaphore->Handle() };
+		VkSemaphore signalSemaphores[] = { m_renderFinishedSemaphores[m_currentFrame]->Handle() };
 		submitInfo.signalSemaphoreCount = 1;
 		submitInfo.pSignalSemaphores = signalSemaphores;
 
-		auto graphicsQueue = m_Context->GetGraphicsQueue()->Handle();
-		if (vkQueueSubmit(graphicsQueue, 1, &submitInfo, m_pFrameInFlightFence->Handle()) != VK_SUCCESS)
+		auto graphicsQueue = m_context->GetGraphicsQueue()->Handle();
+		if (vkQueueSubmit(graphicsQueue, 1, &submitInfo, m_frameInFlightFences[m_currentFrame]->Handle()) != VK_SUCCESS)
 			throw std::runtime_error("failed to submit draw command buffer!");
 
 		VkPresentInfoKHR presentInfo{};
@@ -75,13 +76,14 @@ namespace BetterThanNothing
 		presentInfo.pSwapchains = swapChains;
 		presentInfo.pImageIndices = &imageIndex;
 
-		vkQueuePresentKHR(m_Context->GetPresentQueue()->Handle(), &presentInfo);
+		vkQueuePresentKHR(m_context->GetPresentQueue()->Handle(), &presentInfo);
+
+		m_currentFrame = (m_currentFrame + 1) % m_context->GetMaxFrameInFlightCount();
 	}
 
 	void Renderer::_recordCommandBuffer(uint32_t imageIndex)
 	{
-		m_commandBuffer->Reset();
-		m_commandBuffer->BeginRecording();
+		m_commandBuffers[m_currentFrame]->BeginRecording();
 
 		VkRenderPassBeginInfo renderPassInfo{};
 		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -94,8 +96,8 @@ namespace BetterThanNothing
 		renderPassInfo.clearValueCount = 1;
 		renderPassInfo.pClearValues = &clearColor;
 
-		m_commandBuffer->CmdBeginRenderPass(&renderPassInfo);
-		m_commandBuffer->CmdBindPipeline(m_pPipeline->Handle());
+		m_commandBuffers[m_currentFrame]->CmdBeginRenderPass(&renderPassInfo);
+		m_commandBuffers[m_currentFrame]->CmdBindPipeline(m_pPipeline->Handle());
 
 		VkViewport viewport{};
 		viewport.x = 0.0f;
@@ -104,17 +106,17 @@ namespace BetterThanNothing
 		viewport.height = static_cast<float>(m_pVulkanSwapChain->GetExtent().height);
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
-		m_commandBuffer->CmdSetViewport(&viewport);
+		m_commandBuffers[m_currentFrame]->CmdSetViewport(&viewport);
 
 		VkRect2D scissor{};
 		scissor.offset = {0, 0};
 		scissor.extent = m_pVulkanSwapChain->GetExtent();
-		m_commandBuffer->CmdSetScissor(&scissor);
+		m_commandBuffers[m_currentFrame]->CmdSetScissor(&scissor);
 
-		m_commandBuffer->CmdDraw(3, 1, 0, 0);
+		m_commandBuffers[m_currentFrame]->CmdDraw(3, 1, 0, 0);
 
-		m_commandBuffer->CmdEndRenderPass();
-		m_commandBuffer->EndRecording();
+		m_commandBuffers[m_currentFrame]->CmdEndRenderPass();
+		m_commandBuffers[m_currentFrame]->EndRecording();
 	}
 
 	void Renderer::AddPipeline(const std::function<void(VulkanPipelineBuilder&)>& callback)
@@ -122,12 +124,14 @@ namespace BetterThanNothing
 		VulkanPipelineBuilder builder;
 		callback(builder);
 
-		m_pPipeline = std::make_unique<VulkanPipeline>(builder.GetBuildParams(), m_Context);
+		m_pPipeline = std::make_unique<VulkanPipeline>(builder.GetBuildParams(), m_context);
 	}
 
 	void Renderer::_createCommandBuffers()
 	{
-		auto device = m_Context->GetVulkanDevice()->LogicalHandle();
+		auto device = m_context->GetVulkanDevice()->LogicalHandle();
+
+		uint32_t count = m_context->GetMaxFrameInFlightCount();
 
 		VkCommandBufferAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -135,19 +139,36 @@ namespace BetterThanNothing
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		allocInfo.commandBufferCount = 1;
 
-		VkCommandBuffer commandBuffer;
-		if (vkAllocateCommandBuffers(device, &allocInfo, &commandBuffer) != VK_SUCCESS) {
-			throw std::runtime_error("failed to allocate command buffers!");
+		m_commandBuffers.reserve(count);
+
+		for (uint32_t i = 0; i < count; i++)
+		{
+			VkCommandBuffer commandBuffer;
+			if (vkAllocateCommandBuffers(device, &allocInfo, &commandBuffer) != VK_SUCCESS)
+				throw std::runtime_error("failed to allocate command buffers!");
+
+			m_commandBuffers.push_back(std::make_unique<VulkanCommandBuffer>(commandBuffer));
 		}
 
-		m_commandBuffer = std::make_unique<VulkanCommandBuffer>(commandBuffer);
+		LOG_SUCCESS("Vulkan command buffers: ok (count: " << count << ")");
 	}
 
 	void Renderer::_createSyncObjects()
 	{
-		m_pImageAvailableSemaphore = std::make_unique<VulkanSemaphore>(m_Context);
-		m_pRenderFinishedSemaphore = std::make_unique<VulkanSemaphore>(m_Context);
-		m_pFrameInFlightFence = std::make_unique<VulkanFence>(m_Context);
+		uint32_t count = m_context->GetMaxFrameInFlightCount();
+
+		m_imageAvailableSemaphores.reserve(count);
+		m_renderFinishedSemaphores.reserve(count);
+		m_frameInFlightFences.reserve(count);
+
+		for (uint32_t i = 0; i < count; i++)
+		{
+			m_imageAvailableSemaphores.push_back(std::make_unique<VulkanSemaphore>(m_context));
+			m_renderFinishedSemaphores.push_back(std::make_unique<VulkanSemaphore>(m_context));
+			m_frameInFlightFences.push_back(std::make_unique<VulkanFence>(m_context));
+		}
+
+		LOG_SUCCESS("Vulkan sync objects: ok (count: " << count << ")");
 	}
 
 	std::unique_ptr<VulkanSwapChain>& Renderer::GetVulkanSwapChain()
