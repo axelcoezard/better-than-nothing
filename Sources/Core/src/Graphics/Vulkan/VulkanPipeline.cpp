@@ -185,6 +185,16 @@ namespace BetterThanNothing
 		return *this;
 	}
 
+	VulkanPipelineBuilder& VulkanPipelineBuilder::AddVertexShader(const std::string& shaderPath)
+	{
+		return AddShader(shaderPath, VulkanShaderType::Vertex);
+	}
+
+	VulkanPipelineBuilder& VulkanPipelineBuilder::AddFragmentShader(const std::string& shaderPath)
+	{
+		return AddShader(shaderPath, VulkanShaderType::Fragment);
+	}
+
 	VulkanPipelineParams& VulkanPipelineBuilder::GetBuildParams()
 	{
 		return m_params;

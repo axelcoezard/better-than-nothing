@@ -48,7 +48,10 @@ namespace BetterThanNothing
 
 		VulkanPipelineBuilder& SetName(const char* name);
 		VulkanPipelineBuilder& AddShader(const std::string& shaderPath, VulkanShaderType shaderType);
+		VulkanPipelineBuilder& AddVertexShader(const std::string& shaderPath);
+		VulkanPipelineBuilder& AddFragmentShader(const std::string& shaderPath);
 
+		[[nodiscard]]
 		VulkanPipelineParams& GetBuildParams();
 	};
 }; // BetterThanNothing

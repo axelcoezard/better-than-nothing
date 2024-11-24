@@ -8,8 +8,8 @@ namespace BetterThanNothing
 	{
 		context->GetRenderer()->AddPipeline([&](VulkanPipelineBuilder& builder) {
 			builder.SetName("main");
-			builder.AddShader("main/main.vert", VulkanShaderType::Vertex);
-			builder.AddShader("main/main.frag", VulkanShaderType::Fragment);
+			builder.AddVertexShader("main/main.vert");
+			builder.AddFragmentShader("main/main.frag");
 		});
 	}
 
