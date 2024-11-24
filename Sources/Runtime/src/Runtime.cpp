@@ -13,6 +13,16 @@ namespace BetterThanNothing
 		});
 	}
 
+	void Runtime::OnUpdate(ApplicationContext* context)
+	{
+		(void) context;
+	}
+
+	void Runtime::OnRender(ApplicationContext* context)
+	{
+		(void) context;
+	}
+
 	void Runtime::OnDisable(ApplicationContext* context)
 	{
 		(void) context;

@@ -11,6 +11,8 @@ namespace BetterThanNothing
 		Runtime() = default;
 
 		void OnEnable(ApplicationContext* context) override;
+		void OnUpdate(ApplicationContext* context) override;
+		void OnRender(ApplicationContext* context) override;
 		void OnDisable(ApplicationContext* context) override;
 	};
 };

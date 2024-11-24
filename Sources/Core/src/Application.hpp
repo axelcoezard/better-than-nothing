@@ -19,6 +19,8 @@ namespace BetterThanNothing
 		void Run();
 
 		virtual void OnEnable(ApplicationContext* context) = 0;
+		virtual void OnUpdate(ApplicationContext* context) = 0;
+		virtual void OnRender(ApplicationContext* context) = 0;
 		virtual void OnDisable(ApplicationContext* context) = 0;
 	};
 };

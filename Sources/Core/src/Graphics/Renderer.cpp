@@ -115,7 +115,6 @@ namespace BetterThanNothing
 		renderPassInfo.pClearValues = &clearColor;
 
 		m_commandBuffers[m_currentFrame]->CmdBeginRenderPass(&renderPassInfo);
-		m_commandBuffers[m_currentFrame]->CmdBindPipeline(m_pPipeline->Handle());
 
 		VkViewport viewport{};
 		viewport.x = 0.0f;
@@ -131,6 +130,7 @@ namespace BetterThanNothing
 		scissor.extent = m_pVulkanSwapChain->GetExtent();
 		m_commandBuffers[m_currentFrame]->CmdSetScissor(&scissor);
 
+		m_commandBuffers[m_currentFrame]->CmdBindPipeline(m_pPipeline->Handle());
 		m_commandBuffers[m_currentFrame]->CmdDraw(3, 1, 0, 0);
 
 		m_commandBuffers[m_currentFrame]->CmdEndRenderPass();

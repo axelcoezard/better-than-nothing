@@ -17,13 +17,16 @@ namespace BetterThanNothing
 
 		context.Initialize();
 
-		this->OnEnable(&context);
+		OnEnable(&context);
 
 		context.GetWindow()->Show();
 
 		while (!context.GetWindow()->ShouldClose())
 		{
 			Window::PollEvents();
+
+			OnUpdate(&context);
+			OnRender(&context);
 
 			context.GetRenderer()->Render();
 
@@ -32,6 +35,6 @@ namespace BetterThanNothing
 
 		context.GetVulkanDevice()->WaitIdle();
 
-		this->OnDisable(&context);
+		OnDisable(&context);
 	}
 };
