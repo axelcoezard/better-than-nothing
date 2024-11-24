@@ -8,6 +8,7 @@ namespace BetterThanNothing
 		ApplicationContext context = ApplicationContextBuilder()
 			.SetWindowTitle("Better Than Nothing")
 			.SetWindowSize(800, 600)
+			.SetWindowResizable(true)
 			.EnableValidationLayers(true)
 			.SetShadersFolderPath("../../Assets/Shaders/")
 			.SetBufferingType(VulkanBufferingType::TripleBuffering)

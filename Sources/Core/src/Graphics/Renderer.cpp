@@ -32,13 +32,23 @@ namespace BetterThanNothing
 	void Renderer::Render()
 	{
 		m_frameInFlightFences[m_currentFrame]->Wait();
-		m_frameInFlightFences[m_currentFrame]->Reset();
 
 		auto device = m_context->GetVulkanDevice()->LogicalHandle();
 		auto swapchain = m_pVulkanSwapChain->Handle();
 
 		uint32_t imageIndex;
-		vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, m_imageAvailableSemaphores[m_currentFrame]->Handle(), VK_NULL_HANDLE, &imageIndex);
+		VkResult acquireResult = vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, m_imageAvailableSemaphores[m_currentFrame]->Handle(), VK_NULL_HANDLE, &imageIndex);
+
+		if (acquireResult == VK_ERROR_OUT_OF_DATE_KHR)
+		{
+			m_pVulkanSwapChain->RecreateSwapchain();
+			return;
+		}
+
+		if (acquireResult != VK_SUCCESS && acquireResult != VK_SUBOPTIMAL_KHR)
+			throw std::runtime_error("failed to acquire swap chain image!");
+
+		m_frameInFlightFences[m_currentFrame]->Reset();
 
 		m_commandBuffers[m_currentFrame]->Reset();
 		_recordCommandBuffer(imageIndex);
@@ -76,7 +86,15 @@ namespace BetterThanNothing
 		presentInfo.pSwapchains = swapChains;
 		presentInfo.pImageIndices = &imageIndex;
 
-		vkQueuePresentKHR(m_context->GetPresentQueue()->Handle(), &presentInfo);
+		VkResult presentResult = vkQueuePresentKHR(m_context->GetPresentQueue()->Handle(), &presentInfo);
+
+		if (presentResult == VK_ERROR_OUT_OF_DATE_KHR || presentResult == VK_SUBOPTIMAL_KHR || m_context->GetWindow()->IsResized())
+		{
+			m_context->GetWindow()->SetResized(false);
+			m_pVulkanSwapChain->RecreateSwapchain();
+		}
+		else if (presentResult != VK_SUCCESS)
+			throw std::runtime_error("failed to present swap chain image!");
 
 		m_currentFrame = (m_currentFrame + 1) % m_context->GetMaxFrameInFlightCount();
 	}

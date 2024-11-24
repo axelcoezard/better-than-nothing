@@ -4,6 +4,17 @@ namespace BetterThanNothing
 {
 	VulkanSwapChain::VulkanSwapChain(ApplicationContext* context): m_context(context)
 	{
+		_createSwapchain();
+		LOG_SUCCESS("Vulkan swap chain: ok");
+	}
+
+	VulkanSwapChain::~VulkanSwapChain()
+	{
+		_cleanupSwapchain();
+	}
+
+	void VulkanSwapChain::_createSwapchain()
+	{
 		auto swapChainSupport = m_context->GetVulkanDevice()->GetSwapChainSupport();
 
 		VkSurfaceFormatKHR surfaceFormat = _chooseSurfaceFormat(swapChainSupport.formats);
@@ -52,13 +63,6 @@ namespace BetterThanNothing
 
 		m_imageFormat = surfaceFormat.format;
 		m_extent = extent;
-
-		LOG_SUCCESS("Vulkan swap chain: ok");
-	}
-
-	VulkanSwapChain::~VulkanSwapChain()
-	{
-		vkDestroySwapchainKHR(m_context->GetVulkanDevice()->LogicalHandle(), m_swapChain, nullptr);
 	}
 
 	void VulkanSwapChain::CreateImages()
@@ -70,8 +74,6 @@ namespace BetterThanNothing
 
 		m_images.resize(finalImageCount);
 		vkGetSwapchainImagesKHR(device, m_swapChain, &finalImageCount, m_images.data());
-
-		LOG_SUCCESS("Vulkan swap chain images: ok");
 	}
 
 	void VulkanSwapChain::CreateImageViews()
@@ -101,8 +103,6 @@ namespace BetterThanNothing
 
 			m_imageViews.at(i) = std::make_unique<VulkanImageView>(createInfo, m_context);
 		}
-
-		LOG_SUCCESS("Vulkan swap chain image views: ok");
 	}
 
 	void VulkanSwapChain::CreateFramebuffers()
@@ -128,8 +128,37 @@ namespace BetterThanNothing
 			auto framebuffer = std::make_unique<VulkanFramebuffer>(&createInfo, m_context);
 			m_framebuffers.at(i) = std::move(framebuffer);
 		}
+	}
 
-		LOG_SUCCESS("Vulkan framebuffers: ok");
+	void VulkanSwapChain::RecreateSwapchain()
+	{
+		auto [width, height] = m_context->GetWindow()->GetFramebufferSize();
+
+		while (width == 0 || height == 0)
+		{
+			auto framebufferSize = m_context->GetWindow()->GetFramebufferSize();
+			width = framebufferSize.first;
+			height = framebufferSize.second;
+
+			glfwWaitEvents();
+		}
+
+		m_context->GetVulkanDevice()->WaitIdle();
+
+		_cleanupSwapchain();
+
+		_createSwapchain();
+		CreateImages();
+		CreateImageViews();
+		CreateFramebuffers();
+	}
+
+	void VulkanSwapChain::_cleanupSwapchain()
+	{
+		m_framebuffers.clear();
+		m_imageViews.clear();
+
+		vkDestroySwapchainKHR(m_context->GetVulkanDevice()->LogicalHandle(), m_swapChain, nullptr);
 	}
 
 	VkSurfaceFormatKHR VulkanSwapChain::_chooseSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)

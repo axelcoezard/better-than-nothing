@@ -32,6 +32,13 @@ namespace BetterThanNothing
 		void CreateFramebuffers();
 
 	private:
+		void _createSwapchain();
+		void _cleanupSwapchain();
+
+	public:
+		void RecreateSwapchain();
+
+	private:
 		[[nodiscard]]
 		VkSurfaceFormatKHR _chooseSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 

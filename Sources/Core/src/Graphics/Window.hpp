@@ -35,9 +35,9 @@ namespace BetterThanNothing
 
 		[[nodiscard]]
 		bool IsResized() const;
+		void SetResized(bool resized);
 
 	protected:
-		void SetResized(bool resized);
 		void SetWidth(uint32_t width);
 		void SetHeight(uint32_t height);
 
