@@ -17,7 +17,7 @@ namespace BetterThanNothing
 		std::vector<VulkanShaderModule> shadersInfos;
 	};
 
-	class VulkanPipeline
+	class VulkanPipeline // TODO: Refactor pipelines to enable building Compute and RayTracing pipelines
 	{
 	private:
 		ApplicationContext* m_context = nullptr;

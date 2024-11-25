@@ -27,9 +27,11 @@ namespace BetterThanNothing
 		void CmdBeginRenderPass(VkRenderPassBeginInfo* pRenderPassInfo, VkSubpassContents subpassContents = VK_SUBPASS_CONTENTS_INLINE);
 		void CmdEndRenderPass();
 
-		void CmdBindPipeline(VkPipeline pipeline, VkPipelineBindPoint bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS);
 		void CmdSetViewport(const VkViewport* pViewports, uint32_t firstViewport = 0, uint32_t viewportCount = 1);
 		void CmdSetScissor(const VkRect2D* pScissors, uint32_t firstScissor = 0, uint32_t scissorCount = 1);
+
+		void CmdBindPipeline(VkPipeline pipeline, VkPipelineBindPoint bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS);
+		void CmdBindVertexBuffers(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* pBuffers, const VkDeviceSize* pOffsets);
 		void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
 
 		[[nodiscard]]

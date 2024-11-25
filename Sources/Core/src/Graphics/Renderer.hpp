@@ -34,11 +34,12 @@ namespace BetterThanNothing
 		uint32_t m_currentFrame = 0;
 
 		const std::vector<Vertex> m_vertices = {
-			{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+			{{0.0f, -0.5f}, {1.0f, 1.0f, 1.0f}},
 			{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
 			{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
 		};
 
+		std::unique_ptr<VulkanBuffer> m_vertexBuffer = nullptr;
 
 	public:
 		explicit Renderer(ApplicationContext* context);

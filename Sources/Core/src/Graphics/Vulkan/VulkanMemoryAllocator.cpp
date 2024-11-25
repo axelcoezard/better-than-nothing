@@ -30,7 +30,8 @@ namespace BetterThanNothing
 		VkBuffer* buffer, VmaAllocation* allocation, VmaAllocationInfo* allocationInfo) const
 	{
 		VmaAllocationCreateInfo allocInfo = {};
-		allocInfo.usage = VMA_MEMORY_USAGE_AUTO;
+		allocInfo.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
+		// Use: allocInfo.flags = VMA_ALLOCATION_CREATE_MAPPED_BIT; to map the memory automatically
 
 		return vmaCreateBuffer(m_allocator, bufferCreateInfo, &allocInfo, buffer, allocation, allocationInfo);
 	}
