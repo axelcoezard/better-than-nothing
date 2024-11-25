@@ -4,20 +4,15 @@
 
 namespace BetterThanNothing
 {
-	class DrawStreamBuilder;
-
-	class Scene;
-
-	class Event;
-	class KeyPressEvent;
+	class ApplicationContext;
 
 	class Runtime: public Application {
 	public:
-		Runtime() { };
+		Runtime() = default;
 
-		void OnEnable() override;
-		void OnDisable() override;
-
-		static bool OnKeyPress(KeyPressEvent* event);
+		void OnEnable(ApplicationContext* context) override;
+		void OnUpdate(ApplicationContext* context) override;
+		void OnRender(ApplicationContext* context) override;
+		void OnDisable(ApplicationContext* context) override;
 	};
 };

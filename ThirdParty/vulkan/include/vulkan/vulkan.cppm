@@ -2810,7 +2810,7 @@ export namespace VULKAN_HPP_NAMESPACE
   export namespace VULKAN_HPP_RAII_NAMESPACE
   {
     //======================
-    //=== RAII HARDCODED ===
+    //=== Graphics HARDCODED ===
     //======================
 
     using VULKAN_HPP_RAII_NAMESPACE::Context;
@@ -2820,7 +2820,7 @@ export namespace VULKAN_HPP_NAMESPACE
     using VULKAN_HPP_RAII_NAMESPACE::InstanceDispatcher;
 
     //====================
-    //=== RAII HANDLEs ===
+    //=== Graphics HANDLEs ===
     //====================
 
     //=== VK_VERSION_1_0 ===

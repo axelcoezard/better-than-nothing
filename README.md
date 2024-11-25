@@ -37,3 +37,4 @@ Contributions are welcome. Both new features and bug fixes. Just open a pull req
 - [glslang](https://github.com/KhronosGroup/glslang) : A library used for JIT shader compilation from OpenGL Shading Language (GLSL) to SPIR-V format.
 - [SPIRV-Cross](https://github.com/KhronosGroup/SPIRV-Cross) : A practical tool and library for performing reflection on SPIR-V and disassembling SPIR-V back to high level languages.
 - [AMD Vulkan Memory Allocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) : Easy to integrate Vulkan memory allocation library that help to manage memory allocations and resource creation.
+- [vk-boostrap](https://github.com/charles-lunarg/vk-bootstrap) : A utility library that jump starts initialization of Vulkan.

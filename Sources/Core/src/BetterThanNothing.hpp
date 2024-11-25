@@ -1,52 +1,33 @@
 #pragma once
 
+// Graphics
+#include "Graphics/Window.hpp"
+#include "Graphics/Vulkan/VulkanBufferingType.hpp"
+#include "Graphics/Vulkan/VulkanInstance.hpp"
+#include "Graphics/Vulkan/VulkanSurface.hpp"
+#include "Graphics/Vulkan/VulkanDevice.hpp"
+#include "Graphics/Vulkan/VulkanQueue.hpp"
+#include "Graphics/Vulkan/VulkanImageView.hpp"
+#include "Graphics/Vulkan/VulkanSwapChain.hpp"
+#include "Graphics/Vulkan/VulkanShaderModule.hpp"
+#include "Graphics/Vulkan/VulkanShaderType.hpp"
+#include "Graphics/ShaderPool.hpp"
+#include "Graphics/Vulkan/VulkanPipeline.hpp"
+#include "Graphics/Vulkan/VulkanCommandPool.hpp"
+#include "Graphics/Vulkan/VulkanCommandBuffer.hpp"
+#include "Graphics/Vulkan/VulkanFramebuffer.hpp"
+#include "Graphics/Vulkan/VulkanRenderPass.hpp"
+#include "Graphics/Vulkan/VulkanMemoryAllocator.hpp"
+#include "Graphics/Vulkan/VulkanSemaphore.hpp"
+#include "Graphics/Vulkan/VulkanFence.hpp"
+
+#include "Graphics/Renderer.hpp"
+
 // Application
+#include "ApplicationContext.hpp"
 #include "Application.hpp"
-#include "Device.hpp"
-#include "Window.hpp"
 
 // Utils
-#include "Utils/ConfigManager.hpp"
 #include "Utils/Input.hpp"
-
-// Events
-
-#include "Events/Event.hpp"
-#include "Events/KeyEvent.hpp"
-#include "Events/EventDispatcher.hpp"
-#include "Events/WindowCloseEvent.hpp"
-
-// Renderer
-#include "Renderer/Renderer.hpp"
-#include "Renderer/RendererDebugInfo.hpp"
-#include "Renderer/CommandPool.hpp"
-#include "Renderer/CommandBuffer.hpp"
-#include "Renderer/DescriptorPool.hpp"
-#include "Renderer/ImGuiDescriptorPool.hpp"
-#include "Renderer/Pipeline.hpp"
-#include "Renderer/RenderPass.hpp"
-#include "Renderer/SwapChain.hpp"
-#include "Renderer/GlobalUniforms.hpp"
-#include "Renderer/UniformsPool.hpp"
-#include "Renderer/Vertex.hpp"
-#include "Renderer/DrawStream.hpp"
-#include "Renderer/Material.hpp"
-#include "Renderer/Buffer.hpp"
-
-// Resources
-#include "Resources/ResourcePool.hpp"
-#include "Resources/ModelPool.hpp"
-#include "Resources/Model.hpp"
-#include "Resources/TexturePool.hpp"
-#include "Resources/Texture.hpp"
-#include "Resources/ShaderPool.hpp"
-#include "Resources/Shader.hpp"
-#include "Resources/ResourceManager.hpp"
-
-// Scene
-#include "Scene/Scene.hpp"
-#include "Scene/Camera.hpp"
-#include "Scene/Light.hpp"
-
-#include "Scene/Components/ModelComponent.hpp"
-#include "Scene/Components/TransformComponent.hpp"
+#include "Utils/DependencyGraph.hpp"
+#include "Utils/JobManager.hpp"

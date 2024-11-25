@@ -2451,7 +2451,7 @@ namespace VULKAN_HPP_NAMESPACE
     };
 
     //========================================
-    //=== RAII HANDLE forward declarations ===
+    //=== Graphics HANDLE forward declarations ===
     //========================================
 
     //=== VK_VERSION_1_0 ===
@@ -2545,7 +2545,7 @@ namespace VULKAN_HPP_NAMESPACE
     class ShaderEXT;
 
     //====================
-    //=== RAII HANDLES ===
+    //=== Graphics HANDLES ===
     //====================
 
     class Context

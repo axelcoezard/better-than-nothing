@@ -12,22 +12,16 @@ file(GLOB SOURCES
 	"src/*.cpp"
 	"src/*.hpp"
 	"src/*.h"
+	"src/Jobs/*.cpp"
+	"src/Jobs/*.hpp"
 	"src/Utils/*.cpp"
 	"src/Utils/*.hpp"
-	"src/Resources/*.cpp"
-	"src/Resources/*.hpp"
-	"src/Renderer/*.cpp"
-	"src/Renderer/*.hpp"
-	"src/Renderer/ImGui/*.cpp"
-	"src/Renderer/ImGui/*.hpp"
-	"src/Scene/*.cpp"
-	"src/Scene/*.hpp"
-	"src/Scene/Components/*.cpp"
-	"src/Scene/Components/*.hpp"
-	"src/Layers/*.hpp"
-	"src/Layers/*.cpp"
 	"src/Events/*.hpp"
 	"src/Events/*.cpp"
+	"src/Graphics/*.hpp"
+	"src/Graphics/*.cpp"
+	"src/Graphics/Vulkan/*.hpp"
+	"src/Graphics/Vulkan/*.cpp"
 )
 
 include_directories(src)
@@ -39,16 +33,28 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE ../pch.hpp)
 target_compile_definitions(Core PRIVATE ENABLE_IMGUI=1)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw glm vulkan stb imgui inih glslang SPIRV glslang-default-resource-limits spirv_cross GPUOpen::VulkanMemoryAllocator)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+		glfw
+		glm::glm
+		vulkan
+		# stb
+		# imgui
+		# inih
+		glslang
+		glslang-default-resource-limits
+		SPIRV
+		spirv_cross
+		VulkanMemoryAllocator
+)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glfw/include)
-target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/vulkan)
+target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/vulkan/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glm/include)
-target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/stb/include)
-target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/tinyobjloader)
-target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/entt/single_include)
-target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/imgui/include)
-target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/inih/include)
+# target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/stb/include)
+# target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/tinyobjloader)
+# target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/entt/single_include)
+# target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/imgui/include)
+# target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/inih/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glslang/glslang/Include)
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/glslang/glslang/Public)
 target_include_directories(${PROJECT_NAME} PRIVATE ../../ThirdParty/spirv_cross/spirv_cross)
