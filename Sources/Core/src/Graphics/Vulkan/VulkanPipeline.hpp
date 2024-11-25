@@ -42,6 +42,9 @@ namespace BetterThanNothing
 	private:
 		VulkanPipelineParams m_params{};
 
+		bool m_hasVertexShader = false;
+		bool m_hasFragmentShader = false;
+
 	public:
 		explicit VulkanPipelineBuilder() = default;
 		~VulkanPipelineBuilder() = default;

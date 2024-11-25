@@ -26,10 +26,14 @@ namespace BetterThanNothing
 
 		VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
 		vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-		vertexInputInfo.vertexBindingDescriptionCount = 0;
-		vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
-		vertexInputInfo.vertexAttributeDescriptionCount = 0;
-		vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
+
+		auto bindingDescription = Vertex::GetBindingDescription();
+		vertexInputInfo.vertexBindingDescriptionCount = 1;
+		vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+
+		auto attributeDescriptions = Vertex::GetAttributeDescriptions();
+		vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+		vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 		VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
 		inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -182,6 +186,13 @@ namespace BetterThanNothing
 		shaderModule.shaderType = shaderType;
 
 		m_params.shadersInfos.push_back(shaderModule);
+
+		if (shaderType == VulkanShaderType::Vertex)
+			m_hasVertexShader = true;
+
+		if (shaderType == VulkanShaderType::Fragment)
+			m_hasFragmentShader = true;
+
 		return *this;
 	}
 
@@ -197,6 +208,12 @@ namespace BetterThanNothing
 
 	VulkanPipelineParams& VulkanPipelineBuilder::GetBuildParams()
 	{
+		if (!m_hasVertexShader)
+			throw std::runtime_error("Missing vertex shader");
+
+		if (!m_hasFragmentShader)
+			throw std::runtime_error("Missing fragment shader");
+
 		return m_params;
 	}
 };

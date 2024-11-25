@@ -17,7 +17,6 @@ namespace BetterThanNothing
 		uint32_t m_size = 0;
 
 		VkBuffer m_buffer = VK_NULL_HANDLE;
-		VkDeviceMemory m_deviceMemory = VK_NULL_HANDLE;
 
 		VmaAllocation m_allocation = VK_NULL_HANDLE;
 		VmaAllocationInfo m_allocationInfo = {};
