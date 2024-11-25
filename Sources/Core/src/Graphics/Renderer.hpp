@@ -1,13 +1,18 @@
 #pragma once
 
-#include "Graphics/Vulkan/VulkanSwapChain.hpp"
-#include "Graphics/Vulkan/VulkanRenderPass.hpp"
-#include "Graphics/Vulkan/VulkanCommandPool.hpp"
-#include "Graphics/Vulkan/VulkanCommandBuffer.hpp"
-
 namespace BetterThanNothing
 {
 	class ApplicationContext;
+
+	class VulkanSwapChain;
+	class VulkanRenderPass;
+	class VulkanCommandPool;
+	class VulkanCommandBuffer;
+	class VulkanPipeline;
+	class VulkanSemaphore;
+	class VulkanFence;
+
+	struct Vertex;
 
 	class Renderer
 	{
@@ -27,6 +32,14 @@ namespace BetterThanNothing
 		std::vector<std::unique_ptr<VulkanFence>> m_frameInFlightFences;
 
 		uint32_t m_currentFrame = 0;
+
+		const std::vector<Vertex> m_vertices = {
+			{{0.0f, -0.5f}, {1.0f, 1.0f, 1.0f}},
+			{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+			{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+		};
+
+		std::unique_ptr<VulkanBuffer> m_vertexBuffer = nullptr;
 
 	public:
 		explicit Renderer(ApplicationContext* context);

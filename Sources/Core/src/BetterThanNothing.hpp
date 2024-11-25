@@ -20,7 +20,9 @@
 #include "Graphics/Vulkan/VulkanMemoryAllocator.hpp"
 #include "Graphics/Vulkan/VulkanSemaphore.hpp"
 #include "Graphics/Vulkan/VulkanFence.hpp"
+#include "Graphics/Vulkan/VulkanBuffer.hpp"
 
+#include "Graphics/Vertex.hpp"
 #include "Graphics/Renderer.hpp"
 
 // Application

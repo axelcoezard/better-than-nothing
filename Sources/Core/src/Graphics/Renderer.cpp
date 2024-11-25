@@ -26,6 +26,17 @@ namespace BetterThanNothing
 		_createCommandBuffers();
 		_createSyncObjects();
 
+		m_vertexBuffer = std::make_unique<VulkanBuffer>(
+			sizeof(m_vertices[0]) * m_vertices.size(),
+			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+			m_context
+		);
+
+		void* data;
+		m_vertexBuffer->MapMemory(&data);
+		memcpy(data, m_vertices.data(), m_vertexBuffer->Size());
+		m_vertexBuffer->UnmapMemory();
+
 		LOG_SUCCESS("Renderer: ok");
 	}
 
@@ -131,7 +142,12 @@ namespace BetterThanNothing
 		m_commandBuffers[m_currentFrame]->CmdSetScissor(&scissor);
 
 		m_commandBuffers[m_currentFrame]->CmdBindPipeline(m_pPipeline->Handle());
-		m_commandBuffers[m_currentFrame]->CmdDraw(3, 1, 0, 0);
+
+		VkBuffer vertexBuffers[] = { m_vertexBuffer->Handle() };
+		VkDeviceSize offsets[] = {0};
+		m_commandBuffers[m_currentFrame]->CmdBindVertexBuffers(0, 1, vertexBuffers, offsets);
+
+		m_commandBuffers[m_currentFrame]->CmdDraw(static_cast<uint32_t>(m_vertices.size()), 1, 0, 0);
 
 		m_commandBuffers[m_currentFrame]->CmdEndRenderPass();
 		m_commandBuffers[m_currentFrame]->EndRecording();
