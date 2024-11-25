@@ -35,7 +35,7 @@ namespace BetterThanNothing
 
 		std::string shadersFolderPath;
 
-		VulkanBufferingType bufferingType = VulkanBufferingType::None;
+		VulkanBufferingMode bufferingMode = VulkanBufferingMode::None;
 		bool enableVSync = true;
 	};
 
@@ -172,9 +172,9 @@ namespace BetterThanNothing
 			return *this;
 		}
 
-		ApplicationContextBuilder& SetBufferingType(VulkanBufferingType type)
+		ApplicationContextBuilder& SetBufferingMode(VulkanBufferingMode type)
 		{
-			m_vulkanParams.bufferingType = type;
+			m_vulkanParams.bufferingMode = type;
 			return *this;
 		}
 
@@ -201,8 +201,8 @@ namespace BetterThanNothing
 			if (m_vulkanParams.deviceExtensions.empty())
 				throw ApplicationContextError("Device extensions are not set");
 
-			if (m_vulkanParams.bufferingType == VulkanBufferingType::None)
-				throw ApplicationContextError("Buffering type is not set");
+			if (m_vulkanParams.bufferingMode == VulkanBufferingMode::None)
+				throw ApplicationContextError("Buffering mode is not set");
 
 			return ApplicationContext(m_windowParams, m_vulkanParams);
 		}

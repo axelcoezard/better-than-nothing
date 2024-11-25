@@ -154,7 +154,7 @@ namespace BetterThanNothing
 	[[nodiscard]]
 	uint32_t ApplicationContext::GetMaxFrameInFlightCount() const
 	{
-		return static_cast<uint32_t>(m_vulkanParams.bufferingType);
+		return static_cast<uint32_t>(m_vulkanParams.bufferingMode);
 	}
 
 	[[nodiscard]]

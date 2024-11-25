@@ -2,7 +2,7 @@
 
 // Graphics
 #include "Graphics/Window.hpp"
-#include "Graphics/Vulkan/VulkanBufferingType.hpp"
+#include "Graphics/Vulkan/VulkanBufferingMode.hpp"
 #include "Graphics/Vulkan/VulkanInstance.hpp"
 #include "Graphics/Vulkan/VulkanSurface.hpp"
 #include "Graphics/Vulkan/VulkanDevice.hpp"
@@ -20,7 +20,9 @@
 #include "Graphics/Vulkan/VulkanMemoryAllocator.hpp"
 #include "Graphics/Vulkan/VulkanSemaphore.hpp"
 #include "Graphics/Vulkan/VulkanFence.hpp"
+#include "Graphics/Vulkan/VulkanBufferType.hpp"
 #include "Graphics/Vulkan/VulkanBuffer.hpp"
+#include "Graphics/Vulkan/VulkanBufferFactory.hpp"
 
 #include "Graphics/Vertex.hpp"
 #include "Graphics/Renderer.hpp"

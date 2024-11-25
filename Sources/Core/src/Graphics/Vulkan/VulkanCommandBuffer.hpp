@@ -21,18 +21,20 @@ namespace BetterThanNothing
 		VulkanCommandBuffer& operator=(VulkanCommandBuffer&& other) = delete;
 
 		void Reset();
-		void BeginRecording();
+		void BeginRecording(VkCommandBufferUsageFlags flags = 0);
 		void EndRecording();
 
-		void CmdBeginRenderPass(VkRenderPassBeginInfo* pRenderPassInfo, VkSubpassContents subpassContents = VK_SUBPASS_CONTENTS_INLINE);
-		void CmdEndRenderPass();
+		void CmdBeginRenderPass(VkRenderPassBeginInfo* pRenderPassInfo, VkSubpassContents subpassContents = VK_SUBPASS_CONTENTS_INLINE) const;
+		void CmdEndRenderPass() const;
+		void CmdSetViewport(const VkViewport* pViewports, uint32_t firstViewport = 0, uint32_t viewportCount = 1) const;
+		void CmdSetScissor(const VkRect2D* pScissors, uint32_t firstScissor = 0, uint32_t scissorCount = 1) const;
+		void CmdBindPipeline(VkPipeline pipeline, VkPipelineBindPoint bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS) const;
+		void CmdBindVertexBuffers(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* pBuffers, const VkDeviceSize* pOffsets) const;
+		void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) const;
 
-		void CmdSetViewport(const VkViewport* pViewports, uint32_t firstViewport = 0, uint32_t viewportCount = 1);
-		void CmdSetScissor(const VkRect2D* pScissors, uint32_t firstScissor = 0, uint32_t scissorCount = 1);
+		void CmdCopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, uint32_t bufferSize) const;
 
-		void CmdBindPipeline(VkPipeline pipeline, VkPipelineBindPoint bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS);
-		void CmdBindVertexBuffers(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* pBuffers, const VkDeviceSize* pOffsets);
-		void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
+		static void SingleTimeCommands(const std::function<void(std::unique_ptr<VulkanCommandBuffer>&)>& callback, ApplicationContext* context);
 
 		[[nodiscard]]
 		VkCommandBuffer Handle() const;

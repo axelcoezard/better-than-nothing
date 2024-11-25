@@ -26,16 +26,16 @@ namespace BetterThanNothing
 		_createCommandBuffers();
 		_createSyncObjects();
 
-		m_vertexBuffer = std::make_unique<VulkanBuffer>(
-			sizeof(m_vertices[0]) * m_vertices.size(),
-			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-			m_context
-		);
+		m_pBufferFactory = std::make_unique<VulkanBufferFactory>(m_context);
 
-		void* data;
-		m_vertexBuffer->MapMemory(&data);
-		memcpy(data, m_vertices.data(), m_vertexBuffer->Size());
-		m_vertexBuffer->UnmapMemory();
+
+		// Here we create a vertex buffer from a list of vertices and a staging buffer
+		{
+			const uint32_t bufferSize = sizeof(m_vertices[0]) * m_vertices.size();
+			const void* bufferData = m_vertices.data();
+
+			m_vertexBuffer = m_pBufferFactory->CreateVertexBuffer(bufferData, bufferSize);
+		}
 
 		LOG_SUCCESS("Renderer: ok");
 	}
@@ -143,7 +143,7 @@ namespace BetterThanNothing
 
 		m_commandBuffers[m_currentFrame]->CmdBindPipeline(m_pPipeline->Handle());
 
-		VkBuffer vertexBuffers[] = { m_vertexBuffer->Handle() };
+		VkBuffer vertexBuffers[] = { m_vertexBuffer.Handle() };
 		VkDeviceSize offsets[] = {0};
 		m_commandBuffers[m_currentFrame]->CmdBindVertexBuffers(0, 1, vertexBuffers, offsets);
 
@@ -217,5 +217,12 @@ namespace BetterThanNothing
 		if (!m_pVulkanRenderPass)
 			throw ApplicationContextError("Vulkan render pass is not set");
 		return m_pVulkanRenderPass;
+	}
+
+	std::unique_ptr<VulkanCommandPool>& Renderer::GetVulkanCommandPool()
+	{
+		if (!m_pVulkanCommandPool)
+			throw ApplicationContextError("Vulkan command pool is not set");
+		return m_pVulkanCommandPool;
 	}
 }
