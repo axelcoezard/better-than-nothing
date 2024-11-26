@@ -36,6 +36,5 @@ namespace BetterThanNothing
 
 			return attributeDescriptions;
 		}
-
 	};
 }
