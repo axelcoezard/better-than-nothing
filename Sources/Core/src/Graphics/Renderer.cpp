@@ -37,6 +37,13 @@ namespace BetterThanNothing
 			m_vertexBuffer = m_pBufferFactory->CreateVertexBuffer(bufferData, bufferSize);
 		}
 
+		{
+			const uint32_t bufferSize = sizeof(m_indices[0]) * m_indices.size();
+			const void* bufferData = m_indices.data();
+
+			m_indexBuffer = m_pBufferFactory->CreateIndexBuffer(bufferData, bufferSize);
+		}
+
 		LOG_SUCCESS("Renderer: ok");
 	}
 
@@ -146,8 +153,9 @@ namespace BetterThanNothing
 		VkBuffer vertexBuffers[] = { m_vertexBuffer.Handle() };
 		VkDeviceSize offsets[] = {0};
 		m_commandBuffers[m_currentFrame]->CmdBindVertexBuffers(0, 1, vertexBuffers, offsets);
+		m_commandBuffers[m_currentFrame]->CmdBindIndexBuffer(m_indexBuffer.Handle(), 0, VK_INDEX_TYPE_UINT16);
 
-		m_commandBuffers[m_currentFrame]->CmdDraw(static_cast<uint32_t>(m_vertices.size()), 1, 0, 0);
+		m_commandBuffers[m_currentFrame]->CmdDrawIndexed(static_cast<uint32_t>(m_indices.size()), 1, 0, 0, 0);
 
 		m_commandBuffers[m_currentFrame]->CmdEndRenderPass();
 		m_commandBuffers[m_currentFrame]->EndRecording();

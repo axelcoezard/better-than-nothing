@@ -22,4 +22,21 @@ namespace BetterThanNothing
 
 		return vertexBuffer;
 	}
+
+	VulkanBuffer VulkanBufferFactory::CreateIndexBuffer(const void* data, const uint32_t dataSize) const
+	{
+		VulkanBuffer stagingBuffer = {dataSize, VulkanBufferType::STAGING_BUFFER, m_context};
+		VulkanBuffer indexBuffer = {dataSize, VulkanBufferType::INDEX_BUFFER, m_context};
+
+		void* stagingData;
+		stagingBuffer.MapMemory(&stagingData);
+		memcpy(stagingData, data, dataSize);
+		stagingBuffer.UnmapMemory();
+
+		VulkanCommandBuffer::SingleTimeCommands([&](const std::unique_ptr<VulkanCommandBuffer>& commandBuffer) {
+			commandBuffer->CmdCopyBuffer(stagingBuffer.Handle(), indexBuffer.Handle(), dataSize);
+		}, m_context);
+
+		return indexBuffer;
+	}
 }

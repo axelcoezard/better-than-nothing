@@ -21,5 +21,6 @@ namespace BetterThanNothing
 		~VulkanBufferFactory() = default;
 
 		VulkanBuffer CreateVertexBuffer(const void* data, uint32_t dataSize) const;
+		VulkanBuffer CreateIndexBuffer(const void* data, uint32_t dataSize) const;
 	};
 }
