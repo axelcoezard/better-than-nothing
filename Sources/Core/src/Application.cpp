@@ -1,5 +1,5 @@
 #include "BetterThanNothing.hpp"
-#include "Graphics/ShaderPool.hpp"
+#include "Utils/ShaderPool.hpp"
 
 namespace BetterThanNothing
 {

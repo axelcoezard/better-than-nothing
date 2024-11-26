@@ -20,8 +20,8 @@ file(GLOB SOURCES
 	"src/Events/*.cpp"
 	"src/Graphics/*.hpp"
 	"src/Graphics/*.cpp"
-	"src/Graphics/Vulkan/*.hpp"
-	"src/Graphics/Vulkan/*.cpp"
+	"src/Vulkan/*.hpp"
+	"src/Vulkan/*.cpp"
 )
 
 include_directories(src)

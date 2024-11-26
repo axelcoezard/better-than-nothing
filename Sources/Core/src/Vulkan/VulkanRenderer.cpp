@@ -1,4 +1,4 @@
-#include "../../BetterThanNothing.hpp"
+#include "../BetterThanNothing.hpp"
 
 namespace BetterThanNothing
 {
