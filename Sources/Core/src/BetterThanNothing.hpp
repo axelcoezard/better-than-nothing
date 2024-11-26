@@ -25,7 +25,7 @@
 #include "Graphics/Vulkan/VulkanBufferFactory.hpp"
 
 #include "Graphics/Vertex.hpp"
-#include "Graphics/Renderer.hpp"
+#include "Graphics/Vulkan/VulkanRenderer.hpp"
 
 // Application
 #include "ApplicationContext.hpp"

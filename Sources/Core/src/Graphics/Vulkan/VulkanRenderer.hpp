@@ -14,10 +14,10 @@ namespace BetterThanNothing
 
 	struct Vertex;
 
-	class Renderer
+	class VulkanRenderer
 	{
 	private:
-		ApplicationContext* m_context;
+		ApplicationContext* m_context = nullptr;
 
 		std::unique_ptr<VulkanSwapChain> m_pVulkanSwapChain = nullptr;
 		std::unique_ptr<VulkanRenderPass> m_pVulkanRenderPass = nullptr;
@@ -50,8 +50,8 @@ namespace BetterThanNothing
 		VulkanBuffer m_indexBuffer;
 
 	public:
-		explicit Renderer(ApplicationContext* context);
-		~Renderer();
+		explicit VulkanRenderer(ApplicationContext* context): m_context(context) {}
+		~VulkanRenderer() = default;
 
 		void Initialize();
 		void Render();

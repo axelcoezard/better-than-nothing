@@ -54,7 +54,7 @@ namespace BetterThanNothing
 		std::unique_ptr<VulkanQueue> m_pPresentQueue = nullptr;
 		std::unique_ptr<VulkanMemoryAllocator> m_pVulkanMemoryAllocator = nullptr;
 
-		std::unique_ptr<Renderer> m_pRenderer = nullptr;
+		std::unique_ptr<VulkanRenderer> m_pRenderer = nullptr;
 		std::unique_ptr<ShaderPool> m_pShaderPool = nullptr;
 
 	public:
@@ -80,7 +80,7 @@ namespace BetterThanNothing
 
 		std::unique_ptr<VulkanMemoryAllocator>& GetVulkanMemoryAllocator();
 
-		std::unique_ptr<Renderer>& GetRenderer();
+		std::unique_ptr<VulkanRenderer>& GetRenderer();
 
 		std::unique_ptr<ShaderPool>& GetShaderPool();
 
