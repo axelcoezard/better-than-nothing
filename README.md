@@ -5,6 +5,7 @@ Everything is in the title, it is a better-than-nothing Game Engine
 
  - Support for Linux.
  - Support for Vulkan.
+ - Using C++20 features.
  - In-house JIT shader compilation.
 
 ## Road map
