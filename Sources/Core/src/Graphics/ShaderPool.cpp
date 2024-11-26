@@ -47,13 +47,14 @@ namespace BetterThanNothing
 		if (!file.is_open())
 			throw std::runtime_error("failed to open file!");
 
+		file.seekg(0, std::ios::end);
 		uint32_t fileSize = (uint32_t) file.tellg();
-		std::vector<char> buffer;
 
+		std::vector<char> buffer;
 		buffer.resize(fileSize);
 		std::memset(buffer.data(), 0, fileSize);
 
-		file.seekg(0);
+		file.seekg(0, std::ios::beg);
 		file.read(buffer.data(), fileSize - 1);
 		file.close();
 
@@ -95,16 +96,17 @@ namespace BetterThanNothing
 
 		glslang_initialize_process();
 
-		glslang_shader_t* shader = glslang_shader_create(&input);
+		using shader_ptr_t = std::unique_ptr<glslang_shader_t, decltype(&glslang_shader_delete)>;
+		shader_ptr_t shader(glslang_shader_create(&input), glslang_shader_delete);
 
-		if (!glslang_shader_preprocess(shader, &input))
-			throw std::runtime_error("failed to preprocess shader: " + std::string(glslang_shader_get_info_log(shader)));
+		if (!glslang_shader_preprocess(shader.get(), &input))
+			throw std::runtime_error("failed to preprocess shader: " + std::string(glslang_shader_get_info_log(shader.get())));
 
-		if (!glslang_shader_parse(shader, &input))
-			throw std::runtime_error("failed to parse shader: " + std::string(glslang_shader_get_info_log(shader)));
+		if (!glslang_shader_parse(shader.get(), &input))
+			throw std::runtime_error("failed to parse shader: " + std::string(glslang_shader_get_info_log(shader.get())));
 
 		glslang_program_t* program = glslang_program_create();
-		glslang_program_add_shader(program, shader);
+		glslang_program_add_shader(program, shader.get());
 
 		if (!glslang_program_link(program, GLSLANG_MSG_SPV_RULES_BIT | GLSLANG_MSG_VULKAN_RULES_BIT))
 			throw std::runtime_error("failed to compile shader program: " + std::string(glslang_program_get_info_log(program)));
@@ -113,8 +115,6 @@ namespace BetterThanNothing
 
 		if (glslang_program_SPIRV_get_messages(program))
 			LOG_INFO("Shader messages: " << glslang_program_SPIRV_get_messages(program));
-
-		glslang_shader_delete(shader);
 
 		{
 			const uint32_t* spirvCode = glslang_program_SPIRV_get_ptr(program);
