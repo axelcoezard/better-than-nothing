@@ -31,7 +31,7 @@ namespace BetterThanNothing
 
 		m_pVulkanMemoryAllocator = std::make_unique<VulkanMemoryAllocator>(this);
 
-		LOG_INFO("Buffering type: " << GetMaxFrameInFlightCount());
+		LOG_INFO("Buffering mode: " << GetMaxFrameInFlightCount());
 		LOG_INFO("VSync: " << (m_vulkanParams.enableVSync ? "enabled" : "disabled"));
 
 		m_pRenderer = std::make_unique<VulkanRenderer>(this);
