@@ -4,7 +4,7 @@
 
 // Copyright (C) 2009-2020, Ben Hoyt
 
-// inih and INIReader are released under the New BSD license (see LICENSE.txt).
+// inih and INIReader are released under the New BSD license (see LICENSE.md).
 // Go to the project home page for more info:
 //
 // https://github.com/benhoyt/inih

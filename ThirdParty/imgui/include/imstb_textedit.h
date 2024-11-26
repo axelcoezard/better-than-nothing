@@ -22,7 +22,7 @@
 // Non-trivial behaviors are modelled after Windows text controls.
 //
 //
-// LICENSE
+// LICENSE.md
 //
 // See end of file for license information.
 //

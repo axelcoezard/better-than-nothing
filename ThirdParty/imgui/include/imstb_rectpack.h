@@ -58,7 +58,7 @@
 //     0.04:  fixed minor bug in STBRP_LARGE_RECTS support
 //     0.01:  initial release
 //
-// LICENSE
+// LICENSE.md
 //
 //   See end of file for license information.
 

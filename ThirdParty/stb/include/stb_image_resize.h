@@ -168,7 +168,7 @@
       0.91 (2016-04-02) fix warnings; fix handling of subpixel regions
       0.90 (2014-09-17) first released version
 
-   LICENSE
+   LICENSE.md
      See end of file for license information.
 
    TODO

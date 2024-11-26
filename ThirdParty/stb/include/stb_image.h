@@ -42,7 +42,7 @@
    Full documentation under "DOCUMENTATION" below.
 
 
-LICENSE
+LICENSE.md
 
   See end of file for license information.
 

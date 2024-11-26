@@ -4,7 +4,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 Copyright (C) 2009-2020, Ben Hoyt
 
-inih is released under the New BSD license (see LICENSE.txt). Go to the project
+inih is released under the New BSD license (see LICENSE.md). Go to the project
 home page for more info:
 
 https://github.com/benhoyt/inih

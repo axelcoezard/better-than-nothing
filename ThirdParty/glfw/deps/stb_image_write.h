@@ -142,7 +142,7 @@ CREDITS:
       Adam Schackart
       Andrew Kensler
 
-LICENSE
+LICENSE.md
 
   See end of file for license information.
 

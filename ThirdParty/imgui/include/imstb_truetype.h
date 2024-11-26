@@ -90,7 +90,7 @@
 //
 //   Full history can be found at the end of this file.
 //
-// LICENSE
+// LICENSE.md
 //
 //   See end of file for license information.
 //
