@@ -44,5 +44,8 @@ namespace BetterThanNothing
 
 	private:
 		void _move(VulkanBuffer&& other) noexcept;
+
+		static VkBufferUsageFlags _getBufferUsageByBufferType(VulkanBufferType type);
+		static VkMemoryPropertyFlags _getMemoryPropertiesByBufferType(VulkanBufferType type);
 	};
 }
