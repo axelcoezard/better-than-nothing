@@ -11,7 +11,7 @@ namespace BetterThanNothing
 			.SetWindowResizable(true)
 			.EnableValidationLayers(true)
 			.SetShadersFolderPath("../../Assets/Shaders/")
-			.SetBufferingType(VulkanBufferingType::TripleBuffering)
+			.SetBufferingMode(VulkanBufferingMode::TripleBuffering)
 			.EnableVSync(true)
 			.Build();
 

@@ -27,6 +27,8 @@ namespace BetterThanNothing
 
 		std::unique_ptr<VulkanPipeline> m_pPipeline = nullptr;
 
+		std::unique_ptr<VulkanBufferFactory> m_pBufferFactory = nullptr;
+
 		std::vector<std::unique_ptr<VulkanSemaphore>> m_imageAvailableSemaphores;
 		std::vector<std::unique_ptr<VulkanSemaphore>> m_renderFinishedSemaphores;
 		std::vector<std::unique_ptr<VulkanFence>> m_frameInFlightFences;
@@ -39,7 +41,7 @@ namespace BetterThanNothing
 			{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
 		};
 
-		std::unique_ptr<VulkanBuffer> m_vertexBuffer = nullptr;
+		VulkanBuffer m_vertexBuffer;
 
 	public:
 		explicit Renderer(ApplicationContext* context);
@@ -57,5 +59,6 @@ namespace BetterThanNothing
 	public:
 		std::unique_ptr<VulkanSwapChain>& GetVulkanSwapChain();
 		std::unique_ptr<VulkanRenderPass>& GetVulkanRenderPass();
+		std::unique_ptr<VulkanCommandPool>& GetVulkanCommandPool();
 	};
 }

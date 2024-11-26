@@ -6,7 +6,7 @@
 
 namespace BetterThanNothing
 {
-	enum class VulkanBufferingType
+	enum class VulkanBufferingMode
 	{
 		None = 0,
 		DoubleBuffering = 2,

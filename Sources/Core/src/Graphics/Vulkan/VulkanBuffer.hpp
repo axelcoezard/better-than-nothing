@@ -3,7 +3,8 @@
 //
 
 #pragma once
-#include "vk_mem_alloc.h"
+
+#include "Graphics/Vulkan/VulkanBufferType.hpp"
 
 namespace BetterThanNothing
 {
@@ -22,8 +23,15 @@ namespace BetterThanNothing
 		VmaAllocationInfo m_allocationInfo = {};
 
 	public:
-		explicit VulkanBuffer(uint32_t size, VkBufferUsageFlagBits usage, ApplicationContext* context);
+		VulkanBuffer() = default;
+		VulkanBuffer(uint32_t size, VulkanBufferType type, ApplicationContext* context);
 		~VulkanBuffer();
+
+		VulkanBuffer(const VulkanInstance&) = delete;
+		VulkanBuffer& operator=(const VulkanBuffer&) = delete;
+
+		VulkanBuffer(VulkanBuffer&&) noexcept;
+		VulkanBuffer& operator=(VulkanBuffer&&) noexcept;
 
 		VkResult MapMemory(void** data) const;
 		void UnmapMemory() const;
@@ -33,5 +41,8 @@ namespace BetterThanNothing
 
 		[[nodiscard]]
 		VkBuffer Handle() const;
+
+	private:
+		void _move(VulkanBuffer&& other) noexcept;
 	};
 }
