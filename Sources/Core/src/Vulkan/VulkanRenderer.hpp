@@ -14,10 +14,10 @@ namespace BetterThanNothing
 
 	struct Vertex;
 
-	class Renderer
+	class VulkanRenderer
 	{
 	private:
-		ApplicationContext* m_context;
+		ApplicationContext* m_context = nullptr;
 
 		std::unique_ptr<VulkanSwapChain> m_pVulkanSwapChain = nullptr;
 		std::unique_ptr<VulkanRenderPass> m_pVulkanRenderPass = nullptr;
@@ -33,25 +33,14 @@ namespace BetterThanNothing
 		std::vector<std::unique_ptr<VulkanSemaphore>> m_renderFinishedSemaphores;
 		std::vector<std::unique_ptr<VulkanFence>> m_frameInFlightFences;
 
-		uint32_t m_currentFrame = 0;
-
-		const std::vector<Vertex> m_vertices = {
-			{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-			{{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-			{{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-			{{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
-		};
-
-		const std::vector<uint16_t> m_indices = {
-			0, 1, 2, 2, 3, 0
-		};
+		uint32 m_currentFrame = 0;
 
 		VulkanBuffer m_vertexBuffer;
 		VulkanBuffer m_indexBuffer;
 
 	public:
-		explicit Renderer(ApplicationContext* context);
-		~Renderer();
+		explicit VulkanRenderer(ApplicationContext* context): m_context(context) {}
+		~VulkanRenderer() = default;
 
 		void Initialize();
 		void Render();
@@ -60,7 +49,7 @@ namespace BetterThanNothing
 	private:
 		void _createCommandBuffers();
 		void _createSyncObjects();
-		void _recordCommandBuffer(uint32_t imageIndex);
+		void _recordCommandBuffer(uint32 imageIndex);
 
 	public:
 		std::unique_ptr<VulkanSwapChain>& GetVulkanSwapChain();

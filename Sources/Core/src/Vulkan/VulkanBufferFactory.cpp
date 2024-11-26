@@ -6,10 +6,10 @@
 
 namespace BetterThanNothing
 {
-	VulkanBuffer VulkanBufferFactory::CreateVertexBuffer(const void* data, const uint32_t dataSize) const
+	VulkanBuffer VulkanBufferFactory::CreateVertexBuffer(const void* data, const uint32 dataSize) const
 	{
-		VulkanBuffer stagingBuffer = {dataSize, VulkanBufferType::STAGING_BUFFER, m_context};
-		VulkanBuffer vertexBuffer = {dataSize, VulkanBufferType::VERTEX_BUFFER, m_context};
+		VulkanBuffer stagingBuffer = {dataSize, VulkanBufferType::STAGING, m_context};
+		VulkanBuffer vertexBuffer = {dataSize, VulkanBufferType::VERTEX, m_context};
 
 		void* stagingData;
 		stagingBuffer.MapMemory(&stagingData);
@@ -23,10 +23,10 @@ namespace BetterThanNothing
 		return vertexBuffer;
 	}
 
-	VulkanBuffer VulkanBufferFactory::CreateIndexBuffer(const void* data, const uint32_t dataSize) const
+	VulkanBuffer VulkanBufferFactory::CreateIndexBuffer(const void* data, const uint32 dataSize) const
 	{
-		VulkanBuffer stagingBuffer = {dataSize, VulkanBufferType::STAGING_BUFFER, m_context};
-		VulkanBuffer indexBuffer = {dataSize, VulkanBufferType::INDEX_BUFFER, m_context};
+		VulkanBuffer stagingBuffer = {dataSize, VulkanBufferType::STAGING, m_context};
+		VulkanBuffer indexBuffer = {dataSize, VulkanBufferType::INDEX, m_context};
 
 		void* stagingData;
 		stagingBuffer.MapMemory(&stagingData);

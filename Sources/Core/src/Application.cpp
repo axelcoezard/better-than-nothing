@@ -1,5 +1,5 @@
 #include "BetterThanNothing.hpp"
-#include "Graphics/ShaderPool.hpp"
+#include "Utils/ShaderPool.hpp"
 
 namespace BetterThanNothing
 {
@@ -11,7 +11,7 @@ namespace BetterThanNothing
 			.SetWindowResizable(true)
 			.EnableValidationLayers(true)
 			.SetShadersFolderPath("../../Assets/Shaders/")
-			.SetBufferingMode(VulkanBufferingMode::TripleBuffering)
+			.SetBufferingMode(VulkanBufferingMode::DoubleBuffering)
 			.EnableVSync(true)
 			.Build();
 

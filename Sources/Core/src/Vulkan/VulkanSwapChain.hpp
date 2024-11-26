@@ -53,13 +53,13 @@ namespace BetterThanNothing
 		VkFormat GetImageFormat() const;
 
 		[[nodiscard]]
-		uint32_t GetImageCount() const;
+		uint32 GetImageCount() const;
 
 		[[nodiscard]]
 		VkExtent2D GetExtent() const;
 
 		[[nodiscard]]
-		VkFramebuffer GetFramebuffer(uint32_t index);
+		VkFramebuffer GetFramebuffer(uint32 index);
 
 		[[nodiscard]]
 		VkSwapchainKHR Handle() const;

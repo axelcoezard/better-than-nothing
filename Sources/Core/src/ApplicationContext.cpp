@@ -2,8 +2,6 @@
 // Created by acoezard on 11/5/24.
 //
 
-#include <utility>
-
 #include "BetterThanNothing.hpp"
 
 namespace BetterThanNothing
@@ -16,11 +14,11 @@ namespace BetterThanNothing
 	ApplicationContext& ApplicationContext::Initialize()
 	{
 		m_pWindow = std::make_unique<Window>(
-				m_windowParams.title,
-				m_windowParams.width,
-				m_windowParams.height,
-				m_windowParams.fullscreen,
-				m_windowParams.resizable
+			m_windowParams.title,
+			m_windowParams.width,
+			m_windowParams.height,
+			m_windowParams.fullscreen,
+			m_windowParams.resizable
 		);
 
 		m_pVulkanInstance = std::make_unique<VulkanInstance>(this);
@@ -33,10 +31,10 @@ namespace BetterThanNothing
 
 		m_pVulkanMemoryAllocator = std::make_unique<VulkanMemoryAllocator>(this);
 
-		LOG_INFO("Buffering type: " << GetMaxFrameInFlightCount());
+		LOG_INFO("Buffering mode: " << GetMaxFrameInFlightCount());
 		LOG_INFO("VSync: " << (m_vulkanParams.enableVSync ? "enabled" : "disabled"));
 
-		m_pRenderer = std::make_unique<Renderer>(this);
+		m_pRenderer = std::make_unique<VulkanRenderer>(this);
 		m_pRenderer->Initialize();
 
 		m_pShaderPool = std::make_unique<ShaderPool>(m_vulkanParams.shadersFolderPath, this);
@@ -103,7 +101,7 @@ namespace BetterThanNothing
 		return m_pVulkanMemoryAllocator;
 	}
 
-	std::unique_ptr<Renderer>& ApplicationContext::GetRenderer()
+	std::unique_ptr<VulkanRenderer>& ApplicationContext::GetRenderer()
 	{
 		if (!m_pRenderer)
 			throw ApplicationContextError("Renderer is not set");
@@ -123,7 +121,7 @@ namespace BetterThanNothing
 	}
 
 	[[nodiscard]]
-	uint32_t ApplicationContext::GetVulkanApiVersion() const
+	uint32 ApplicationContext::GetVulkanApiVersion() const
 	{
 		return m_vulkanParams.apiVersion;
 	}
@@ -152,9 +150,9 @@ namespace BetterThanNothing
 	}
 
 	[[nodiscard]]
-	uint32_t ApplicationContext::GetMaxFrameInFlightCount() const
+	uint32 ApplicationContext::GetMaxFrameInFlightCount() const
 	{
-		return static_cast<uint32_t>(m_vulkanParams.bufferingMode);
+		return static_cast<uint32>(m_vulkanParams.bufferingMode);
 	}
 
 	[[nodiscard]]

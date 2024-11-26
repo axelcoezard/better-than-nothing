@@ -6,15 +6,18 @@
 
 namespace BetterThanNothing
 {
-	VulkanBuffer::VulkanBuffer(uint32_t size, VulkanBufferType type, ApplicationContext* context): m_context(context), m_size(size)
+	VulkanBuffer::VulkanBuffer(const uint32 size, const VulkanBufferType type, ApplicationContext* context): m_context(context), m_size(size)
 	{
+		const VkBufferUsageFlags usage = _getBufferUsageByBufferType(type);
+		const VkMemoryPropertyFlags properties = _getMemoryPropertiesByBufferType(type);
+
 		VkBufferCreateInfo bufferCreateInfo = {};
 		bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 		bufferCreateInfo.size = size;
-		bufferCreateInfo.usage = static_cast<uint32_t>(type);
+		bufferCreateInfo.usage = usage;
 		bufferCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-		if (m_context->GetVulkanMemoryAllocator()->CreateBuffer(&bufferCreateInfo, &m_buffer, &m_allocation, &m_allocationInfo) != VK_SUCCESS)
+		if (m_context->GetVulkanMemoryAllocator()->CreateBuffer(&bufferCreateInfo, properties, &m_buffer, &m_allocation, &m_allocationInfo) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create Vulkan buffer");
 	}
 
@@ -45,7 +48,7 @@ namespace BetterThanNothing
 		return m_context->GetVulkanMemoryAllocator()->UnmapMemory(m_allocation);
 	}
 
-	uint32_t VulkanBuffer::Size() const
+	uint32 VulkanBuffer::Size() const
 	{
 		return m_size;
 	}
@@ -68,5 +71,34 @@ namespace BetterThanNothing
 		other.m_buffer = VK_NULL_HANDLE;
 		other.m_allocation = VK_NULL_HANDLE;
 		other.m_allocationInfo = {};
+	}
+
+	VkBufferUsageFlags VulkanBuffer::_getBufferUsageByBufferType(const VulkanBufferType type)
+	{
+		switch (type)
+		{
+			case VulkanBufferType::STAGING:
+				return VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+			case VulkanBufferType::VERTEX:
+				return VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+			case VulkanBufferType::INDEX:
+				return VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+			default:
+				throw std::runtime_error("Invalid Vulkan buffer type");
+		}
+	}
+
+	VkMemoryPropertyFlags VulkanBuffer::_getMemoryPropertiesByBufferType(const VulkanBufferType type)
+	{
+		switch (type)
+		{
+			case VulkanBufferType::STAGING:
+				return VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+			case VulkanBufferType::VERTEX:
+			case VulkanBufferType::INDEX:
+				return VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+			default:
+				throw std::runtime_error("Invalid Vulkan buffer type");
+		}
 	}
 }

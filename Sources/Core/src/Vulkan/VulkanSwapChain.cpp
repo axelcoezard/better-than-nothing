@@ -21,7 +21,7 @@ namespace BetterThanNothing
 		VkPresentModeKHR presentMode = _choosePresentMode(swapChainSupport.presentModes);
 		VkExtent2D extent = _chooseExtent(swapChainSupport.capabilities);
 
-		uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
+		uint32 imageCount = swapChainSupport.capabilities.minImageCount + 1;
 
 		if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
 			imageCount = swapChainSupport.capabilities.maxImageCount;
@@ -37,7 +37,7 @@ namespace BetterThanNothing
 		createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
 		QueueFamilyIndices indices = m_context->GetVulkanDevice()->GetQueueFamilies();
-		uint32_t queueFamilyIndices[] = {indices.graphicsFamily.value(), indices.presentFamily.value()};
+		uint32 queueFamilyIndices[] = {indices.graphicsFamily.value(), indices.presentFamily.value()};
 
 		if (indices.graphicsFamily != indices.presentFamily) {
 			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
@@ -69,7 +69,7 @@ namespace BetterThanNothing
 	{
 		auto device = m_context->GetVulkanDevice()->LogicalHandle();
 
-		uint32_t finalImageCount = 0;
+		uint32 finalImageCount = 0;
 		vkGetSwapchainImagesKHR(device, m_swapChain, &finalImageCount, nullptr);
 
 		m_images.resize(finalImageCount);
@@ -78,7 +78,7 @@ namespace BetterThanNothing
 
 	void VulkanSwapChain::CreateImageViews()
 	{
-		const uint32_t imageCount = m_images.size();
+		const uint32 imageCount = m_images.size();
 
 		m_imageViews.resize(imageCount);
 
@@ -119,7 +119,7 @@ namespace BetterThanNothing
 			VkFramebufferCreateInfo createInfo{};
 			createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 			createInfo.renderPass = renderPass;
-			createInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+			createInfo.attachmentCount = static_cast<uint32>(attachments.size());
 			createInfo.pAttachments = attachments.data();
 			createInfo.width = m_extent.width;
 			createInfo.height = m_extent.height;
@@ -186,7 +186,7 @@ namespace BetterThanNothing
 
 	VkExtent2D VulkanSwapChain::_chooseExtent(const VkSurfaceCapabilitiesKHR& capabilities)
 	{
-		if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
+		if (capabilities.currentExtent.width != std::numeric_limits<uint32>::max())
 			return capabilities.currentExtent;
 
 		auto [width, height] = m_context->GetWindow()->GetFramebufferSize();
@@ -203,7 +203,7 @@ namespace BetterThanNothing
 		return m_imageFormat;
 	}
 
-	uint32_t VulkanSwapChain::GetImageCount() const
+	uint32 VulkanSwapChain::GetImageCount() const
 	{
 		return m_images.size();
 	}
@@ -213,7 +213,7 @@ namespace BetterThanNothing
 		return m_extent;
 	}
 
-	VkFramebuffer VulkanSwapChain::GetFramebuffer(uint32_t imageIndex)
+	VkFramebuffer VulkanSwapChain::GetFramebuffer(uint32 imageIndex)
 	{
 		if (imageIndex >= m_framebuffers.size())
 			throw std::runtime_error("Framebuffer index out of range");

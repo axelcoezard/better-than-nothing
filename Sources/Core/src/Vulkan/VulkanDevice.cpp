@@ -23,7 +23,7 @@ namespace BetterThanNothing
 	{
 		auto vkInstance = m_context->GetVulkanInstance()->Handle();
 
-		uint32_t deviceCount = 0;
+		uint32 deviceCount = 0;
 		vkEnumeratePhysicalDevices(vkInstance, &deviceCount, nullptr);
 
 		if (deviceCount == 0)
@@ -59,9 +59,9 @@ namespace BetterThanNothing
 			indices.presentFamily.value()
 		};
 
-		float queuePriority = 1.0f;
+		float32 queuePriority = 1.0f;
 
-		for (uint32_t queueFamily : uniqueQueueFamilies)
+		for (uint32 queueFamily : uniqueQueueFamilies)
 		{
 			VkDeviceQueueCreateInfo queueCreateInfo{};
 			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
@@ -75,17 +75,17 @@ namespace BetterThanNothing
 
 		VkDeviceCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+		createInfo.queueCreateInfoCount = static_cast<uint32>(queueCreateInfos.size());
 		createInfo.pQueueCreateInfos = queueCreateInfos.data();
 		createInfo.pEnabledFeatures = &deviceFeatures;
 
 		const auto deviceExtensions = context->GetDeviceExtensions();
-		createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
+		createInfo.enabledExtensionCount = static_cast<uint32>(deviceExtensions.size());
 		createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
 		if (context->IsValidationLayersEnabled()) {
 			const auto validationLayers = context->GetValidationLayers();
-			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+			createInfo.enabledLayerCount = static_cast<uint32>(validationLayers.size());
 			createInfo.ppEnabledLayerNames = validationLayers.data();
 		} else {
 			createInfo.enabledLayerCount = 0;
@@ -140,7 +140,7 @@ namespace BetterThanNothing
 	{
 		auto deviceExtensions = m_context->GetDeviceExtensions();
 
-		uint32_t extensionCount;
+		uint32 extensionCount;
 		vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
 
 		std::vector<VkExtensionProperties> availableExtensions(extensionCount);
@@ -159,7 +159,7 @@ namespace BetterThanNothing
 	{
 		auto vkSurface = m_context->GetVulkanSurface()->Handle();
 
-		uint32_t queueFamilyCount = 0;
+		uint32 queueFamilyCount = 0;
 		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
 
 		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
@@ -167,7 +167,7 @@ namespace BetterThanNothing
 
 		QueueFamilyIndices indices;
 
-		uint32_t i = 0;
+		uint32 i = 0;
 		for (const auto& queueFamily : queueFamilies)
 		{
 			// Check if the queue family supports graphics queue
@@ -206,7 +206,7 @@ namespace BetterThanNothing
 		SwapChainSupportDetails details;
 		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
 
-		uint32_t formatCount;
+		uint32 formatCount;
 		vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
 
 		if (formatCount != 0)
@@ -215,7 +215,7 @@ namespace BetterThanNothing
 			vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
 		}
 
-		uint32_t presentModeCount;
+		uint32 presentModeCount;
 		vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, nullptr);
 
 		if (presentModeCount != 0)
@@ -232,7 +232,7 @@ namespace BetterThanNothing
 		return _querySwapChainSupport(m_physicalDevice);
 	}
 
-	std::string VulkanDevice::_getVendorById(const uint32_t vendorId) const
+	std::string VulkanDevice::_getVendorById(const uint32 vendorId) const
 	{
 		if (vendorId == 0x1002) return "AMD";
 		if (vendorId == 0x1010) return "ImgTec";

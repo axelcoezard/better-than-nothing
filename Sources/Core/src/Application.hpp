@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphics/Window.hpp"
+#include "Window.hpp"
 
 namespace BetterThanNothing
 {

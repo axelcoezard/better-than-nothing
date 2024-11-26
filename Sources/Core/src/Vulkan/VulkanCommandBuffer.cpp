@@ -53,12 +53,12 @@ namespace BetterThanNothing
 		vkCmdEndRenderPass(m_commandBuffer);
 	}
 
-	void VulkanCommandBuffer::CmdSetViewport(const VkViewport* viewports, uint32_t firstViewport, uint32_t viewportCount) const
+	void VulkanCommandBuffer::CmdSetViewport(const VkViewport* viewports, uint32 firstViewport, uint32 viewportCount) const
 	{
 		vkCmdSetViewport(m_commandBuffer, firstViewport, viewportCount, viewports);
 	}
 
-	void VulkanCommandBuffer::CmdSetScissor(const VkRect2D* scissors, uint32_t firstScissor, uint32_t scissorCount) const
+	void VulkanCommandBuffer::CmdSetScissor(const VkRect2D* scissors, uint32 firstScissor, uint32 scissorCount) const
 	{
 		vkCmdSetScissor(m_commandBuffer, firstScissor, scissorCount, scissors);
 	}
@@ -68,7 +68,7 @@ namespace BetterThanNothing
 		vkCmdBindPipeline(m_commandBuffer, bindPoint, pipeline);
 	}
 
-	void VulkanCommandBuffer::CmdBindVertexBuffers(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* buffers, const VkDeviceSize* offsets) const
+	void VulkanCommandBuffer::CmdBindVertexBuffers(uint32 firstBinding, uint32 bindingCount, const VkBuffer* buffers, const VkDeviceSize* offsets) const
 	{
 		vkCmdBindVertexBuffers(m_commandBuffer, firstBinding, bindingCount, buffers, offsets);
 	}
@@ -78,17 +78,17 @@ namespace BetterThanNothing
 		vkCmdBindIndexBuffer(m_commandBuffer, buffer, offset, indexType);
 	}
 
-	void VulkanCommandBuffer::CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) const
+	void VulkanCommandBuffer::CmdDraw(uint32 vertexCount, uint32 instanceCount, uint32 firstVertex, uint32 firstInstance) const
 	{
 		vkCmdDraw(m_commandBuffer, vertexCount, instanceCount, firstVertex, firstInstance);
 	}
 
-	void VulkanCommandBuffer::CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance) const
+	void VulkanCommandBuffer::CmdDrawIndexed(uint32 indexCount, uint32 instanceCount, uint32 firstIndex, int32 vertexOffset, uint32 firstInstance) const
 	{
 		vkCmdDrawIndexed(m_commandBuffer, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
 	}
 
-	void VulkanCommandBuffer::CmdCopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, const uint32_t bufferSize) const
+	void VulkanCommandBuffer::CmdCopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, const uint32 bufferSize) const
 	{
 		VkBufferCopy copyRegion{};
 		copyRegion.size = bufferSize;
