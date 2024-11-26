@@ -77,11 +77,11 @@ namespace BetterThanNothing
 	{
 		switch (type)
 		{
-			case VulkanBufferType::STAGING_BUFFER:
+			case VulkanBufferType::STAGING:
 				return VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-			case VulkanBufferType::VERTEX_BUFFER:
+			case VulkanBufferType::VERTEX:
 				return VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-			case VulkanBufferType::INDEX_BUFFER:
+			case VulkanBufferType::INDEX:
 				return VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
 			default:
 				throw std::runtime_error("Invalid Vulkan buffer type");
@@ -92,10 +92,10 @@ namespace BetterThanNothing
 	{
 		switch (type)
 		{
-			case VulkanBufferType::STAGING_BUFFER:
+			case VulkanBufferType::STAGING:
 				return VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-			case VulkanBufferType::VERTEX_BUFFER:
-			case VulkanBufferType::INDEX_BUFFER:
+			case VulkanBufferType::VERTEX:
+			case VulkanBufferType::INDEX:
 				return VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
 			default:
 				throw std::runtime_error("Invalid Vulkan buffer type");

@@ -8,8 +8,8 @@ namespace BetterThanNothing
 {
 	enum class VulkanBufferType
 	{
-		STAGING_BUFFER = 0,
-		VERTEX_BUFFER = 1,
-		INDEX_BUFFER = 2,
+		STAGING = 0,
+		VERTEX = 1,
+		INDEX = 2,
 	};
 }
