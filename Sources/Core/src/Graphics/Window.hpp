@@ -8,8 +8,8 @@ namespace BetterThanNothing
 
 		std::string m_Title{};
 
-		uint32_t m_Width = 0;
-		uint32_t m_Height = 0;
+		uint32 m_Width = 0;
+		uint32 m_Height = 0;
 
 		bool m_fullscreen = false;
 		bool m_resizable = true;
@@ -17,7 +17,7 @@ namespace BetterThanNothing
 
 	public:
 		Window() = default;
-		explicit Window(std::string  title, uint32_t width, uint32_t height, bool fullscreen = false, bool resizable = false);
+		explicit Window(std::string  title, uint32 width, uint32 height, bool fullscreen = false, bool resizable = false);
 		~Window();
 
 		[[nodiscard]]
@@ -31,20 +31,20 @@ namespace BetterThanNothing
 		bool ShouldClose() const;
 
 		[[nodiscard]]
-		std::pair<uint32_t, uint32_t> GetFramebufferSize() const;
+		std::pair<uint32, uint32> GetFramebufferSize() const;
 
 		[[nodiscard]]
 		bool IsResized() const;
 		void SetResized(bool resized);
 
 	protected:
-		void SetWidth(uint32_t width);
-		void SetHeight(uint32_t height);
+		void SetWidth(uint32 width);
+		void SetHeight(uint32 height);
 
 		static void ResizeCallback(GLFWwindow* window, int width, int height);
 		static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-		static void MouseCursorCallback(GLFWwindow* window, double xpos, double ypos);
-		static void MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+		static void MouseCursorCallback(GLFWwindow* window, float64 xpos, float64 ypos);
+		static void MouseScrollCallback(GLFWwindow* window, float64 xoffset, float64 yoffset);
 		static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	};
 };

@@ -20,7 +20,7 @@ namespace BetterThanNothing
 		explicit VulkanBufferFactory(ApplicationContext* context): m_context(context) {}
 		~VulkanBufferFactory() = default;
 
-		VulkanBuffer CreateVertexBuffer(const void* data, uint32_t dataSize) const;
-		VulkanBuffer CreateIndexBuffer(const void* data, uint32_t dataSize) const;
+		VulkanBuffer CreateVertexBuffer(const void* data, uint32 dataSize) const;
+		VulkanBuffer CreateIndexBuffer(const void* data, uint32 dataSize) const;
 	};
 }

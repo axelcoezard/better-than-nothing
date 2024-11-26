@@ -3,7 +3,7 @@
 
 namespace BetterThanNothing
 {
-	Window::Window(std::string  title, const uint32_t width, const uint32_t height, const bool fullscreen, const bool resizable)
+	Window::Window(std::string  title, const uint32 width, const uint32 height, const bool fullscreen, const bool resizable)
 		: m_Title(std::move(title)), m_Width(width), m_Height(height), m_fullscreen(fullscreen), m_resizable(resizable)
 	{
 		if (glfwInit() == GLFW_FALSE) {
@@ -63,7 +63,7 @@ namespace BetterThanNothing
 		return glfwWindowShouldClose(m_Window) == GLFW_TRUE;
 	}
 
-	std::pair<uint32_t, uint32_t> Window::GetFramebufferSize() const
+	std::pair<uint32, uint32> Window::GetFramebufferSize() const
 	{
 		int width, height;
 		glfwGetFramebufferSize(m_Window, &width, &height);
@@ -80,12 +80,12 @@ namespace BetterThanNothing
 		m_Resized = resized;
 	}
 
-	void Window::SetWidth(const uint32_t width)
+	void Window::SetWidth(const uint32 width)
 	{
 		m_Width = width;
 	}
 
-	void Window::SetHeight(const uint32_t height)
+	void Window::SetHeight(const uint32 height)
 	{
 		m_Height = height;
 	}
@@ -110,13 +110,13 @@ namespace BetterThanNothing
 		Input::UpdateKey(key, action);
 	}
 
-	void Window::MouseCursorCallback(GLFWwindow* window, double xpos, double ypos)
+	void Window::MouseCursorCallback(GLFWwindow* window, float64 xpos, float64 ypos)
 	{
 		(void) window;
 		Input::UpdateMousePosition(xpos, ypos);
 	}
 
-	void Window::MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+	void Window::MouseScrollCallback(GLFWwindow* window, float64 xoffset, float64 yoffset)
 	{
 		(void) window;
 		(void) xoffset;

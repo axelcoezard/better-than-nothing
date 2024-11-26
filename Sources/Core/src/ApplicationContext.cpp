@@ -121,7 +121,7 @@ namespace BetterThanNothing
 	}
 
 	[[nodiscard]]
-	uint32_t ApplicationContext::GetVulkanApiVersion() const
+	uint32 ApplicationContext::GetVulkanApiVersion() const
 	{
 		return m_vulkanParams.apiVersion;
 	}
@@ -150,9 +150,9 @@ namespace BetterThanNothing
 	}
 
 	[[nodiscard]]
-	uint32_t ApplicationContext::GetMaxFrameInFlightCount() const
+	uint32 ApplicationContext::GetMaxFrameInFlightCount() const
 	{
-		return static_cast<uint32_t>(m_vulkanParams.bufferingMode);
+		return static_cast<uint32>(m_vulkanParams.bufferingMode);
 	}
 
 	[[nodiscard]]

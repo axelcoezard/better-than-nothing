@@ -27,7 +27,7 @@ namespace BetterThanNothing
 
 		// Prepare extensions
 		const auto extensions = _getRequiredExtensions();
-		createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+		createInfo.enabledExtensionCount = static_cast<uint32>(extensions.size());
 		createInfo.ppEnabledExtensionNames = extensions.data();
 
 		// Prepare validation layers
@@ -38,7 +38,7 @@ namespace BetterThanNothing
 
 			const auto validationLayers = m_context->GetValidationLayers();
 
-			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+			createInfo.enabledLayerCount = static_cast<uint32>(validationLayers.size());
 			createInfo.ppEnabledLayerNames = validationLayers.data();
 			createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
 		}
@@ -66,7 +66,7 @@ namespace BetterThanNothing
 
 	std::vector<const char*> VulkanInstance::_getRequiredExtensions() noexcept
 	{
-		uint32_t glfwExtensionCount = 0;
+		uint32 glfwExtensionCount = 0;
 		const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
 		std::vector extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
@@ -80,7 +80,7 @@ namespace BetterThanNothing
 
 	bool VulkanInstance::_checkValidationLayerSupport() noexcept
 	{
-		uint32_t layerCount;
+		uint32 layerCount;
 		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
 		std::vector<VkLayerProperties> availableLayers(layerCount);

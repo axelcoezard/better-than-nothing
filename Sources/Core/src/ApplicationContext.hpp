@@ -19,15 +19,15 @@ namespace BetterThanNothing
 	struct ApplicationContextWindowParams
 	{
 		std::string title;
-		uint32_t width = 0;
-		uint32_t height = 0;
+		uint32 width = 0;
+		uint32 height = 0;
 		bool fullscreen = false;
 		bool resizable = false;
 	};
 
 	struct ApplicationContextVulkanParams
 	{
-		uint32_t apiVersion = VK_API_VERSION_1_3;
+		uint32 apiVersion = VK_API_VERSION_1_3;
 
 		bool enableValidationLayers = false;
 		std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
@@ -87,7 +87,7 @@ namespace BetterThanNothing
 		VulkanShaderModule LoadShader(const std::string& name, VulkanShaderType type);
 
 		[[nodiscard]]
-		uint32_t GetVulkanApiVersion() const;
+		uint32 GetVulkanApiVersion() const;
 
 		void EnableValidationLayers(bool enable);
 
@@ -101,7 +101,7 @@ namespace BetterThanNothing
 		std::span<const char* const> GetDeviceExtensions() const;
 
 		[[nodiscard]]
-		uint32_t GetMaxFrameInFlightCount() const;
+		uint32 GetMaxFrameInFlightCount() const;
 
 		[[nodiscard]]
 		bool IsVSyncEnabled() const;
@@ -123,7 +123,7 @@ namespace BetterThanNothing
 			return *this;
 		}
 
-		ApplicationContextBuilder& SetWindowSize(uint32_t width, uint32_t height)
+		ApplicationContextBuilder& SetWindowSize(uint32 width, uint32 height)
 		{
 			m_windowParams.width = width;
 			m_windowParams.height = height;
@@ -142,7 +142,7 @@ namespace BetterThanNothing
 			return *this;
 		}
 
-		ApplicationContextBuilder& SetVulkanApiVersion(uint32_t version)
+		ApplicationContextBuilder& SetVulkanApiVersion(uint32 version)
 		{
 			m_vulkanParams.apiVersion = version;
 			return *this;

@@ -6,7 +6,7 @@
 
 namespace BetterThanNothing
 {
-	VulkanBuffer::VulkanBuffer(const uint32_t size, const VulkanBufferType type, ApplicationContext* context): m_context(context), m_size(size)
+	VulkanBuffer::VulkanBuffer(const uint32 size, const VulkanBufferType type, ApplicationContext* context): m_context(context), m_size(size)
 	{
 		const VkBufferUsageFlags usage = _getBufferUsageByBufferType(type);
 		const VkMemoryPropertyFlags properties = _getMemoryPropertiesByBufferType(type);
@@ -48,7 +48,7 @@ namespace BetterThanNothing
 		return m_context->GetVulkanMemoryAllocator()->UnmapMemory(m_allocation);
 	}
 
-	uint32_t VulkanBuffer::Size() const
+	uint32 VulkanBuffer::Size() const
 	{
 		return m_size;
 	}

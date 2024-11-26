@@ -48,7 +48,7 @@ namespace BetterThanNothing
 			throw std::runtime_error("failed to open file!");
 
 		file.seekg(0, std::ios::end);
-		uint32_t fileSize = (uint32_t) file.tellg();
+		uint32 fileSize = (uint32) file.tellg();
 
 		std::vector<char> buffer;
 		buffer.resize(fileSize);
@@ -117,7 +117,7 @@ namespace BetterThanNothing
 			LOG_INFO("Shader messages: " << glslang_program_SPIRV_get_messages(program));
 
 		{
-			const uint32_t* spirvCode = glslang_program_SPIRV_get_ptr(program);
+			const uint32* spirvCode = glslang_program_SPIRV_get_ptr(program);
 			const size_t spirvSize = glslang_program_SPIRV_get_size(program);
 
 			const spirv_cross::Compiler compiler(spirvCode, spirvSize);

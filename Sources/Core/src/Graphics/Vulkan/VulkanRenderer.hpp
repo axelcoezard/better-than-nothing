@@ -33,7 +33,7 @@ namespace BetterThanNothing
 		std::vector<std::unique_ptr<VulkanSemaphore>> m_renderFinishedSemaphores;
 		std::vector<std::unique_ptr<VulkanFence>> m_frameInFlightFences;
 
-		uint32_t m_currentFrame = 0;
+		uint32 m_currentFrame = 0;
 
 		VulkanBuffer m_vertexBuffer;
 		VulkanBuffer m_indexBuffer;
@@ -49,7 +49,7 @@ namespace BetterThanNothing
 	private:
 		void _createCommandBuffers();
 		void _createSyncObjects();
-		void _recordCommandBuffer(uint32_t imageIndex);
+		void _recordCommandBuffer(uint32 imageIndex);
 
 	public:
 		std::unique_ptr<VulkanSwapChain>& GetVulkanSwapChain();

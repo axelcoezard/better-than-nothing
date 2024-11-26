@@ -9,7 +9,7 @@ namespace BetterThanNothing
 		{{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
 	};
 
-	static const std::vector<uint16_t> m_indices = {
+	static const std::vector<uint16> m_indices = {
 		0, 1, 2, 2, 3, 0
 	};
 
@@ -33,14 +33,14 @@ namespace BetterThanNothing
 
 		// Here we create a vertex buffer from a list of vertices and a staging buffer
 		{
-			const uint32_t bufferSize = sizeof(m_vertices[0]) * m_vertices.size();
+			const uint32 bufferSize = sizeof(m_vertices[0]) * m_vertices.size();
 			const void* bufferData = m_vertices.data();
 
 			m_vertexBuffer = m_pBufferFactory->CreateVertexBuffer(bufferData, bufferSize);
 		}
 
 		{
-			const uint32_t bufferSize = sizeof(m_indices[0]) * m_indices.size();
+			const uint32 bufferSize = sizeof(m_indices[0]) * m_indices.size();
 			const void* bufferData = m_indices.data();
 
 			m_indexBuffer = m_pBufferFactory->CreateIndexBuffer(bufferData, bufferSize);
@@ -56,7 +56,7 @@ namespace BetterThanNothing
 		auto device = m_context->GetVulkanDevice()->LogicalHandle();
 		auto swapchain = m_pVulkanSwapChain->Handle();
 
-		uint32_t imageIndex;
+		uint32 imageIndex;
 		VkResult acquireResult = vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, m_imageAvailableSemaphores[m_currentFrame]->Handle(), VK_NULL_HANDLE, &imageIndex);
 
 		if (acquireResult == VK_ERROR_OUT_OF_DATE_KHR)
@@ -119,7 +119,7 @@ namespace BetterThanNothing
 		m_currentFrame = (m_currentFrame + 1) % m_context->GetMaxFrameInFlightCount();
 	}
 
-	void VulkanRenderer::_recordCommandBuffer(uint32_t imageIndex)
+	void VulkanRenderer::_recordCommandBuffer(uint32 imageIndex)
 	{
 		m_commandBuffers[m_currentFrame]->BeginRecording();
 
@@ -139,8 +139,8 @@ namespace BetterThanNothing
 		VkViewport viewport{};
 		viewport.x = 0.0f;
 		viewport.y = 0.0f;
-		viewport.width = static_cast<float>(m_pVulkanSwapChain->GetExtent().width);
-		viewport.height = static_cast<float>(m_pVulkanSwapChain->GetExtent().height);
+		viewport.width = static_cast<float32>(m_pVulkanSwapChain->GetExtent().width);
+		viewport.height = static_cast<float32>(m_pVulkanSwapChain->GetExtent().height);
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 		m_commandBuffers[m_currentFrame]->CmdSetViewport(&viewport);
@@ -157,7 +157,7 @@ namespace BetterThanNothing
 		m_commandBuffers[m_currentFrame]->CmdBindVertexBuffers(0, 1, vertexBuffers, offsets);
 		m_commandBuffers[m_currentFrame]->CmdBindIndexBuffer(m_indexBuffer.Handle(), 0, VK_INDEX_TYPE_UINT16);
 
-		m_commandBuffers[m_currentFrame]->CmdDrawIndexed(static_cast<uint32_t>(m_indices.size()), 1, 0, 0, 0);
+		m_commandBuffers[m_currentFrame]->CmdDrawIndexed(static_cast<uint32>(m_indices.size()), 1, 0, 0, 0);
 
 		m_commandBuffers[m_currentFrame]->CmdEndRenderPass();
 		m_commandBuffers[m_currentFrame]->EndRecording();
@@ -175,7 +175,7 @@ namespace BetterThanNothing
 	{
 		auto device = m_context->GetVulkanDevice()->LogicalHandle();
 
-		uint32_t count = m_context->GetMaxFrameInFlightCount();
+		uint32 count = m_context->GetMaxFrameInFlightCount();
 
 		VkCommandBufferAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -185,7 +185,7 @@ namespace BetterThanNothing
 
 		m_commandBuffers.reserve(count);
 
-		for (uint32_t i = 0; i < count; i++)
+		for (uint32 i = 0; i < count; i++)
 		{
 			VkCommandBuffer commandBuffer;
 			if (vkAllocateCommandBuffers(device, &allocInfo, &commandBuffer) != VK_SUCCESS)
@@ -199,13 +199,13 @@ namespace BetterThanNothing
 
 	void VulkanRenderer::_createSyncObjects()
 	{
-		uint32_t count = m_context->GetMaxFrameInFlightCount();
+		uint32 count = m_context->GetMaxFrameInFlightCount();
 
 		m_imageAvailableSemaphores.reserve(count);
 		m_renderFinishedSemaphores.reserve(count);
 		m_frameInFlightFences.reserve(count);
 
-		for (uint32_t i = 0; i < count; i++)
+		for (uint32 i = 0; i < count; i++)
 		{
 			m_imageAvailableSemaphores.push_back(std::make_unique<VulkanSemaphore>(m_context));
 			m_renderFinishedSemaphores.push_back(std::make_unique<VulkanSemaphore>(m_context));

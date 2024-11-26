@@ -13,7 +13,7 @@ namespace BetterThanNothing
 	{
 		const std::string& name;
 		T data;
-		std::int32_t degree{0};
+		int32 degree{0};
 		std::vector<DependencyNode*> dependents;
 
 		DependencyNode(const std::string& name, const T& data)

@@ -15,7 +15,7 @@ namespace BetterThanNothing
 	private:
 		ApplicationContext* m_context = nullptr;
 
-		uint32_t m_size = 0;
+		uint32 m_size = 0;
 
 		VkBuffer m_buffer = VK_NULL_HANDLE;
 
@@ -24,7 +24,7 @@ namespace BetterThanNothing
 
 	public:
 		VulkanBuffer() = default;
-		VulkanBuffer(uint32_t size, VulkanBufferType type, ApplicationContext* context);
+		VulkanBuffer(uint32 size, VulkanBufferType type, ApplicationContext* context);
 		~VulkanBuffer();
 
 		VulkanBuffer(const VulkanInstance&) = delete;
@@ -37,7 +37,7 @@ namespace BetterThanNothing
 		void UnmapMemory() const;
 
 		[[nodiscard]]
-		uint32_t Size() const;
+		uint32 Size() const;
 
 		[[nodiscard]]
 		VkBuffer Handle() const;

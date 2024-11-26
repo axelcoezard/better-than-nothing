@@ -12,8 +12,8 @@ namespace BetterThanNothing
 
 	struct QueueFamilyIndices
 	{
-		std::optional<uint32_t> graphicsFamily;
-		std::optional<uint32_t> presentFamily;
+		std::optional<uint32> graphicsFamily;
+		std::optional<uint32> presentFamily;
 
 		bool IsComplete() const
 		{
@@ -79,7 +79,7 @@ namespace BetterThanNothing
 		SwapChainSupportDetails _querySwapChainSupport(VkPhysicalDevice device) const;
 
 		[[nodiscard]]
-		std::string _getVendorById(uint32_t vendorId) const;
+		std::string _getVendorById(uint32 vendorId) const;
 
 		void _pickPhysicalDevice();
 		void _getPhysicalDeviceProperties();

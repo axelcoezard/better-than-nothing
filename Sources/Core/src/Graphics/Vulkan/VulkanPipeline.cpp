@@ -32,7 +32,7 @@ namespace BetterThanNothing
 		vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
 
 		auto attributeDescriptions = Vertex::GetAttributeDescriptions();
-		vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+		vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32>(attributeDescriptions.size());
 		vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 		VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
@@ -43,8 +43,8 @@ namespace BetterThanNothing
 		VkViewport viewport{};
 		viewport.x = 0.0f;
 		viewport.y = 0.0f;
-		viewport.width = static_cast<float>(m_context->GetRenderer()->GetVulkanSwapChain()->GetExtent().width);
-		viewport.height = static_cast<float>(m_context->GetRenderer()->GetVulkanSwapChain()->GetExtent().height);
+		viewport.width = static_cast<float32>(m_context->GetRenderer()->GetVulkanSwapChain()->GetExtent().width);
+		viewport.height = static_cast<float32>(m_context->GetRenderer()->GetVulkanSwapChain()->GetExtent().height);
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 
@@ -56,7 +56,7 @@ namespace BetterThanNothing
 
 		VkPipelineDynamicStateCreateInfo dynamicState{};
 		dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-		dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
+		dynamicState.dynamicStateCount = static_cast<uint32>(dynamicStates.size());
 		dynamicState.pDynamicStates = dynamicStates.data();
 
 		VkPipelineViewportStateCreateInfo viewportState{};
@@ -123,7 +123,7 @@ namespace BetterThanNothing
 
 		VkGraphicsPipelineCreateInfo pipelineInfo{};
 		pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-		pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+		pipelineInfo.stageCount = static_cast<uint32>(shaderStages.size());
 		pipelineInfo.pStages = shaderStages.data();
 
 		pipelineInfo.pVertexInputState = &vertexInputInfo;
