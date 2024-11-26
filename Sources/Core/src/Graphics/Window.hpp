@@ -41,10 +41,10 @@ namespace BetterThanNothing
 		void SetWidth(uint32 width);
 		void SetHeight(uint32 height);
 
-		static void ResizeCallback(GLFWwindow* window, int width, int height);
-		static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+		static void ResizeCallback(GLFWwindow* window, int32 width, int32 height);
+		static void KeyCallback(GLFWwindow* window, int32 key, int32 scancode, int32 action, int32 mods);
 		static void MouseCursorCallback(GLFWwindow* window, float64 xpos, float64 ypos);
 		static void MouseScrollCallback(GLFWwindow* window, float64 xoffset, float64 yoffset);
-		static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+		static void MouseButtonCallback(GLFWwindow* window, int32 button, int32 action, int32 mods);
 	};
 };

@@ -6,9 +6,8 @@ namespace BetterThanNothing
 	Window::Window(std::string  title, const uint32 width, const uint32 height, const bool fullscreen, const bool resizable)
 		: m_Title(std::move(title)), m_Width(width), m_Height(height), m_fullscreen(fullscreen), m_resizable(resizable)
 	{
-		if (glfwInit() == GLFW_FALSE) {
+		if (glfwInit() == GLFW_FALSE)
 			throw std::runtime_error("Failed to initialize GLFW");
-		}
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, m_resizable ? GLFW_TRUE : GLFW_FALSE);
@@ -20,7 +19,8 @@ namespace BetterThanNothing
 
 		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), monitor, nullptr);
 
-		if (m_Window == nullptr) {
+		if (m_Window == nullptr)
+		{
 			glfwTerminate();
 			throw std::runtime_error("Failed to create GLFW window");
 		}
@@ -35,7 +35,8 @@ namespace BetterThanNothing
 
 	Window::~Window()
 	{
-		if (m_Window != nullptr) {
+		if (m_Window != nullptr)
+		{
 			glfwDestroyWindow(m_Window);
 			glfwTerminate();
 		}
@@ -90,7 +91,7 @@ namespace BetterThanNothing
 		m_Height = height;
 	}
 
-	void Window::ResizeCallback(GLFWwindow* window, int width, int height)
+	void Window::ResizeCallback(GLFWwindow* window, const int32 width, const int32 height)
 	{
 		const auto windowPtr = static_cast<Window*>(glfwGetWindowUserPointer(window));
 		windowPtr->SetWidth(width);
@@ -98,7 +99,7 @@ namespace BetterThanNothing
 		windowPtr->SetResized(true);
 	}
 
-	void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	void Window::KeyCallback(GLFWwindow* window, const int32 key, const int32 scancode, const int32 action, const int32 mods)
 	{
 		(void) scancode;
 		(void) mods;
@@ -107,26 +108,31 @@ namespace BetterThanNothing
 			glfwSetWindowShouldClose(window, GLFW_TRUE);
 		}
 
-		Input::UpdateKey(key, action);
+		// TODO: Input::UpdateKey(key, action);
 	}
 
-	void Window::MouseCursorCallback(GLFWwindow* window, float64 xpos, float64 ypos)
+	void Window::MouseCursorCallback(GLFWwindow* window, const float64 xpos, const float64 ypos)
 	{
 		(void) window;
-		Input::UpdateMousePosition(xpos, ypos);
+		(void) xpos;
+		(void) ypos;
+		// TODO:  Input::UpdateMousePosition(xpos, ypos);
 	}
 
-	void Window::MouseScrollCallback(GLFWwindow* window, float64 xoffset, float64 yoffset)
+	void Window::MouseScrollCallback(GLFWwindow* window, const float64 xoffset, const float64 yoffset)
 	{
 		(void) window;
 		(void) xoffset;
-		Input::UpdateMouseScroll(yoffset);
+		(void) yoffset;
+		// TODO: Input::UpdateMouseScroll(yoffset);
 	}
 
-	void Window::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+	void Window::MouseButtonCallback(GLFWwindow* window, const int32 button, const int32 action, const int32 mods)
 	{
 		(void) window;
 		(void) mods;
-		Input::UpdateMouseButton(button, action);
+		(void) button;
+		(void) action;
+		// TODO: Input::UpdateMouseButton(button, action);
 	}
 };
